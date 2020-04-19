@@ -1,0 +1,2480 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Encoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+ResolvingDecoder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Helper class to provide native array access whenever possible. It is much
+ * faster than using reflection-based operations on arrays.
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+ArrayAccessor,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+boolean,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeBoolean,Identifier
+(,Punctuation
+data,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"// short, and char arrays are upcast to avro int",Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+short,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+data,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+char,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+data,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+data,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+long,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeLong,Identifier
+(,Punctuation
+data,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+float,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeFloat,Identifier
+(,Punctuation
+data,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+double,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeDouble,Identifier
+(,Punctuation
+data,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+elementType,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+elementType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+int,Keyword
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+(,Punctuation
+int,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+elementType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+long,Keyword
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+(,Punctuation
+long,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+elementType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+float,Keyword
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+(,Punctuation
+float,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+elementType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+double,Keyword
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+(,Punctuation
+double,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+elementType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+boolean,Keyword
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+(,Punctuation
+boolean,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+elementType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+char,Keyword
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+(,Punctuation
+char,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+elementType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+short,Keyword
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+(,Punctuation
+short,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+boolean,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+limit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+limit,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readBoolean,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+limit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+limit,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readInt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+short,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+short,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+limit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+limit,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+short,Keyword
+),Punctuation
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readInt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+char,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+char,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+limit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+limit,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+char,Keyword
+),Punctuation
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readInt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+long,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+long,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+limit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+limit,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readLong,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+float,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+float,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+limit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+limit,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readFloat,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+double,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+double,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+limit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+limit,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+limit,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+array,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readDouble,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

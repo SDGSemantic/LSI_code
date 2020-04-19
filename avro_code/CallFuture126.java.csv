@@ -1,0 +1,922 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+CountDownLatch,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+ExecutionException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+Future,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+TimeUnit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+TimeoutException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A Future implementation for RPCs.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+CallFuture,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Future,Identifier
+<,Operator
+T,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+Callback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+CountDownLatch,Identifier
+ ,Whitespace
+latch,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+CountDownLatch,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Callback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+chainedCallback,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Throwable,Identifier
+ ,Whitespace
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a CallFuture.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+CallFuture,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a CallFuture with a chained Callback which will be invoked
+   * when this CallFuture's Callback methods are invoked.
+   * @param chainedCallback the chained Callback to set.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+CallFuture,Identifier
+(,Punctuation
+Callback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+chainedCallback,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+chainedCallback,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+chainedCallback,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets the RPC response, and unblocks all threads waiting on {@link #get()} 
+   * or {@link #get(long, TimeUnit)}.
+   * @param result the RPC result to set.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+handleResult,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+result,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+latch,Identifier
+.,Punctuation
+countDown,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+chainedCallback,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+chainedCallback,Identifier
+.,Punctuation
+handleResult,Identifier
+(,Punctuation
+result,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets an error thrown during RPC execution, and unblocks all threads waiting 
+   * on {@link #get()} or {@link #get(long, TimeUnit)}.
+   * @param error the RPC error to set.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+handleError,Identifier
+(,Punctuation
+Throwable,Identifier
+ ,Whitespace
+error,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+error,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+latch,Identifier
+.,Punctuation
+countDown,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+chainedCallback,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+chainedCallback,Identifier
+.,Punctuation
+handleError,Identifier
+(,Punctuation
+error,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the value of the RPC result without blocking.
+   * Using {@link #get()} or {@link #get(long, TimeUnit)} is usually 
+   * preferred because these methods block until the result is available or 
+   * an error occurs. 
+   * @return the value of the response, or null if no result was returned or 
+   * the RPC has not yet completed.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+getResult,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the error that was thrown during RPC execution.  Does not block.
+   * Either {@link #get()} or {@link #get(long, TimeUnit)} should be called 
+   * first because these methods block until the RPC has completed.
+   * @return the RPC error that was thrown, or null if no error has occurred or 
+   * if the RPC has not yet completed.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Throwable,Identifier
+ ,Whitespace
+getError,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+error,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+cancel,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+mayInterruptIfRunning,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isCancelled,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+ExecutionException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+latch,Identifier
+.,Punctuation
+await,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+error,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ExecutionException,Identifier
+(,Punctuation
+error,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+get,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+timeout,Identifier
+",",Punctuation
+ ,Whitespace
+TimeUnit,Identifier
+ ,Whitespace
+unit,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+",",Punctuation
+ ,Whitespace
+ExecutionException,Identifier
+",",Punctuation
+ ,Whitespace
+TimeoutException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+latch,Identifier
+.,Punctuation
+await,Identifier
+(,Punctuation
+timeout,Identifier
+",",Punctuation
+ ,Whitespace
+unit,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+error,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ExecutionException,Identifier
+(,Punctuation
+error,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TimeoutException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Waits for the CallFuture to complete without returning the result.
+   * @throws InterruptedException if interrupted.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+await,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+latch,Identifier
+.,Punctuation
+await,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Waits for the CallFuture to complete without returning the result.
+   * @param timeout the maximum time to wait.
+   * @param unit the time unit of the timeout argument.
+   * @throws InterruptedException if interrupted.
+   * @throws TimeoutException if the wait timed out.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+await,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+timeout,Identifier
+",",Punctuation
+ ,Whitespace
+TimeUnit,Identifier
+ ,Whitespace
+unit,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+",",Punctuation
+ ,Whitespace
+TimeoutException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+latch,Identifier
+.,Punctuation
+await,Identifier
+(,Punctuation
+timeout,Identifier
+",",Punctuation
+ ,Whitespace
+unit,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TimeoutException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isDone,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+latch,Identifier
+.,Punctuation
+getCount,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

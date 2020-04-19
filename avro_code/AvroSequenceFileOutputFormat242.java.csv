@@ -1,0 +1,1005 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+AvroSequenceFile,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileSystem,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+SequenceFile,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+SequenceFile,Identifier
+.,Punctuation
+CompressionType,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+compress,Identifier
+.,Punctuation
+CompressionCodec,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+compress,Identifier
+.,Punctuation
+DefaultCodec,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+Job,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+RecordWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+output,Identifier
+.,Punctuation
+FileOutputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A sequence file output format that knows how to write AvroKeys and AvroValues in
+ * addition to Writables.
+ *
+ * @param <K> The job output key type (may be a Writable, AvroKey).
+ * @param <V> The job output value type (may be a Writable, AvroValue).
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroSequenceFileOutputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+FileOutputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** Configuration key for storing the type of compression for the target sequence file. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONF_COMPRESSION_TYPE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""mapred.output.compression.type""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The default compression type for the target sequence file. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+CompressionType,Identifier
+ ,Whitespace
+DEFAULT_COMPRESSION_TYPE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CompressionType,Identifier
+.,Punctuation
+RECORD,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Configure compression if requested.,Comment
+"
+",Newline
+    ,Whitespace
+CompressionCodec,Identifier
+ ,Whitespace
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+CompressionType,Identifier
+ ,Whitespace
+compressionType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CompressionType,Identifier
+.,Punctuation
+NONE,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+getCompressOutput,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// Find the kind of compression to do.,Comment
+"
+",Newline
+      ,Whitespace
+compressionType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getOutputCompressionType,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Find the right codec.,Comment
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+codecClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getOutputCompressorClass,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+DefaultCodec,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+CompressionCodec,Identifier
+),Punctuation
+ ,Whitespace
+ReflectionUtils,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+codecClass,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Get the path of the output file.,Comment
+"
+",Newline
+    ,Whitespace
+Path,Identifier
+ ,Whitespace
+outputFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getDefaultWorkFile,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+fs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+outputFile,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Configure the writer.,Comment
+"
+",Newline
+    ,Whitespace
+AvroSequenceFile,Identifier
+.,Punctuation
+Writer,Identifier
+.,Punctuation
+Options,Identifier
+ ,Whitespace
+options,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroSequenceFile,Identifier
+.,Punctuation
+Writer,Identifier
+.,Punctuation
+Options,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withFileSystem,Identifier
+(,Punctuation
+fs,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withConfiguration,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withOutputPath,Identifier
+(,Punctuation
+outputFile,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withKeyClass,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getOutputKeyClass,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withValueClass,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getOutputValueClass,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withProgressable,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withCompressionType,Identifier
+(,Punctuation
+compressionType,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withCompressionCodec,Identifier
+(,Punctuation
+codec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputKeySchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+options,Identifier
+.,Punctuation
+withKeySchema,Identifier
+(,Punctuation
+keySchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+valueSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputValueSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+valueSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+options,Identifier
+.,Punctuation
+withValueSchema,Identifier
+(,Punctuation
+valueSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+Writer,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroSequenceFile,Identifier
+.,Punctuation
+createWriter,Identifier
+(,Punctuation
+options,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+K,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets the type of compression for the output sequence file.
+   *
+   * @param job The job configuration.
+   * @param compressionType The compression type for the target sequence file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setOutputCompressionType,Identifier
+(,Punctuation
+Job,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+CompressionType,Identifier
+ ,Whitespace
+compressionType,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+setCompressOutput,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+set,Identifier
+(,Punctuation
+CONF_COMPRESSION_TYPE,Identifier
+",",Punctuation
+ ,Whitespace
+compressionType,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets type of compression for the output sequence file.
+   *
+   * @param conf The job configuration.
+   * @return The compression type.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+CompressionType,Identifier
+ ,Whitespace
+getOutputCompressionType,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+typeName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONF_COMPRESSION_TYPE,Identifier
+",",Punctuation
+ ,Whitespace
+DEFAULT_COMPRESSION_TYPE,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+CompressionType,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+typeName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

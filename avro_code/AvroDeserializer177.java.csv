@@ -1,0 +1,763 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BinaryDecoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DecoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroWrapper,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+ReflectData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+ReflectDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Deserializer,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Deserializes AvroWrapper objects within Hadoop.
+ *
+ * <p>Keys and values containing Avro tyeps are more efficiently serialized
+ * outside of the WritableSerialization model, so they are wrapper in {@link
+ * org.apache.avro.mapred.AvroWrapper} objects and deserialization is handled
+ * by this class.</p>
+ *
+ * <p>MapReduce jobs that use AvroWrapper objects as keys or values need to be
+ * configured with {@link AvroSerialization}.  Use {@link
+ * org.apache.avro.mapreduce.AvroJob} to help with Job configuration.</p>
+ *
+ * @param <T> The type of Avro wrapper.
+ * @param <D> The Java type of the Avro data being wrapped.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroDeserializer,Identifier
+<,Operator
+T,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+<,Operator
+D,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+D,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Deserializer,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The Avro writer schema for deserializing. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The Avro reader schema for deserializing. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mReaderSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The Avro datum reader for deserializing. */,Comment
+"
+",Newline
+  ,Whitespace
+final,Keyword
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+mAvroDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** An Avro binary decoder for deserializing. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+BinaryDecoder,Identifier
+ ,Whitespace
+mAvroDecoder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructor.
+   *
+   * @param writerSchema The Avro writer schema for the data to deserialize.
+   * @param readerSchema The Avro reader schema for the data to deserialize (may be null).
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+AvroDeserializer,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+readerSchema,Identifier
+",",Punctuation
+"
+",Newline
+                             ,Whitespace
+ClassLoader,Identifier
+ ,Whitespace
+classLoader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mWriterSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writerSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mReaderSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+readerSchema,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+readerSchema,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+writerSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroDatumReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ReflectDatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+(,Punctuation
+mWriterSchema,Identifier
+",",Punctuation
+ ,Whitespace
+mReaderSchema,Identifier
+",",Punctuation
+"
+",Newline
+                                                 ,Whitespace
+new,Keyword
+ ,Whitespace
+ReflectData,Identifier
+(,Punctuation
+classLoader,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructor.
+   *
+   * @param writerSchema The Avro writer schema for the data to deserialize.
+   * @param readerSchema The Avro reader schema for the data to deserialize (may be null).
+   * @param datumReader The Avro datum reader to use for deserialization.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+AvroDeserializer,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+readerSchema,Identifier
+",",Punctuation
+"
+",Newline
+                             ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mWriterSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writerSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mReaderSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+readerSchema,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+readerSchema,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+writerSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroDatumReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+datumReader,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the writer schema used for deserializing.
+   *
+   * @return The writer schema;
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+mWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the reader schema used for deserializing.
+   *
+   * @return The reader schema.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getReaderSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+mReaderSchema,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+open,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+inputStream,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroDecoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+directBinaryDecoder,Identifier
+(,Punctuation
+inputStream,Identifier
+",",Punctuation
+ ,Whitespace
+mAvroDecoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+deserialize,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+avroWrapperToReuse,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// Create a new Avro wrapper if there isn't one to reuse.,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+avroWrapperToReuse,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+avroWrapperToReuse,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createAvroWrapper,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Deserialize the Avro datum from the input stream.,Comment
+"
+",Newline
+    ,Whitespace
+avroWrapperToReuse,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+mAvroDatumReader,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+avroWrapperToReuse,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+mAvroDecoder,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+avroWrapperToReuse,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroDecoder,Identifier
+.,Punctuation
+inputStream,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a new empty <code>T</code> (extends AvroWrapper) instance.
+   *
+   * @return A new empty <code>T</code> instance.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+createAvroWrapper,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

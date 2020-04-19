@@ -1,0 +1,4668 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroTypeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** A {@link BinaryEncoder} implementation that writes large arrays and maps as a
+ * sequence of blocks. So long as individual primitive values fit in memory,
+ * arbitrarily long arrays and maps may be written and subsequently read without
+ * exhausting memory. Values are buffered until the specified block size would
+ * be exceeded, minimizing block overhead.
+ * <p/>
+ * Use {@link EncoderFactory#blockingBinaryEncoder(OutputStream, BinaryEncoder)}
+ * to construct and configure.
+ * <p/>
+ * BlockingBinaryEncoder buffers writes, data may not appear on the output until
+ * {@link #flush()} is called.
+ * <p/>
+ * BlockingBinaryEncoder is not thread-safe
+ * 
+ * @see BinaryEncoder
+ * @see EncoderFactory
+ * @see Encoder
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+BlockingBinaryEncoder,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+BufferedBinaryEncoder,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+ ,Whitespace
+"/* Implementation note:
+  *
+  * Blocking is complicated because of nesting.  If a large, nested
+  * value overflows your buffer, you've got to do a lot of dancing
+  * around to output the blocks correctly.
+  *
+  * To handle this complexity, this class keeps a stack of blocked
+  * values: each time a new block is started (e.g., by a call to
+  * {@link #writeArrayStart}), an entry is pushed onto this stack.
+  *
+  * In this stack, we keep track of the state of a block.  Blocks can
+  * be in two states.  ""Regular"" blocks have a non-zero byte count.
+  * ""Overflow"" blocks help us deal with the case where a block
+  * contains a value that's too big to buffer.  In this case, the
+  * block contains only one item, and we give it an unknown
+  * byte-count.  Because these values (1,unknown) are fixed, we're
+  * able to write the header for these overflow blocks to the
+  * underlying stream without seeing the entire block.  After writing
+  * this header, we've freed our buffer space to be fully devoted to
+  * blocking the large, inner value.
+  */",Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+enum,Identifier
+ ,Whitespace
+State,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+"/**
+       * The bottom element of our stack represents being _outside_
+       * of a blocked value.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+ROOT,Identifier
+",",Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Represents the ""regular"" case, i.e., a blocked-value whose
+       * current block is fully contained in the buffer.  In this
+       * case, {@link BlockedValue#start} points to the start of the
+       * blocks _data_ -- but no room has been left for a header!
+       * When this block is terminated, it's data will have to be
+       * moved over a bit to make room for the header. */",Comment
+"
+",Newline
+      ,Whitespace
+REGULAR,Identifier
+",",Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Represents a blocked-value whose current block is in the
+       * overflow state.  In this case, {@link BlockedValue#start} is zero. The
+       * header for such a block has _already been written_ (we've
+       * written out a header indicating that the block has a single
+       * item, and we put a ""zero"" down for the byte-count to indicate
+       * that we don't know the physical length of the buffer.  Any blocks
+       *  _containing_ this block must be in the {@link #OVERFLOW}
+       *  state. */",Comment
+"
+",Newline
+     ,Whitespace
+OVERFLOW,Identifier
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The type of this blocked value (ARRAY or MAP). */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+ ,Whitespace
+type,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The state of this BlockedValue */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+State,Identifier
+ ,Whitespace
+state,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** The location in the buffer where this blocked value starts */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * The index one past the last byte for the previous item. If this
+     * is the first item, this is same as {@link #start}.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+lastFullItem,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Number of items in this blocked value that are stored
+     * in the buffer.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+items,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Number of items left to write*/,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+itemsLeftToWrite,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Create a ROOT instance. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+BlockedValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+type,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+items,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+ ,Whitespace
+// Makes various assertions work out,Comment
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Check invariants of <code>this</code> and also the
+     * <code>BlockedValue</code> containing <code>this</code>.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+check,Identifier
+(,Punctuation
+BlockedValue,Identifier
+ ,Whitespace
+prev,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+state,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+type,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+(,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+ ,Whitespace
+||,Operator
+"
+",Newline
+              ,Whitespace
+type,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+ARRAY,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+type,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+MAP,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+0,Literal
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+items,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+0,Literal
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+items,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+         ,Whitespace
+// 0==itms ==> start==pos,Comment
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+1,Literal
+ ,Whitespace
+<,Operator
+ ,Whitespace
+items,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+lastFullItem,Identifier
+;,Punctuation
+ ,Whitespace
+// 1<=itms ==> start==lFI,Comment
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+items,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+1,Literal
+ ,Whitespace
+||,Operator
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+lastFullItem,Identifier
+;,Punctuation
+ ,Whitespace
+// 1<itms ==> start<=lFI,Comment
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+lastFullItem,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+state,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+ROOT,Identifier
+:,Operator
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+prev,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+REGULAR,Identifier
+:,Operator
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+prev,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+start,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+1,Literal
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+prev,Identifier
+.,Punctuation
+items,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+OVERFLOW,Identifier
+:,Operator
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+items,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+assert,Identifier
+ ,Whitespace
+prev,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+prev,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+State,Identifier
+.,Punctuation
+OVERFLOW,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * The buffer to hold the bytes before being written into the underlying
+   * stream.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+buf,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Index into the location in {@link #buf}, where next byte can be written.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * The state stack.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+BlockedValue,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+blockStack,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+stackTop,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+STACK_STEP,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+10,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+//buffer large enough for up to two ints for a block header,Comment
+"
+",Newline
+  ,Whitespace
+//rounded up to a multiple of 4 bytes.,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+headerBuffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+12,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+buf,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+0,Literal
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+buf,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+buf,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+blockStack,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+prev,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+stackTop,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+v,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+v,Identifier
+.,Punctuation
+check,Identifier
+(,Punctuation
+prev,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+prev,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+v,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+BlockingBinaryEncoder,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+blockBufferSize,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+binaryEncoderBufferSize,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+binaryEncoderBufferSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+buf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+blockBufferSize,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+blockStack,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BlockedValue,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+expandStack,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+bv,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+++,Operator
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bv,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+items,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+expandStack,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+oldLength,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+blockStack,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+blockStack,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+blockStack,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+STACK_STEP,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+oldLength,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+blockStack,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+blockStack,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BlockedValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+BlockingBinaryEncoder,Identifier
+ ,Whitespace
+configure,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+blockBufferSize,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+binaryEncoderBufferSize,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+configure,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+binaryEncoderBufferSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+stackTop,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+buf,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+buf,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+blockBufferSize,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+buf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+blockBufferSize,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+bv,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bv,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+bv,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+OVERFLOW,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+compact,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBoolean,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+b,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeBoolean,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeInt,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+n,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+5,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeInt,Identifier
+(,Punctuation
+n,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeLong,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+n,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+10,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeLong,Identifier
+(,Punctuation
+n,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFloat,Identifier
+(,Punctuation
+float,Keyword
+ ,Whitespace
+f,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+4,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeFloat,Identifier
+(,Punctuation
+f,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeDouble,Identifier
+(,Punctuation
+double,Keyword
+ ,Whitespace
+d,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+8,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeDouble,Identifier
+(,Punctuation
+d,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+doWriteBytes,Identifier
+(,Punctuation
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeZero,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+buf,Identifier
+[,Punctuation
+pos,Identifier
+++,Operator
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+byte,Keyword
+),Punctuation
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArrayStart,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+stackTop,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+ ,Whitespace
+==,Operator
+ ,Whitespace
+blockStack,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+expandStack,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+bv,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+++,Operator
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+ARRAY,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bv,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+items,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setItemCount,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+itemCount,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+v,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+v,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+ARRAY,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+v,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+MAP,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+v,Identifier
+.,Punctuation
+itemsLeftToWrite,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+v,Identifier
+.,Punctuation
+itemsLeftToWrite,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+itemCount,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+startItem,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+OVERFLOW,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+finishOverflow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+items,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+itemsLeftToWrite,Identifier
+--,Operator
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArrayEnd,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+top,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+ARRAY,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroTypeException,Identifier
+(,Punctuation
+"""Called writeArrayEnd outside of an array.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+.,Punctuation
+itemsLeftToWrite,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroTypeException,Identifier
+(,Punctuation
+"""Failed to write expected number of array elements.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+endBlockedValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeMapStart,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+stackTop,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+ ,Whitespace
+==,Operator
+ ,Whitespace
+blockStack,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+expandStack,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+bv,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+++,Operator
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+MAP,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bv,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bv,Identifier
+.,Punctuation
+items,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeMapEnd,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+top,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+MAP,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroTypeException,Identifier
+(,Punctuation
+"""Called writeMapEnd outside of a map.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+.,Punctuation
+itemsLeftToWrite,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroTypeException,Identifier
+(,Punctuation
+"""Failed to read write expected number of array elements.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+endBlockedValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeIndex,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+unionIndex,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+5,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeInt,Identifier
+(,Punctuation
+unionIndex,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+bytesBuffered,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+super,Keyword
+.,Punctuation
+bytesBuffered,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+endBlockedValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+;,Punctuation
+ ,Whitespace
+;,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+t,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+t,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+OVERFLOW,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+finishOverflow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+t,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+0,Literal
+ ,Whitespace
+<,Operator
+ ,Whitespace
+t,Identifier
+.,Punctuation
+items,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+byteCount,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+t,Identifier
+.,Punctuation
+start,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+t,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+ ,Whitespace
+&&,Operator
+"
+",Newline
+          ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+],Punctuation
+.,Punctuation
+state,Identifier
+"
+",Newline
+            ,Whitespace
+!=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+// Lucky us -- don't have to move,Comment
+"
+",Newline
+          ,Whitespace
+super,Keyword
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+-,Operator
+t,Identifier
+.,Punctuation
+items,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+super,Keyword
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+byteCount,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+int,Keyword
+ ,Whitespace
+headerSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+headerSize,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeInt,Identifier
+(,Punctuation
+-,Operator
+t,Identifier
+.,Punctuation
+items,Identifier
+",",Punctuation
+ ,Whitespace
+headerBuffer,Identifier
+",",Punctuation
+ ,Whitespace
+headerSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+headerSize,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+BinaryData,Identifier
+.,Punctuation
+encodeInt,Identifier
+(,Punctuation
+byteCount,Identifier
+",",Punctuation
+ ,Whitespace
+headerBuffer,Identifier
+",",Punctuation
+ ,Whitespace
+headerSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+buf,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+headerSize,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+headerSize,Identifier
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+m,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+t,Identifier
+.,Punctuation
+start,Identifier
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+m,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+m,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+headerSize,Identifier
+",",Punctuation
+ ,Whitespace
+byteCount,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+headerBuffer,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+m,Identifier
+",",Punctuation
+ ,Whitespace
+headerSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+compact,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+stackTop,Identifier
+--,Operator
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+buf,Identifier
+[,Punctuation
+pos,Identifier
+++,Operator
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+   ,Whitespace
+// Sentinel for last block in a blocked value,Comment
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Called when we've finished writing the last item in an overflow
+   * buffer.  When this is finished, the top of the stack will be
+   * an empty block in the ""regular"" state.
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+finishOverflow,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+OVERFLOW,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalStateException,Identifier
+(,Punctuation
+"""Not an overflow block""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Flush any remaining data for this block,Comment
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Reset top of stack to be in REGULAR mode,Comment
+"
+",Newline
+    ,Whitespace
+s,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+s,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+s,Identifier
+.,Punctuation
+items,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+l,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+buf,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+l,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+compact,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+doWriteBytes,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+len,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+buf,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+len,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ensureBounds,Identifier
+(,Punctuation
+buf,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+ ,Whitespace
+||,Operator
+"
+",Newline
+        ,Whitespace
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+OVERFLOW,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+write,Identifier
+(,Punctuation
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+b,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+ROOT,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+buf,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+len,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blockStack,Identifier
+[,Punctuation
+stackTop,Identifier
+],Punctuation
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+compact,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+buf,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+len,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+len,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Only call if you're there are REGULAR-state values on the stack. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+compact,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Find first REGULAR-state value,Comment
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+stackTop,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+REGULAR,Identifier
+),Punctuation
+ ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"// We're going to transition ""s"" into the overflow state.  To do",Comment
+"
+",Newline
+    ,Whitespace
+"// this, We're going to flush any bytes prior to ""s"", then write",Comment
+"
+",Newline
+    ,Whitespace
+"// any full items of ""s"" into a block, start an overflow",Comment
+"
+",Newline
+    ,Whitespace
+"// block, write any remaining bytes of ""s"" up to the start of the",Comment
+"
+",Newline
+    ,Whitespace
+"// next more deeply-nested blocked-value, and finally move over",Comment
+"
+",Newline
+    ,Whitespace
+// any remaining bytes (which will be from more deeply-nested,Comment
+"
+",Newline
+    ,Whitespace
+// blocked values).,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"// Flush any bytes prios to ""s""",Comment
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+start,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"// Write any full items of ""s""",Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+1,Literal
+ ,Whitespace
+<,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+items,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+-,Operator
+(,Punctuation
+s,Identifier
+.,Punctuation
+items,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+start,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+start,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+start,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+s,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+lastFullItem,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+s,Identifier
+.,Punctuation
+items,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Start an overflow block for s,Comment
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"// Write any remaining bytes for ""s"", up to the next-most",Comment
+"
+",Newline
+    ,Whitespace
+// deeply-nested value,Comment
+"
+",Newline
+    ,Whitespace
+BlockedValue,Identifier
+ ,Whitespace
+n,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+i,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+stackTop,Identifier
+ ,Whitespace
+?,Operator
+"
+",Newline
+        ,Whitespace
+blockStack,Identifier
+[,Punctuation
+i,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+],Punctuation
+ ,Whitespace
+:,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+end,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+n,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+n,Identifier
+.,Punctuation
+start,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+lastFullItem,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+lastFullItem,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Move over any bytes that remain (and adjust indices),Comment
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+end,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+j,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+i,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+ ,Whitespace
+j,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+stackTop,Identifier
+;,Punctuation
+ ,Whitespace
+j,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+n,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blockStack,Identifier
+[,Punctuation
+j,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+n,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+-=,Operator
+ ,Whitespace
+end,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+n,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+-=,Operator
+ ,Whitespace
+end,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
+-=,Operator
+ ,Whitespace
+end,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+s,Identifier
+.,Punctuation
+items,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+s,Identifier
+.,Punctuation
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+lastFullItem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+s,Identifier
+.,Punctuation
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+BlockedValue,Identifier
+.,Punctuation
+State,Identifier
+.,Punctuation
+OVERFLOW,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+check,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

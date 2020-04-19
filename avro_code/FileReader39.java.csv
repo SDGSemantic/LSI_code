@@ -1,0 +1,221 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Closeable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Interface for reading data from a file. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+interface,Keyword
+ ,Whitespace
+FileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+D,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+Iterable,Identifier
+<,Operator
+D,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+Closeable,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** Return the schema for data in this file. */,Comment
+"
+",Newline
+  ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getSchema,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Read the next datum from the file.
+   * @param reuse an instance to reuse.
+   * @throws NoSuchElementException if no more remain in the file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+D,Identifier
+ ,Whitespace
+next,Identifier
+(,Punctuation
+D,Identifier
+ ,Whitespace
+reuse,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Move to the next synchronization point after a position. To process a
+   * range of file entires, call this with the starting position, then check
+   * {@link #pastSync(long)} with the end point before each call to {@link
+   * #next()}. */",Comment
+"
+",Newline
+  ,Whitespace
+void,Keyword
+ ,Whitespace
+sync,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+position,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return true if past the next synchronization point after a position. */,Comment
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+boolean,Keyword
+ ,Whitespace
+pastSync,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+position,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the current position in the input. */,Comment
+"
+",Newline
+  ,Whitespace
+long,Keyword
+ ,Whitespace
+tell,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,524 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Example implementation of SpanStorage which keeps spans in memory.
+ * 
+ * This is designed as a prototype for demonstration and testing. It should
+ * not be used in production settings.
+ *
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+InMemorySpanStorage,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+SpanStorage,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+DEFAULT_MAX_SPANS,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+10000,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+spans,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+maxSpans,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+InMemorySpanStorage,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+spans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+maxSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT_MAX_SPANS,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addSpan,Identifier
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+spans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+  ,Whitespace
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+spans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+spans,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+maxSpans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+spans,Identifier
+.,Punctuation
+removeFirst,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setMaxSpans,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+maxSpans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+maxSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+maxSpans,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+spans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+spans,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+maxSpans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+spans,Identifier
+.,Punctuation
+removeFirst,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+getAllSpans,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+LinkedList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+spans,Identifier
+.,Punctuation
+clone,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+getSpansInRange,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+end,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+spans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+Util,Identifier
+.,Punctuation
+spanInRange,Identifier
+(,Punctuation
+s,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

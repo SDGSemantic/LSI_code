@@ -1,0 +1,635 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** A column output buffer for array columns. */,Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+ArrayColumnOutputBuffer,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ColumnOutputBuffer,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+length,Identifier
+;,Punctuation
+                             ,Whitespace
+// remaining in current array,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+NONE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+runLength,Identifier
+;,Punctuation
+                          ,Whitespace
+// length of current run,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+runValue,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+NONE,Identifier
+;,Punctuation
+                    ,Whitespace
+// what kind of run,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ArrayColumnOutputBuffer,Identifier
+(,Punctuation
+ColumnFileWriter,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+meta,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+meta,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+getMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+||,Operator
+ ,Whitespace
+getMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getParent,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+!,Operator
+getMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+hasIndexValues,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeLength,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+l,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+this,Keyword
+.,Punctuation
+length,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+length,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+l,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+runValue,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+runLength,Identifier
+++,Operator
+;,Punctuation
+                                ,Whitespace
+// continue a run,Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+flushRun,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                                   ,Whitespace
+// end a run,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+l,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+ ,Whitespace
+||,Operator
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+runLength,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+                              ,Whitespace
+// start a run,Comment
+"
+",Newline
+      ,Whitespace
+runValue,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+getBuffer,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+l,Identifier
+),Punctuation
+;,Punctuation
+                 ,Whitespace
+// not a run,Comment
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeValue,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+getMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+NULL,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+flushRun,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+getBuffer,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+writeValue,Identifier
+(,Punctuation
+value,Identifier
+",",Punctuation
+ ,Whitespace
+getMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+length,Identifier
+ ,Whitespace
+-=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+flushBuffer,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+flushRun,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+flushBuffer,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+flushRun,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+runLength,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+                           ,Whitespace
+// not in run,Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+runLength,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+                      ,Whitespace
+// single value,Comment
+"
+",Newline
+      ,Whitespace
+getBuffer,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+runValue,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+                                          ,Whitespace
+// a run,Comment
+"
+",Newline
+      ,Whitespace
+getBuffer,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+(,Punctuation
+3,Literal
+-,Operator
+runValue,Identifier
+),Punctuation
+-,Operator
+(,Punctuation
+runLength,Identifier
+<<,Operator
+1,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+runLength,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+                                ,Whitespace
+// reset,Comment
+"
+",Newline
+    ,Whitespace
+runValue,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+NONE,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

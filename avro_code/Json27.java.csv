@@ -1,0 +1,1799 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+data,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+JsonNodeFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+LongNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+DoubleNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+TextNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+BooleanNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+NullNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+ArrayNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+ObjectNode,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Encoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Decoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DecoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+ResolvingDecoder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Utilities for reading and writing arbitrary Json data in Avro format. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Json,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Json,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+                               ,Whitespace
+// singleton: no public ctor,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The schema for Json data. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+SCHEMA,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+Json,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getResourceAsStream,Identifier
+(,Punctuation
+"""/org/apache/avro/data/Json.avsc""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@link DatumWriter} for arbitrary Json data. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Writer,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+DatumWriter,Identifier
+<,Operator
+JsonNode,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+SCHEMA,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Not the Json schema: """,String
++,Operator
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Json,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@link DatumReader} for arbitrary Json data. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Reader,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+JsonNode,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+written,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+resolver,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+written,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SCHEMA,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+written,Identifier
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+:,Operator
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+read,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+reuse,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+written,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+                        ,Whitespace
+// same schema,Comment
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+Json,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// use a resolver to adapt alternate version of Json schema,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+resolver,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+resolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+resolvingDecoder,Identifier
+(,Punctuation
+written,Identifier
+",",Punctuation
+ ,Whitespace
+SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+resolver,Identifier
+.,Punctuation
+configure,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Json,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+resolver,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+resolver,Identifier
+.,Punctuation
+drain,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Note: this enum must be kept aligned with the union in Json.avsc. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+enum,Identifier
+ ,Whitespace
+JsonType,Identifier
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+LONG,Identifier
+",",Punctuation
+ ,Whitespace
+DOUBLE,Identifier
+",",Punctuation
+ ,Whitespace
+STRING,Identifier
+",",Punctuation
+ ,Whitespace
+BOOLEAN,Identifier
+",",Punctuation
+ ,Whitespace
+NULL,Identifier
+",",Punctuation
+ ,Whitespace
+ARRAY,Identifier
+",",Punctuation
+ ,Whitespace
+OBJECT,Identifier
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Write Json data as Avro data. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+node,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+(,Punctuation
+node,Identifier
+.,Punctuation
+asToken,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+VALUE_NUMBER_INT,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+LONG,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeLong,Identifier
+(,Punctuation
+node,Identifier
+.,Punctuation
+getLongValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+VALUE_NUMBER_FLOAT,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+DOUBLE,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeDouble,Identifier
+(,Punctuation
+node,Identifier
+.,Punctuation
+getDoubleValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+VALUE_STRING,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+STRING,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+node,Identifier
+.,Punctuation
+getTextValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+VALUE_TRUE,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+BOOLEAN,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeBoolean,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+VALUE_FALSE,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+BOOLEAN,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeBoolean,Identifier
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+VALUE_NULL,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+NULL,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeNull,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+START_ARRAY,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+ARRAY,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeArrayStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+node,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+element,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+node,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+write,Identifier
+(,Punctuation
+element,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeArrayEnd,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+START_OBJECT,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+OBJECT,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeMapStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+node,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+node,Identifier
+.,Punctuation
+getFieldNames,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+i,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+i,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+write,Identifier
+(,Punctuation
+node,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeMapEnd,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+node,Identifier
+.,Punctuation
+asToken,Identifier
+(,Punctuation
+),Punctuation
++,Operator
+""" unexpected: """,String
++,Operator
+node,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Read Json data from Avro data. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+read,Identifier
+(,Punctuation
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+JsonType,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+[,Punctuation
+in,Identifier
+.,Punctuation
+readIndex,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+LONG,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LongNode,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+readLong,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+DOUBLE,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DoubleNode,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+readDouble,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TextNode,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BOOLEAN,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readBoolean,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+BooleanNode,Identifier
+.,Punctuation
+TRUE,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+BooleanNode,Identifier
+.,Punctuation
+FALSE,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+NULL,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+readNull,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+NullNode,Identifier
+.,Punctuation
+getInstance,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ARRAY,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+ArrayNode,Identifier
+ ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+JsonNodeFactory,Identifier
+.,Punctuation
+instance,Identifier
+.,Punctuation
+arrayNode,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readArrayStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+"
+",Newline
+          ,Whitespace
+array,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+read,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+OBJECT,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+ObjectNode,Identifier
+ ,Whitespace
+object,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+JsonNodeFactory,Identifier
+.,Punctuation
+instance,Identifier
+.,Punctuation
+objectNode,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readMapStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+mapNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+"
+",Newline
+          ,Whitespace
+object,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+read,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+object,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Unexpected Json node type""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,576 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+.,Punctuation
+TracePlugin,Identifier
+.,Punctuation
+StorageType,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Helper class for configuring Avro's {@link TracePlugin}. If you are using 
+ * a common configuration module, wrap this class with your own configuration. 
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TracePluginConfiguration,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+DEFAULT_CLIENT_PORT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+12345,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+DEFAULT_PORT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+12335,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+double,Keyword
+ ,Whitespace
+traceProb,Identifier
+;,Punctuation
+ ,Whitespace
+// Probability of starting tracing,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+port,Identifier
+;,Punctuation
+         ,Whitespace
+// Port to serve tracing data,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+clientPort,Identifier
+;,Punctuation
+   ,Whitespace
+// Port to expose client HTTP interface,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+StorageType,Identifier
+ ,Whitespace
+storageType,Identifier
+;,Punctuation
+  ,Whitespace
+// How to store spans,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+maxSpans,Identifier
+;,Punctuation
+   ,Whitespace
+// Max number of spans to store,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+enabled,Identifier
+;,Punctuation
+ ,Whitespace
+// Whether or not we are active,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+buffer,Identifier
+;,Punctuation
+  ,Whitespace
+"// If disk storage, whether to buffer writes",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+compressionLevel,Identifier
+;,Punctuation
+ ,Whitespace
+"// If using file storage, what compression",Comment
+"
+",Newline
+                               ,Whitespace
+// level (0-9).,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+fileGranularitySeconds,Identifier
+;,Punctuation
+ ,Whitespace
+// How many seconds of span data to store,Comment
+"
+",Newline
+                                     ,Whitespace
+// in each file.,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+spanStorageDir,Identifier
+;,Punctuation
+ ,Whitespace
+"// where to store span data, if file-based",Comment
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return a TracePluginConfiguration with default options.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TracePluginConfiguration,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+traceProb,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0.0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+port,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT_PORT,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+clientPort,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT_CLIENT_PORT,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+storageType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+StorageType,Identifier
+.,Punctuation
+DISK,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+maxSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+10000,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+enabled,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+compressionLevel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+9,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+fileGranularitySeconds,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+500,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+spanStorageDir,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""/tmp""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+equals,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+otherObj,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+otherObj,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+TracePluginConfiguration,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+TracePluginConfiguration,Identifier
+ ,Whitespace
+other,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+TracePluginConfiguration,Identifier
+),Punctuation
+ ,Whitespace
+otherObj,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+traceProb,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+traceProb,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+port,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+port,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+clientPort,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+clientPort,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+storageType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+storageType,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+maxSpans,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+maxSpans,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+enabled,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+enabled,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+buffer,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+buffer,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+compressionLevel,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+compressionLevel,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+fileGranularitySeconds,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+fileGranularitySeconds,Identifier
+ ,Whitespace
+&&,Operator
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+spanStorageDir,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+spanStorageDir,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

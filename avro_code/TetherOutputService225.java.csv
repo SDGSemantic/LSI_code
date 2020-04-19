@@ -1,0 +1,796 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+tether,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+OutputCollector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reporter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+class,Keyword
+ ,Whitespace
+TetherOutputService,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+OutputProtocol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+OutputCollector,Identifier
+<,Operator
+TetherData,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+collector,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+inputPort,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+complete,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+error,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TetherOutputService,Identifier
+(,Punctuation
+OutputCollector,Identifier
+<,Operator
+TetherData,Identifier
+",",Punctuation
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+collector,Identifier
+",",Punctuation
+"
+",Newline
+                             ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+reporter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reporter,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+collector,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+collector,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configure,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+inputPort,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+TetherMapRunner,Identifier
+.,Punctuation
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""got input port from child""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+inputPort,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inputPort,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+notify,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+inputPort,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+inputPort,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+TetherMapRunner,Identifier
+.,Punctuation
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""waiting for input port from child""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+wait,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+inputPort,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+output,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+collector,Identifier
+.,Punctuation
+collect,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+TetherData,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Throwable,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+TetherMapRunner,Identifier
+.,Punctuation
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Error: """,String
++,Operator
+e,Identifier
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+outputPartitioned,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+partition,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+TetherPartitioner,Identifier
+.,Punctuation
+setNextPartition,Identifier
+(,Punctuation
+partition,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+output,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+status,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+message,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+reporter,Identifier
+.,Punctuation
+setStatus,Identifier
+(,Punctuation
+message,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+count,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+group,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+amount,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+reporter,Identifier
+.,Punctuation
+getCounter,Identifier
+(,Punctuation
+group,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+name,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+increment,Identifier
+(,Punctuation
+amount,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+fail,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+message,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+TetherMapRunner,Identifier
+.,Punctuation
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Failing: """,String
++,Operator
+message,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+message,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+notify,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+complete,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+TetherMapRunner,Identifier
+.,Punctuation
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""got task complete""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+complete,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+notify,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isFinished,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+complete,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+(,Punctuation
+error,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+error,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+error,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+waitForFinish,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+isFinished,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+wait,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+error,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

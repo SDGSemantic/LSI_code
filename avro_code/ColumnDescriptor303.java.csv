@@ -1,0 +1,849 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+class,Keyword
+ ,Whitespace
+ColumnDescriptor,Identifier
+<,Operator
+T,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Comparable,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+final,Keyword
+ ,Whitespace
+Input,Identifier
+ ,Whitespace
+file,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+final,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+metaData,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+long,Keyword
+ ,Whitespace
+start,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+long,Keyword
+ ,Whitespace
+dataStart,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+BlockDescriptor,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+blocks,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+long,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+blockStarts,Identifier
+;,Punctuation
+                             ,Whitespace
+// for random access,Comment
+"
+",Newline
+  ,Whitespace
+long,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+firstRows,Identifier
+;,Punctuation
+                               ,Whitespace
+// for binary searches,Comment
+"
+",Newline
+  ,Whitespace
+T,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+firstValues,Identifier
+;,Punctuation
+                                ,Whitespace
+// for binary searches,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnDescriptor,Identifier
+(,Punctuation
+Input,Identifier
+ ,Whitespace
+file,Identifier
+",",Punctuation
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+metaData,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+file,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+file,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+metaData,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+metaData,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+findBlock,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+row,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+block,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+binarySearch,Identifier
+(,Punctuation
+firstRows,Identifier
+",",Punctuation
+ ,Whitespace
+row,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+block,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+"
+",Newline
+      ,Whitespace
+block,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+block,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+2,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+block,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+findBlock,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+block,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+binarySearch,Identifier
+(,Punctuation
+firstValues,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+block,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+"
+",Newline
+      ,Whitespace
+block,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+block,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+2,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+block,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+blockCount,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+blocks,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+lastRow,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+block,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blocks,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+ ,Whitespace
+||,Operator
+ ,Whitespace
+block,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+firstRows,Identifier
+[,Punctuation
+block,Identifier
+],Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+blocks,Identifier
+[,Punctuation
+block,Identifier
+],Punctuation
+.,Punctuation
+rowCount,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+ensureBlocksRead,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blocks,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// read block descriptors,Comment
+"
+",Newline
+    ,Whitespace
+InputBuffer,Identifier
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+InputBuffer,Identifier
+(,Punctuation
+file,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+blockCount,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readFixed32,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockDescriptor,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+blocks,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BlockDescriptor,Identifier
+[,Punctuation
+blockCount,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+metaData,Identifier
+.,Punctuation
+hasIndexValues,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+firstValues,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+T,Identifier
+[,Punctuation
+],Punctuation
+),Punctuation
+new,Keyword
+ ,Whitespace
+Comparable,Identifier
+[,Punctuation
+blockCount,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+blockCount,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+blocks,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+BlockDescriptor,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+metaData,Identifier
+.,Punctuation
+hasIndexValues,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+firstValues,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+<,Operator
+T,Identifier
+>,Operator
+readValue,Identifier
+(,Punctuation
+metaData,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+dataStart,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// compute blockStarts and firstRows,Comment
+"
+",Newline
+    ,Whitespace
+Checksum,Identifier
+ ,Whitespace
+checksum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Checksum,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+metaData,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+blockStarts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+long,Keyword
+[,Punctuation
+blocks,Identifier
+.,Punctuation
+length,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+firstRows,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+long,Keyword
+[,Punctuation
+blocks,Identifier
+.,Punctuation
+length,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+startPosition,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+dataStart,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+blockCount,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+BlockDescriptor,Identifier
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blocks,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+blockStarts,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+startPosition,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+firstRows,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+row,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+startPosition,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+b,Identifier
+.,Punctuation
+compressedSize,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+checksum,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+row,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+b,Identifier
+.,Punctuation
+rowCount,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+blocks,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+blocks,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

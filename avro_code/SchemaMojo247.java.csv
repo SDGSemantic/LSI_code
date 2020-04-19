@@ -1,0 +1,541 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mojo,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+.,Punctuation
+StringType,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+compiler,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificCompiler,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Generate Java classes from Avro schema files (.avsc)
+ * 
+ * @goal schema
+ * @phase generate-sources
+ * @threadSafe
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SchemaMojo,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AbstractAvroMojo,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * A parser used to parse all schema files. Using a common parser will 
+   * facilitate the import of external schemas.
+   */",Comment
+"
+",Newline
+   ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+ ,Whitespace
+schemaParser,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+   ,Whitespace
+"/**
+   * A set of Ant-like inclusion patterns used to select files from the source
+   * directory for processing. By default, the pattern
+   * <code>**&#47;*.avsc</code> is used to select grammar files.
+   * 
+   * @parameter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+includes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"""**/*.avsc""",String
+ ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * A set of Ant-like inclusion patterns used to select files from the source
+   * directory for processing. By default, the pattern
+   * <code>**&#47;*.avsc</code> is used to select grammar files.
+   * 
+   * @parameter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+testIncludes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"""**/*.avsc""",String
+ ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+doCompile,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+sourceDirectory,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+File,Identifier
+ ,Whitespace
+src,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+sourceDirectory,Identifier
+",",Punctuation
+ ,Whitespace
+filename,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// This is necessary to maintain backward-compatibility. If there are  ,Comment
+"
+",Newline
+    ,Whitespace
+"// no imported files then isolate the schemas from each other, otherwise",Comment
+"
+",Newline
+    ,Whitespace
+// allow them to share a single schema so resuse and sharing of schema,Comment
+"
+",Newline
+    ,Whitespace
+// is possible.,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+imports,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+parse,Identifier
+(,Punctuation
+src,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schemaParser,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+src,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+SpecificCompiler,Identifier
+ ,Whitespace
+compiler,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificCompiler,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setTemplateDir,Identifier
+(,Punctuation
+templateDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setStringType,Identifier
+(,Punctuation
+StringType,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+stringType,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setFieldVisibility,Identifier
+(,Punctuation
+getFieldVisibility,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setCreateSetters,Identifier
+(,Punctuation
+createSetters,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setOutputCharacterEncoding,Identifier
+(,Punctuation
+project,Identifier
+.,Punctuation
+getProperties,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getProperty,Identifier
+(,Punctuation
+"""project.build.sourceEncoding""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+compileToDestination,Identifier
+(,Punctuation
+src,Identifier
+",",Punctuation
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getIncludes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+includes,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getTestIncludes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+testIncludes,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

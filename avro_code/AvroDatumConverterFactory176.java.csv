@@ -1,0 +1,2805 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericFixed,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroKey,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroValue,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroWrapper,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+AvroJob,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configured,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BooleanWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+ByteWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BytesWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DoubleWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+FloatWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IntWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+LongWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Text,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Constructs converters that turn objects (usually from the output of a MR job) into Avro
+ * data that can be serialized.
+ *
+ * <p>Currently, only the following types have implemented converters:
+ *   <ul>
+ *     <li>AvroKey</li>
+ *     <li>AvroValue</li>
+ *     <li>BooleanWritable</li>
+ *     <li>BytesWritable</li>
+ *     <li>ByteWritable</li>
+ *     <li>DoubleWritable</li>
+ *     <li>FloatWritable</li>
+ *     <li>IntWritable</li>
+ *     <li>LongWritable</li>
+ *     <li>NullWritable</li>
+ *     <li>Text</li>
+ *   </ul>
+ * </p>
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroDatumConverterFactory,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Configured,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a new <code>AvroDatumConverterFactory</code> instance.
+   *
+   * @param conf The job configuration.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroDatumConverterFactory,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a converter that turns objects of type <code>inputClass</code> into Avro data.
+   *
+   * @param inputClass The type of input data to convert.
+   * @return A converter that turns objects of type <code>inputClass</code> into Avro data.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+ ,Whitespace
+create,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+IN,Identifier
+>,Operator
+ ,Whitespace
+inputClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMapOnly,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+JobConf,Identifier
+),Punctuation
+getConf,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+getNumReduceTasks,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isMapOnly,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getMapOutputKeySchema,Identifier
+(,Punctuation
+getConf,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputKeySchema,Identifier
+(,Punctuation
+getConf,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputKeySchema,Identifier
+(,Punctuation
+getConf,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalStateException,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""Writer schema for output key was not set. Use AvroJob.setOutputKeySchema().""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroWrapperConverter,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+AvroValue,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isMapOnly,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getMapOutputValueSchema,Identifier
+(,Punctuation
+getConf,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputValueSchema,Identifier
+(,Punctuation
+getConf,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputValueSchema,Identifier
+(,Punctuation
+getConf,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalStateException,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""Writer schema for output value was not set. Use AvroJob.setOutputValueSchema().""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroWrapperConverter,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+BooleanWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BooleanWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+BytesWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BytesWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+ByteWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ByteWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+DoubleWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DoubleWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+FloatWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FloatWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+IntWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IntWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+LongWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LongWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+NullWritable,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NullWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+Text,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+inputClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+AvroDatumConverter,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TextConverter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+"""Unsupported input type: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+inputClass,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts AvroWrappers into their wrapped Avro data. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroWrapperConverter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+?,Operator
+>,Operator
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroWrapperConverter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts BooleanWritables into Booleans. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+BooleanWritableConverter,Identifier
+"
+",Newline
+      ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+BooleanWritable,Identifier
+",",Punctuation
+ ,Whitespace
+Boolean,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+BooleanWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+BOOLEAN,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Boolean,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+BooleanWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts BytesWritables into ByteBuffers. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+BytesWritableConverter,Identifier
+"
+",Newline
+      ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+BytesWritable,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+BytesWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+BYTES,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+BytesWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+input,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts ByteWritables into GenericFixed of size 1. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ByteWritableConverter,Identifier
+"
+",Newline
+      ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+ByteWritable,Identifier
+",",Punctuation
+ ,Whitespace
+GenericFixed,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+ByteWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+createFixed,Identifier
+(,Punctuation
+"""Byte""",String
+",",Punctuation
+ ,Whitespace
+"""A single byte""",String
+",",Punctuation
+ ,Whitespace
+"""org.apache.avro.mapreduce""",String
+",",Punctuation
+ ,Whitespace
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericFixed,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+ByteWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+Fixed,Identifier
+(,Punctuation
+mSchema,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+},Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts DoubleWritables into Doubles. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+DoubleWritableConverter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+DoubleWritable,Identifier
+",",Punctuation
+ ,Whitespace
+Double,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+DoubleWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+DOUBLE,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Double,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+DoubleWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts FloatWritables into Floats. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+FloatWritableConverter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+FloatWritable,Identifier
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+FloatWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+FLOAT,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Float,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+FloatWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts IntWritables into Ints. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+IntWritableConverter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+IntWritable,Identifier
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+IntWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+INT,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Integer,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+IntWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts LongWritables into Longs. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+LongWritableConverter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+LongWritable,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+LongWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+LONG,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Long,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+LongWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts NullWritables into Nulls. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+NullWritableConverter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+NullWritable,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+NullWritableConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+NULL,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+NullWritable,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Converts Text into CharSequences. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TextConverter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroDatumConverter,Identifier
+<,Operator
+Text,Identifier
+",",Punctuation
+ ,Whitespace
+CharSequence,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Constructor. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+TextConverter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+STRING,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+CharSequence,Identifier
+ ,Whitespace
+convert,Identifier
+(,Punctuation
+Text,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

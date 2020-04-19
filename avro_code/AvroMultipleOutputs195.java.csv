@@ -1,0 +1,3821 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+StringTokenizer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Set,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collections,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+OutputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileSystem,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FileOutputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+RecordWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reporter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Progressable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"
+",Newline
+"
+",Newline
+"/**
+ * The AvroMultipleOutputs class simplifies writing Avro output data 
+ * to multiple outputs
+ * 
+ * <p> 
+ * Case one: writing to additional outputs other than the job default output.
+ *
+ * Each additional output, or named output, may be configured with its own
+ * <code>Schema</code> and <code>OutputFormat</code>.
+ * A named output can be a single file or a multi file. The later is refered as
+ * a multi named output which is an unbound set of files all sharing the same
+ * <code>Schema</code>.
+ * </p>
+ * <p>
+ * Case two: to write data to different files provided by user
+ * </p>
+ * 
+ * <p>
+ * AvroMultipleOutputs supports counters, by default they are disabled. The 
+ * counters group is the {@link AvroMultipleOutputs} class name. The names of the 
+ * counters are the same as the output name. These count the number of records 
+ * written to each output name. For multi
+ * named outputs the name of the counter is the concatenation of the named
+ * output, and underscore '_' and the multiname.
+ * </p>
+ * 
+ * Usage pattern for job submission:
+ * <pre>
+ *
+ * JobConf job = new JobConf();
+ *
+ * FileInputFormat.setInputPath(job, inDir);
+ * FileOutputFormat.setOutputPath(job, outDir);
+ *
+ * job.setMapperClass(MyAvroMapper.class);
+ * job.setReducerClass(HadoopReducer.class);
+ * job.set(""avro.reducer"",MyAvroReducer.class);
+ * ...
+ *  
+ * Schema schema;
+ * ...
+ * // Defines additional single output 'avro1' for the job
+ * AvroMultipleOutputs.addNamedOutput(job, ""avro1"", AvroOutputFormat.class,
+ * schema);
+ *
+ * // Defines additional output 'avro2' with different schema for the job
+ * AvroMultipleOutputs.addNamedOutput(job, ""avro2"",
+ *   AvroOutputFormat.class,
+ *   null); // if Schema is specified as null then the default output schema is used
+ * ...
+ *
+ * job.waitForCompletion(true);
+ * ...
+ * </pre>
+ * <p>
+ * Usage in Reducer:
+ * <pre>
+ * 
+ * public class MyAvroReducer extends
+ *   AvroReducer&lt;K, V, OUT&gt; {
+ * private MultipleOutputs amos;
+ *
+ *
+ * public void configure(JobConf conf) {
+ * ...
+ * amos = new AvroMultipleOutputs(conf);
+ * }
+ *
+ * public void reduce(K, Iterator&lt;V&gt; values,
+ * AvroCollector&lt;OUT&gt;, Reporter reporter)
+ * throws IOException {
+ * ...
+ * amos.collect(""avro1"", reporter,datum);
+ * amos.getCollector(""avro2"", ""A"", reporter).collect(datum);
+ * amos.collect(""avro1"",reporter,schema,datum,""testavrofile"");// this create a file testavrofile and writes data with schema ""schema"" into it
+ *                                                            and uses other values from namedoutput ""avro1"" like outputclass etc.
+ * amos.collect(""avro1"",reporter,schema,datum,""testavrofile1"");
+ * ...
+ * }
+ *
+ * public void close() throws IOException {
+ * amos.close();
+ * ...
+ * }
+ *
+ * }
+ * </pre>
+ */",Comment
+"
+",Newline
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroMultipleOutputs,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+NAMED_OUTPUTS,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""mo.namedOutputs""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+MO_PREFIX,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""mo.namedOutput.""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+FORMAT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+""".avro""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+MULTI,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+""".multi""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+COUNTERS_ENABLED,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""mo.counters""",String
+;,Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Counters group used by the counters of MultipleOutputs.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+COUNTERS_GROUP,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroMultipleOutputs,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Checks if a named output is alreadyDefined or not.
+   *
+   * @param conf           job conf
+   * @param namedOutput    named output names
+   * @param alreadyDefined whether the existence/non-existence of
+   *                       the named output is to be checked
+   * @throws IllegalArgumentException if the output name is alreadyDefined or
+   *                                  not depending on the value of the
+   *                                  'alreadyDefined' parameter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+checkNamedOutput,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+"
+",Newline
+                                       ,Whitespace
+boolean,Keyword
+ ,Whitespace
+alreadyDefined,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+definedChannels,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getNamedOutputsList,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+alreadyDefined,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+definedChannels,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Named output '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+"""' already alreadyDefined""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+alreadyDefined,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+definedChannels,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Named output '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+"""' not defined""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Checks if a named output name is valid token.
+   *
+   * @param namedOutput named output Name
+   * @throws IllegalArgumentException if the output name is not valid.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+checkTokenName,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+namedOutput,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+||,Operator
+ ,Whitespace
+namedOutput,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+"""Name cannot be NULL or empty""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+char,Keyword
+ ,Whitespace
+ch,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+namedOutput,Identifier
+.,Punctuation
+toCharArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+'A',String
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+'Z',String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+'a',String
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+'z',String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+'0',String
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+'9',String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+"""Name cannot have a '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+ch,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""' char""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Checks if a named output name is valid.
+   *
+   * @param namedOutput named output Name
+   * @throws IllegalArgumentException if the output name is not valid.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+checkNamedOutputName,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkTokenName,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// name cannot be the name used for the default output,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+namedOutput,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+"""part""",String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+"""Named output name cannot be 'part'""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns list of channel names.
+   *
+   * @param conf job conf
+   * @return List of channel Names
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getNamedOutputsList,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+names,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+StringTokenizer,Identifier
+ ,Whitespace
+st,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringTokenizer,Identifier
+(,Punctuation
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+NAMED_OUTPUTS,Identifier
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+",",Punctuation
+ ,Whitespace
+""" """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+st,Identifier
+.,Punctuation
+hasMoreTokens,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+names,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+st,Identifier
+.,Punctuation
+nextToken,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+names,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns if a named output is multiple.
+   *
+   * @param conf        job conf
+   * @param namedOutput named output
+   * @return <code>true</code> if the name output is multi, <code>false</code>
+   *         if it is single. If the name output is not defined it returns
+   *         <code>false</code>
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMultiNamedOutput,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkNamedOutput,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+MULTI,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns the named output OutputFormat.
+   *
+   * @param conf        job conf
+   * @param namedOutput named output
+   * @return namedOutput OutputFormat
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+>,Operator
+ ,Whitespace
+getNamedOutputFormatClass,Identifier
+(,Punctuation
+"
+",Newline
+    ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkNamedOutput,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+FORMAT,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+OutputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Adds a named output for the job.
+   * <p/>
+   *
+   * @param conf              job conf to add the named output
+   * @param namedOutput       named output name, it has to be a word, letters
+   *                          and numbers only, cannot be the word 'part' as
+   *                          that is reserved for the
+   *                          default output.
+   * @param outputFormatClass OutputFormat class.
+   * @param schema            Schema to used for this namedOutput
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addNamedOutput,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+"
+",Newline
+                                ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+>,Operator
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+                                ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+addNamedOutput,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+",",Punctuation
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Adds a multi named output for the job.
+   * <p/>
+   *
+   * @param conf              job conf to add the named output
+   * @param namedOutput       named output name, it has to be a word, letters
+   *                          and numbers only, cannot be the word 'part' as
+   *                          that is reserved for the
+   *                          default output.
+   * @param outputFormatClass OutputFormat class.
+   * @param schema            Schema to used for this namedOutput
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addMultiNamedOutput,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+"
+",Newline
+                               ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+>,Operator
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+                               ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+addNamedOutput,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+",",Punctuation
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Adds a named output for the job.
+   * <p/>
+   *
+   * @param conf              job conf to add the named output
+   * @param namedOutput       named output name, it has to be a word, letters
+   *                          and numbers only, cannot be the word 'part' as
+   *                          that is reserved for the
+   *                          default output.
+   * @param multi             indicates if the named output is multi
+   * @param outputFormatClass OutputFormat class.
+   * @param schema            Schema to used for this namedOutput
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addNamedOutput,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+"
+",Newline
+                               ,Whitespace
+boolean,Keyword
+ ,Whitespace
+multi,Identifier
+",",Punctuation
+"
+",Newline
+                               ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+>,Operator
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+                               ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkNamedOutputName,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+checkNamedOutput,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMapOnly,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getNumReduceTasks,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+(,Punctuation
+schema,Identifier
+!=,Operator
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
++,Operator
+namedOutput,Identifier
++,Operator
+""".schema""",String
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+NAMED_OUTPUTS,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+NAMED_OUTPUTS,Identifier
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+setClass,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+FORMAT,Identifier
+",",Punctuation
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+OutputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+setBoolean,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+MULTI,Identifier
+",",Punctuation
+ ,Whitespace
+multi,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Enables or disables counters for the named outputs.
+   * <p/>
+   * By default these counters are disabled.
+   * <p/>
+   * MultipleOutputs supports counters, by default the are disabled.
+   * The counters group is the {@link AvroMultipleOutputs} class name.
+   * </p>
+   * The names of the counters are the same as the named outputs. For multi
+   * named outputs the name of the counter is the concatenation of the named
+   * output, and underscore '_' and the multiname.
+   *
+   * @param conf    job conf to enableadd the named output.
+   * @param enabled indicates if the counters will be enabled or not.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setCountersEnabled,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+enabled,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+setBoolean,Identifier
+(,Punctuation
+COUNTERS_ENABLED,Identifier
+",",Punctuation
+ ,Whitespace
+enabled,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns if the counters for the named outputs are enabled or not.
+   * <p/>
+   * By default these counters are disabled.
+   * <p/>
+   * MultipleOutputs supports counters, by default the are disabled.
+   * The counters group is the {@link AvroMultipleOutputs} class name.
+   * </p>
+   * The names of the counters are the same as the named outputs. For multi
+   * named outputs the name of the counter is the concatenation of the named
+   * output, and underscore '_' and the multiname.
+   *
+   *
+   * @param conf    job conf to enableadd the named output.
+   * @return TRUE if the counters are enabled, FALSE if they are disabled.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+getCountersEnabled,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+COUNTERS_ENABLED,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"// instance code, to be used from Mapper/Reducer code",Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+ ,Whitespace
+outputFormat,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Set,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+namedOutputs,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+RecordWriter,Identifier
+>,Operator
+ ,Whitespace
+recordWriters,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+countersEnabled,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates and initializes multiple named outputs support, it should be
+   * instantiated in the Mapper/Reducer configure method.
+   *
+   * @param job the job configuration object
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroMultipleOutputs,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+outputFormat,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+InternalFileOutputFormat,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+namedOutputs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Collections,Identifier
+.,Punctuation
+unmodifiableSet,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+HashSet,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+AvroMultipleOutputs,Identifier
+.,Punctuation
+getNamedOutputsList,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+recordWriters,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+RecordWriter,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+countersEnabled,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getCountersEnabled,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns iterator with the defined name outputs.
+   *
+   * @return iterator with the defined named outputs
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getNamedOutputs,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+namedOutputs,Identifier
+.,Punctuation
+iterator,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+// by being synchronized MultipleOutputTask can be use with a,Comment
+"
+",Newline
+  ,Whitespace
+// MultithreaderMapRunner.,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+"
+",Newline
+                                                    ,Whitespace
+String,Identifier
+ ,Whitespace
+baseFileName,Identifier
+",",Punctuation
+"
+",Newline
+                                                    ,Whitespace
+final,Keyword
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+recordWriters,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+baseFileName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+writer,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+countersEnabled,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+reporter,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+"""Counters are enabled, Reporter cannot be NULL""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+(,Punctuation
+schema,Identifier
+!=,Operator
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
++,Operator
+namedOutput,Identifier
++,Operator
+""".schema""",String
+",",Punctuation
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+jobConf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JobConf,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+jobConf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+InternalFileOutputFormat,Identifier
+.,Punctuation
+CONFIG_NAMED_OUTPUT,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+fs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+FileSystem,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+outputFormat,Identifier
+.,Punctuation
+getRecordWriter,Identifier
+(,Punctuation
+fs,Identifier
+",",Punctuation
+ ,Whitespace
+jobConf,Identifier
+",",Punctuation
+ ,Whitespace
+baseFileName,Identifier
+",",Punctuation
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+countersEnabled,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+reporter,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""Counters are enabled, Reporter cannot be NULL""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RecordWriterWithCounter,Identifier
+(,Punctuation
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+baseFileName,Identifier
+",",Punctuation
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+recordWriters,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+baseFileName,Identifier
+",",Punctuation
+ ,Whitespace
+writer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+RecordWriterWithCounter,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+counterName,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordWriterWithCounter,Identifier
+(,Punctuation
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+counterName,Identifier
+",",Punctuation
+"
+",Newline
+                                   ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+counterName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+counterName,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+reporter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reporter,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+{,Punctuation
+"""unchecked""",String
+},Punctuation
+),Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+reporter,Identifier
+.,Punctuation
+incrCounter,Identifier
+(,Punctuation
+COUNTERS_GROUP,Identifier
+",",Punctuation
+ ,Whitespace
+counterName,Identifier
+",",Punctuation
+ ,Whitespace
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+reporter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Output Collector for the default schema.
+   * <p/>
+   *
+   * @param namedOutput the named output name
+   * @param reporter    the reporter
+   * @param datum       output data
+   * @throws IOException thrown if output collector could not be created
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collect,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+getCollector,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+reporter,Identifier
+),Punctuation
+.,Punctuation
+collect,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * OutputCollector with custom schema.
+   * <p/>
+   *
+   * @param namedOutput the named output name (this will the output file name)
+   * @param reporter    the reporter
+   * @param datum       output data
+   * @param schema      schema to use for this output
+   * @throws IOException thrown if output collector could not be created
+  */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collect,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+getCollector,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+reporter,Identifier
+",",Punctuation
+schema,Identifier
+),Punctuation
+.,Punctuation
+collect,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * OutputCollector with custom schema and file name.
+   * <p/>
+   *
+   * @param namedOutput the named output name
+   * @param reporter    the reporter
+   * @param baseOutputPath outputfile name to use.
+   * @param datum       output data
+   * @param schema      schema to use for this output
+   * @throws IOException thrown if output collector could not be created
+  */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collect,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+String,Identifier
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+getCollector,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+null,Keyword
+",",Punctuation
+reporter,Identifier
+",",Punctuation
+baseOutputPath,Identifier
+",",Punctuation
+schema,Identifier
+),Punctuation
+.,Punctuation
+collect,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the output collector for a named output.
+   * <p/>
+   *
+   * @param namedOutput the named output name
+   * @param reporter    the reporter
+   * @return the output collector for the given named output
+   * @throws IOException thrown if output collector could not be created
+   * @deprecated Use {@link #collect} method for collecting output
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+{,Punctuation
+"""unchecked""",String
+",",Punctuation
+ ,Whitespace
+"""rawtypes""",String
+},Punctuation
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+namedOutput,Identifier
+",",Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""rawtypes""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+null,Keyword
+",",Punctuation
+reporter,Identifier
+",",Punctuation
+namedOutput,Identifier
+",",Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the output collector for a named output.
+   * <p/>
+   *
+   * @param namedOutput the named output name
+   * @param reporter    the reporter
+   * @param multiName   the multiname 
+   * @return the output collector for the given named output
+   * @throws IOException thrown if output collector could not be created
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""rawtypes""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+String,Identifier
+ ,Whitespace
+multiName,Identifier
+",",Punctuation
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+multiName,Identifier
+",",Punctuation
+reporter,Identifier
+",",Punctuation
+namedOutput,Identifier
+",",Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""rawtypes""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+baseFileName,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+//namedOutputs.add(baseFileName);,Comment
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+null,Keyword
+",",Punctuation
+reporter,Identifier
+",",Punctuation
+baseFileName,Identifier
+",",Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the output collector for a multi named output.
+   * <p/>
+   *
+   * @param namedOutput the named output name
+   * @param multiName   the multi name part
+   * @param reporter    the reporter
+   * @return the output collector for the given named output
+   * @throws IOException thrown if output collector could not be created
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+{,Punctuation
+"""unchecked""",String
+},Punctuation
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+ ,Whitespace
+getCollector,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+multiName,Identifier
+",",Punctuation
+"
+",Newline
+                                      ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+String,Identifier
+ ,Whitespace
+baseOutputFileName,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+checkNamedOutputName,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+namedOutputs,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Undefined named output '""",String
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""'""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+multi,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isMultiNamedOutput,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+multi,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+multiName,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Name output '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+"""' has not been defined as multi""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+multi,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+checkTokenName,Identifier
+(,Punctuation
+multiName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+baseFileName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+multi,Identifier
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""_""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+multiName,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+baseOutputFileName,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+baseFileName,Identifier
+",",Punctuation
+ ,Whitespace
+reporter,Identifier
+",",Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+   ,Whitespace
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+{,Punctuation
+"""unchecked""",String
+},Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collect,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+AvroWrapper,Identifier
+ ,Whitespace
+wrapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+writer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+wrapper,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collect,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+Object,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+"
+",Newline
+      ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+  ,Whitespace
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Closes all the opened named outputs.
+   * <p/>
+   * If overriden subclasses must invoke <code>super.close()</code> at the
+   * end of their <code>close()</code>
+   *
+   * @throws java.io.IOException thrown if any of the MultipleOutput files
+   *                             could not be closed properly.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+recordWriters,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+InternalFileOutputFormat,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+FileOutputFormat,Identifier
+<,Operator
+Object,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+   ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONFIG_NAMED_OUTPUT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""mo.config.namedOutput""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+   ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+{,Punctuation
+"""unchecked""",String
+",",Punctuation
+ ,Whitespace
+"""deprecation""",String
+},Punctuation
+),Punctuation
+"
+",Newline
+   ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+Object,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+>,Operator
+ ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+FileSystem,Identifier
+ ,Whitespace
+fs,Identifier
+",",Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+baseFileName,Identifier
+",",Punctuation
+ ,Whitespace
+Progressable,Identifier
+ ,Whitespace
+arg3,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+   ,Whitespace
+String,Identifier
+ ,Whitespace
+nameOutput,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONFIG_NAMED_OUTPUT,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+String,Identifier
+ ,Whitespace
+fileName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getUniqueName,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+baseFileName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+String,Identifier
+ ,Whitespace
+schemastr,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
++,Operator
+nameOutput,Identifier
++,Operator
+""".schema""",String
+",",Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+schemastr,Identifier
+!=,Operator
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+schemastr,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+outputConf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JobConf,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+outputConf,Identifier
+.,Punctuation
+setOutputFormat,Identifier
+(,Punctuation
+getNamedOutputFormatClass,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+nameOutput,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMapOnly,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+.,Punctuation
+getNumReduceTasks,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+schema,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+     ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isMapOnly,Identifier
+),Punctuation
+"
+",Newline
+       ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+setMapOutputSchema,Identifier
+(,Punctuation
+outputConf,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+     ,Whitespace
+else,Keyword
+"
+",Newline
+       ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+setOutputSchema,Identifier
+(,Punctuation
+outputConf,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+},Punctuation
+"
+",Newline
+   ,Whitespace
+OutputFormat,Identifier
+ ,Whitespace
+outputFormat,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+outputConf,Identifier
+.,Punctuation
+getOutputFormat,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+outputFormat,Identifier
+.,Punctuation
+getRecordWriter,Identifier
+(,Punctuation
+fs,Identifier
+",",Punctuation
+ ,Whitespace
+outputConf,Identifier
+",",Punctuation
+ ,Whitespace
+fileName,Identifier
+",",Punctuation
+ ,Whitespace
+arg3,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+},Punctuation
+   ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

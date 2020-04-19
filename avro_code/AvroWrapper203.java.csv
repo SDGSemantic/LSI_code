@@ -1,0 +1,426 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** The wrapper of data for jobs configured with {@link AvroJob} . */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+datum,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Wrap null. Construct {@link AvroWrapper} wrapping no datum. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Wrap a datum. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+datum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+datum,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the wrapped datum. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+datum,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+datum,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set the wrapped datum. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+datum,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+datum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+datum,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+datum,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+0,Literal
+ ,Whitespace
+:,Operator
+ ,Whitespace
+datum,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+equals,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+obj,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+obj,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+obj,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+obj,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+AvroWrapper,Identifier
+ ,Whitespace
+that,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+AvroWrapper,Identifier
+),Punctuation
+obj,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+datum,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+that,Identifier
+.,Punctuation
+datum,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+datum,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+datum,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Get the wrapped datum as JSON. */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+datum,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

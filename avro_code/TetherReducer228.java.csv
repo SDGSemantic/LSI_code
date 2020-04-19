@@ -1,0 +1,610 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+tether,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+OutputCollector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reducer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reporter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroJob,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+class,Keyword
+ ,Whitespace
+TetherReducer,Identifier
+"
+",Newline
+  ,Whitespace
+implements,Keyword
+ ,Whitespace
+Reducer,Identifier
+<,Operator
+TetherData,Identifier
+",",Punctuation
+NullWritable,Identifier
+",",Punctuation
+TetherData,Identifier
+",",Punctuation
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+TetheredProcess,Identifier
+ ,Whitespace
+process,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+error,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configure,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+job,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+reduce,Identifier
+(,Punctuation
+TetherData,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+ignore,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+                     ,Whitespace
+OutputCollector,Identifier
+<,Operator
+TetherData,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+collector,Identifier
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+process,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+process,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TetheredProcess,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+collector,Identifier
+",",Punctuation
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+configure,Identifier
+"
+",Newline
+          ,Whitespace
+(,Punctuation
+TaskType,Identifier
+.,Punctuation
+REDUCE,Identifier
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getMapOutputSchema,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputSchema,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+input,Identifier
+(,Punctuation
+datum,Identifier
+.,Punctuation
+buffer,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+.,Punctuation
+count,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+e,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Handle the end of the input by closing down the application.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+process,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+error,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+abort,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+complete,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+process,Identifier
+.,Punctuation
+outputService,Identifier
+.,Punctuation
+waitForFinish,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+InterruptedException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+process,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

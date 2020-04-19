@@ -1,0 +1,1053 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+avro,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileSystem,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reporter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FileOutputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+RecordWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Progressable,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+ReflectData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroJob,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroWrapper,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+MetaData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnFileMetaData,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** An {@link org.apache.hadoop.mapred.OutputFormat} that writes Avro data to
+ * Trevni files.
+ *
+ * <p>Writes a directory of files per task, each comprising a single filesystem
+ * block.  To reduce the number of files, increase the default filesystem block
+ * size for the job.  Each task also requires enough memory to buffer a
+ * filesystem block.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroTrevniOutputFormat,Identifier
+ ,Whitespace
+<,Operator
+T,Identifier
+>,Operator
+"
+",Newline
+  ,Whitespace
+extends,Keyword
+ ,Whitespace
+FileOutputFormat,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The file name extension for trevni files. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+EXT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+""".trv""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+META_PREFIX,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""trevni.meta.""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Add metadata to job output files.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setMeta,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+META_PREFIX,Identifier
++,Operator
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+"
+",Newline
+    ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+FileSystem,Identifier
+ ,Whitespace
+ignore,Identifier
+",",Punctuation
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+"
+",Newline
+                    ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+Progressable,Identifier
+ ,Whitespace
+prog,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMapOnly,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+.,Punctuation
+getNumReduceTasks,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isMapOnly,Identifier
+"
+",Newline
+      ,Whitespace
+?,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getMapOutputSchema,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+:,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputSchema,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+ColumnFileMetaData,Identifier
+ ,Whitespace
+meta,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+filterMetadata,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+dir,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+FileOutputFormat,Identifier
+.,Punctuation
+getTaskOutputPath,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+fs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+dir,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+fs,Identifier
+.,Punctuation
+mkdirs,Identifier
+(,Punctuation
+dir,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Failed to create directory: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+dir,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+blockSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fs,Identifier
+.,Punctuation
+getDefaultBlockSize,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+part,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+AvroColumnWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroColumnWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+meta,Identifier
+",",Punctuation
+ ,Whitespace
+ReflectData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fs,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+dir,Identifier
+",",Punctuation
+ ,Whitespace
+"""part-""",String
++,Operator
+(,Punctuation
+part,Identifier
+++,Operator
+),Punctuation
++,Operator
+EXT,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+writer,Identifier
+.,Punctuation
+writeTo,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+out,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroColumnWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+meta,Identifier
+",",Punctuation
+ ,Whitespace
+ReflectData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+wrapper,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+ ,Whitespace
+ignore,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+wrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+writer,Identifier
+.,Punctuation
+sizeEstimate,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+blockSize,Identifier
+),Punctuation
+              ,Whitespace
+// block full,Comment
+"
+",Newline
+          ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+   ,Whitespace
+static,Keyword
+ ,Whitespace
+ColumnFileMetaData,Identifier
+ ,Whitespace
+filterMetadata,Identifier
+(,Punctuation
+final,Keyword
+ ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+ColumnFileMetaData,Identifier
+ ,Whitespace
+meta,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnFileMetaData,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+String,Identifier
+>,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+job,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+e,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+startsWith,Identifier
+(,Punctuation
+META_PREFIX,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+meta,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+substring,Identifier
+(,Punctuation
+META_PREFIX,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                 ,Whitespace
+e,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+MetaData,Identifier
+.,Punctuation
+UTF8,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+meta,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

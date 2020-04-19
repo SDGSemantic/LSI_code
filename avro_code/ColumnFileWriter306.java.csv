@@ -1,0 +1,1544 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+FileOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Set,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashSet,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Writes data to a column file.
+ * All data is buffered until {@link #writeTo(File)} is called.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ColumnFileWriter,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+MAGIC_0,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+'T',String
+",",Punctuation
+ ,Whitespace
+'r',String
+",",Punctuation
+ ,Whitespace
+'v',String
+",",Punctuation
+ ,Whitespace
+0,Literal
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+MAGIC_1,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+'T',String
+",",Punctuation
+ ,Whitespace
+'r',String
+",",Punctuation
+ ,Whitespace
+'v',String
+",",Punctuation
+ ,Whitespace
+1,Literal
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+MAGIC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+'T',String
+",",Punctuation
+ ,Whitespace
+'r',String
+",",Punctuation
+ ,Whitespace
+'v',String
+",",Punctuation
+ ,Whitespace
+2,Literal
+},Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnFileMetaData,Identifier
+ ,Whitespace
+metaData,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnOutputBuffer,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+columns,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+rowCount,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+size,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct given metadata for each column in the file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnFileWriter,Identifier
+(,Punctuation
+ColumnFileMetaData,Identifier
+ ,Whitespace
+fileMeta,Identifier
+",",Punctuation
+"
+",Newline
+                          ,Whitespace
+ColumnMetaData,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+columnMeta,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkColumns,Identifier
+(,Punctuation
+columnMeta,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+metaData,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileMeta,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+columnCount,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+columnMeta,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+columns,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnOutputBuffer,Identifier
+[,Punctuation
+columnCount,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+columnMeta,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+c,Identifier
+.,Punctuation
+setDefaults,Identifier
+(,Punctuation
+metaData,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+columns,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+c,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+?,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayColumnOutputBuffer,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+c,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+:,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnOutputBuffer,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+c,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+size,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+OutputBuffer,Identifier
+.,Punctuation
+BLOCK_SIZE,Identifier
+;,Punctuation
+            ,Whitespace
+// over-estimate,Comment
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+checkColumns,Identifier
+(,Punctuation
+ColumnMetaData,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+columnMeta,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Set,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+seen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashSet,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnMeta,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+columnMeta,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+c,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+seen,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Duplicate column name: """,String
++,Operator
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+parent,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+c,Identifier
+.,Punctuation
+getParent,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+parent,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+seen,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+parent,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Parent must precede child: """,String
++,Operator
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+seen,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+          ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+void,Keyword
+ ,Whitespace
+incrementSize,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+n,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+size,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+n,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Return the approximate size of the file that will be written.  Tries to
+   * slightly over-estimate.  Indicates both the size in memory of the buffered
+   * data as well as the size of the file that will be written by {@link
+   * #writeTo(OutputStream)}. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+sizeEstimate,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return this file's metadata. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnFileMetaData,Identifier
+ ,Whitespace
+getMetaData,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+metaData,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the number of columns in the file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getColumnCount,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Add a row to the file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeRow,Identifier
+(,Punctuation
+Object,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+row,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+startRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+column,Identifier
+++,Operator
+),Punctuation
+"
+",Newline
+      ,Whitespace
+writeValue,Identifier
+(,Punctuation
+row,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+endRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Expert: Called before any values are written to a row. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+startRow,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+column,Identifier
+++,Operator
+),Punctuation
+"
+",Newline
+      ,Whitespace
+columns,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+.,Punctuation
+startRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Expert: Declare a count of items to be written to an array column or a
+   * column whose parent is an array. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeLength,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+length,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+column,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+columns,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Expert: Add a value to a row.  For values in array columns or whose
+   * parents are array columns, this must be preceded by a call to {@link
+   * #writeLength(int, int)} and must be called that many times.   For normal
+   * columns this is called once for each row in the column. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeValue,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+value,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+column,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+columns,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+.,Punctuation
+writeValue,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Expert: Called after all values are written to a row. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+endRow,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+column,Identifier
+++,Operator
+),Punctuation
+"
+",Newline
+      ,Whitespace
+columns,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+.,Punctuation
+endRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+rowCount,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Write all rows added to the named file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeTo,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FileOutputStream,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writeTo,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Write all rows added to the named output stream. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeTo,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writeHeader,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+column,Identifier
+++,Operator
+),Punctuation
+"
+",Newline
+      ,Whitespace
+columns,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+.,Punctuation
+writeTo,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeHeader,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+OutputBuffer,Identifier
+ ,Whitespace
+header,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+OutputBuffer,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+header,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+MAGIC,Identifier
+),Punctuation
+;,Punctuation
+                          ,Whitespace
+// magic,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+header,Identifier
+.,Punctuation
+writeFixed64,Identifier
+(,Punctuation
+rowCount,Identifier
+),Punctuation
+;,Punctuation
+                ,Whitespace
+// row count,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+header,Identifier
+.,Punctuation
+writeFixed32,Identifier
+(,Punctuation
+columnCount,Identifier
+),Punctuation
+;,Punctuation
+             ,Whitespace
+// column count,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+metaData,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+header,Identifier
+),Punctuation
+;,Punctuation
+                       ,Whitespace
+// file metadata,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ColumnOutputBuffer,Identifier
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+columns,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+column,Identifier
+.,Punctuation
+getMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+write,Identifier
+(,Punctuation
+header,Identifier
+),Punctuation
+;,Punctuation
+             ,Whitespace
+// column metadata,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+computeStarts,Identifier
+(,Punctuation
+header,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+header,Identifier
+.,Punctuation
+writeFixed64,Identifier
+(,Punctuation
+start,Identifier
+),Punctuation
+;,Punctuation
+                 ,Whitespace
+// column starts,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+header,Identifier
+.,Punctuation
+writeTo,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+computeStarts,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+start,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+long,Keyword
+[,Punctuation
+columnCount,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+start,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+columnCount,Identifier
+ ,Whitespace
+*,Operator
+ ,Whitespace
+8,Literal
+;,Punctuation
+                     ,Whitespace
+// room for starts,Comment
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+column,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+result,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+start,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+start,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+columns,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

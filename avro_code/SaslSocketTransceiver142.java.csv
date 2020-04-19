@@ -1,0 +1,4026 @@
+Text,Token
+"/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EOFException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+UnsupportedEncodingException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+SocketAddress,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+channels,Identifier
+.,Punctuation
+SocketChannel,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+sasl,Identifier
+.,Punctuation
+Sasl,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+sasl,Identifier
+.,Punctuation
+SaslException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+sasl,Identifier
+.,Punctuation
+SaslClient,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+sasl,Identifier
+.,Punctuation
+SaslServer,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ByteBufferOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** A {@link Transceiver} that uses {@link javax.security.sasl} for
+ * authentication and encryption. */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SaslSocketTransceiver,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+SaslSocketTransceiver,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+EMPTY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+enum,Identifier
+ ,Whitespace
+Status,Identifier
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+START,Identifier
+",",Punctuation
+ ,Whitespace
+CONTINUE,Identifier
+",",Punctuation
+ ,Whitespace
+FAIL,Identifier
+",",Punctuation
+ ,Whitespace
+COMPLETE,Identifier
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+SaslParticipant,Identifier
+ ,Whitespace
+sasl,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+SocketChannel,Identifier
+ ,Whitespace
+channel,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+dataIsWrapped,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+saslResponsePiggybacked,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+remote,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+readHeader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+4,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+writeHeader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+4,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+zeroHeader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+4,Literal
+),Punctuation
+.,Punctuation
+putInt,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Create using SASL's anonymous (<a
+   * href=""http://www.ietf.org/rfc/rfc2245.txt"">RFC 2245) mechanism. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslSocketTransceiver,Identifier
+(,Punctuation
+SocketAddress,Identifier
+ ,Whitespace
+address,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+address,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AnonymousClient,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Create using the specified {@link SaslClient}. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslSocketTransceiver,Identifier
+(,Punctuation
+SocketAddress,Identifier
+ ,Whitespace
+address,Identifier
+",",Punctuation
+ ,Whitespace
+SaslClient,Identifier
+ ,Whitespace
+saslClient,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+sasl,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslParticipant,Identifier
+(,Punctuation
+saslClient,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+channel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SocketChannel,Identifier
+.,Punctuation
+open,Identifier
+(,Punctuation
+address,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+channel,Identifier
+.,Punctuation
+socket,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+setTcpNoDelay,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""open to {}""",String
+",",Punctuation
+ ,Whitespace
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+open,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Create using the specified {@link SaslServer}. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslSocketTransceiver,Identifier
+(,Punctuation
+SocketChannel,Identifier
+ ,Whitespace
+channel,Identifier
+",",Punctuation
+ ,Whitespace
+SaslServer,Identifier
+ ,Whitespace
+saslServer,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+sasl,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslParticipant,Identifier
+(,Punctuation
+saslServer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+channel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+channel,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""open from {}""",String
+",",Punctuation
+ ,Whitespace
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+open,Identifier
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isConnected,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+remote,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setRemote,Identifier
+(,Punctuation
+Protocol,Identifier
+ ,Whitespace
+remote,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+remote,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+remote,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+getRemote,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+remote,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+channel,Identifier
+.,Punctuation
+socket,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getRemoteSocketAddress,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+transceive,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+request,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+saslResponsePiggybacked,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                ,Whitespace
+// still need to read response,Comment
+"
+",Newline
+      ,Whitespace
+saslResponsePiggybacked,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Status,Identifier
+ ,Whitespace
+status,Identifier
+  ,Whitespace
+=,Operator
+ ,Whitespace
+readStatus,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+frame,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readFrame,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+status,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+COMPLETE,Identifier
+:,Operator
+"
+",Newline
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+FAIL,Identifier
+:,Operator
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslException,Identifier
+(,Punctuation
+"""Fail: """,String
++,Operator
+toString,Identifier
+(,Punctuation
+frame,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Unexpected SASL status: """,String
++,Operator
+status,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+super,Keyword
+.,Punctuation
+transceive,Identifier
+(,Punctuation
+request,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+open,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+isClient,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""beginning SASL negotiation""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isClient,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+EMPTY,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+sasl,Identifier
+.,Punctuation
+client,Identifier
+.,Punctuation
+hasInitialResponse,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+sasl,Identifier
+.,Punctuation
+evaluate,Identifier
+(,Punctuation
+response,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+write,Identifier
+(,Punctuation
+Status,Identifier
+.,Punctuation
+START,Identifier
+",",Punctuation
+ ,Whitespace
+sasl,Identifier
+.,Punctuation
+getMechanismName,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+response,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+sasl,Identifier
+.,Punctuation
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+saslResponsePiggybacked,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+sasl,Identifier
+.,Punctuation
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Status,Identifier
+ ,Whitespace
+status,Identifier
+  ,Whitespace
+=,Operator
+ ,Whitespace
+readStatus,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+frame,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readFrame,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+status,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+START,Identifier
+:,Operator
+"
+",Newline
+        ,Whitespace
+String,Identifier
+ ,Whitespace
+mechanism,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+frame,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+frame,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readFrame,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+mechanism,Identifier
+.,Punctuation
+equalsIgnoreCase,Identifier
+(,Punctuation
+sasl,Identifier
+.,Punctuation
+getMechanismName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+write,Identifier
+(,Punctuation
+Status,Identifier
+.,Punctuation
+FAIL,Identifier
+",",Punctuation
+ ,Whitespace
+"""Wrong mechanism: """,String
++,Operator
+mechanism,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslException,Identifier
+(,Punctuation
+"""Wrong mechanism: """,String
++,Operator
+mechanism,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+CONTINUE,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+response,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sasl,Identifier
+.,Punctuation
+evaluate,Identifier
+(,Punctuation
+frame,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+status,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sasl,Identifier
+.,Punctuation
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+Status,Identifier
+.,Punctuation
+COMPLETE,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+Status,Identifier
+.,Punctuation
+CONTINUE,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+SaslException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+status,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Status,Identifier
+.,Punctuation
+FAIL,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+write,Identifier
+(,Punctuation
+status,Identifier
+",",Punctuation
+ ,Whitespace
+response,Identifier
+!=,Operator
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+response,Identifier
+),Punctuation
+ ,Whitespace
+:,Operator
+ ,Whitespace
+EMPTY,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+COMPLETE,Identifier
+:,Operator
+"
+",Newline
+        ,Whitespace
+sasl,Identifier
+.,Punctuation
+evaluate,Identifier
+(,Punctuation
+frame,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+sasl,Identifier
+.,Punctuation
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslException,Identifier
+(,Punctuation
+"""Expected completion!""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+FAIL,Identifier
+:,Operator
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslException,Identifier
+(,Punctuation
+"""Fail: """,String
++,Operator
+toString,Identifier
+(,Punctuation
+frame,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Unexpected SASL status: """,String
++,Operator
+status,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""SASL opened""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+qop,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+String,Identifier
+),Punctuation
+ ,Whitespace
+sasl,Identifier
+.,Punctuation
+getNegotiatedProperty,Identifier
+(,Punctuation
+Sasl,Identifier
+.,Punctuation
+QOP,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""QOP = {}""",String
+",",Punctuation
+ ,Whitespace
+qop,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+dataIsWrapped,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+qop,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+qop,Identifier
+.,Punctuation
+equalsIgnoreCase,Identifier
+(,Punctuation
+"""auth""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""UTF-8""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+UnsupportedEncodingException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+readBuffers,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+buffers,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+true,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readFrameAndUnwrap,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+buffers,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+buffers,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Status,Identifier
+ ,Whitespace
+readStatus,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+read,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+status,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+status,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+Status,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+length,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Unexpected SASL status byte: """,String
++,Operator
+status,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Status,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+[,Punctuation
+status,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+readFrameAndUnwrap,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+frame,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readFrame,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+dataIsWrapped,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+frame,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+unwrapped,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+sasl,Identifier
+.,Punctuation
+unwrap,Identifier
+(,Punctuation
+frame,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""unwrapped data of length: {}""",String
+",",Punctuation
+ ,Whitespace
+unwrapped,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+unwrapped,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+readFrame,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+read,Identifier
+(,Punctuation
+readHeader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+readHeader,Identifier
+.,Punctuation
+getInt,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""about to read: {} bytes""",String
+",",Punctuation
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+capacity,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+read,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+buffer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+read,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+buffer,Identifier
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+hasRemaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+channel,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EOFException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+buffer,Identifier
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBuffers,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+buffers,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+buffers,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+;,Punctuation
+                  ,Whitespace
+// no data to write,Comment
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+writes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+(,Punctuation
+buffers,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+*,Operator
+2,Literal
++,Operator
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+currentLength,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+currentHeader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writeHeader,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+buffers,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+           ,Whitespace
+// gather writes,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+continue,Keyword
+;,Punctuation
+      ,Whitespace
+// ignore empties,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+dataIsWrapped,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""wrapping data of length: {}""",String
+",",Punctuation
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+sasl,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                                           ,Whitespace
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+dataIsWrapped,Identifier
+                          ,Whitespace
+// can append buffers on wire,Comment
+"
+",Newline
+          ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+currentLength,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+length,Identifier
+),Punctuation
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+ByteBufferOutputStream,Identifier
+.,Punctuation
+BUFFER_SIZE,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+currentLength,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+"
+",Newline
+          ,Whitespace
+writes,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+currentHeader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+currentLength,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+length,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+currentHeader,Identifier
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+currentHeader,Identifier
+.,Punctuation
+putInt,Identifier
+(,Punctuation
+currentLength,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""adding {} to write, total now {}""",String
+",",Punctuation
+ ,Whitespace
+length,Identifier
+",",Punctuation
+ ,Whitespace
+currentLength,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+currentLength,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+length,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+currentHeader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+4,Literal
+),Punctuation
+.,Punctuation
+putInt,Identifier
+(,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+writes,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+currentHeader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""planning write of {}""",String
+",",Punctuation
+ ,Whitespace
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+currentHeader,Identifier
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writes,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+zeroHeader,Identifier
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                            ,Whitespace
+// zero-terminate,Comment
+"
+",Newline
+    ,Whitespace
+writes,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+zeroHeader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+writeFully,Identifier
+(,Punctuation
+writes,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+[,Punctuation
+writes,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Status,Identifier
+ ,Whitespace
+status,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+prefix,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+response,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""write status: {} {}""",String
+",",Punctuation
+ ,Whitespace
+status,Identifier
+",",Punctuation
+ ,Whitespace
+prefix,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+write,Identifier
+(,Punctuation
+status,Identifier
+",",Punctuation
+ ,Whitespace
+prefix,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+write,Identifier
+(,Punctuation
+response,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Status,Identifier
+ ,Whitespace
+status,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+response,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+write,Identifier
+(,Punctuation
+status,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+response,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Status,Identifier
+ ,Whitespace
+status,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+response,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""write status: {}""",String
+",",Punctuation
+ ,Whitespace
+status,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+statusBuffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+statusBuffer,Identifier
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+statusBuffer,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+(,Punctuation
+byte,Keyword
+),Punctuation
+(,Punctuation
+status,Identifier
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeFully,Identifier
+(,Punctuation
+statusBuffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+write,Identifier
+(,Punctuation
+response,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+response,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""writing: {}""",String
+",",Punctuation
+ ,Whitespace
+response,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeHeader,Identifier
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeHeader,Identifier
+.,Punctuation
+putInt,Identifier
+(,Punctuation
+response,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeFully,Identifier
+(,Punctuation
+writeHeader,Identifier
+",",Punctuation
+ ,Whitespace
+response,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFully,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+buffers,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buffers,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+channel,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+buffers,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+length,Identifier
+-,Operator
+start,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+buffers,Identifier
+[,Punctuation
+start,Identifier
+],Punctuation
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+start,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+start,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+length,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+channel,Identifier
+.,Punctuation
+isOpen,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""closing to """,String
++,Operator
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+channel,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+sasl,Identifier
+.,Punctuation
+dispose,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Used to abstract over the <code>SaslServer</code> and
+   * <code>SaslClient</code> classes, which share a lot of their interface, but
+   * unfortunately don't share a common superclass.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SaslParticipant,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// One of these will always be null.,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslServer,Identifier
+ ,Whitespace
+server,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslClient,Identifier
+ ,Whitespace
+client,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslParticipant,Identifier
+(,Punctuation
+SaslServer,Identifier
+ ,Whitespace
+server,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+server,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+server,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslParticipant,Identifier
+(,Punctuation
+SaslClient,Identifier
+ ,Whitespace
+client,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+client,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+client,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getMechanismName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+client,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+client,Identifier
+.,Punctuation
+getMechanismName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+server,Identifier
+.,Punctuation
+getMechanismName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+client,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+client,Identifier
+.,Punctuation
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+server,Identifier
+.,Punctuation
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+dispose,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+client,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+client,Identifier
+.,Punctuation
+dispose,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+server,Identifier
+.,Punctuation
+dispose,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+unwrap,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+buf,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+client,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+client,Identifier
+.,Punctuation
+unwrap,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+server,Identifier
+.,Punctuation
+unwrap,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+wrap,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+buf,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+wrap,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+buf,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+wrap,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+client,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+client,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+server,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+getNegotiatedProperty,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+propName,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+client,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+client,Identifier
+.,Punctuation
+getNegotiatedProperty,Identifier
+(,Punctuation
+propName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+server,Identifier
+.,Punctuation
+getNegotiatedProperty,Identifier
+(,Punctuation
+propName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+evaluate,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+buf,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+client,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+client,Identifier
+.,Punctuation
+evaluateChallenge,Identifier
+(,Punctuation
+buf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+server,Identifier
+.,Punctuation
+evaluateResponse,Identifier
+(,Punctuation
+buf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AnonymousClient,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+SaslClient,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getMechanismName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+"""ANONYMOUS""",String
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasInitialResponse,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+evaluateChallenge,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+challenge,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+System,Identifier
+.,Punctuation
+getProperty,Identifier
+(,Punctuation
+"""user.name""",String
+),Punctuation
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslException,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+unwrap,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+incoming,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+offset,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+wrap,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+outgoing,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+offset,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+getNegotiatedProperty,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+propName,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+dispose,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,1726 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+PrintStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+Input,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnFileReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnMetaData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnValues,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonGenerator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonEncoding,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+MinimalPrettyPrinter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Tool to read Trevni files and print them as JSON.
+ * This can read any Trevni file.  Nested structure is reconstructed from the
+ * columns rather than any schema information.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TrevniToJsonTool,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Tool,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+JsonFactory,Identifier
+ ,Whitespace
+FACTORY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JsonFactory,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+JsonGenerator,Identifier
+ ,Whitespace
+generator,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnFileReader,Identifier
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnValues,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+values,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+shortNames,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""trevni_tojson""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getShortDescription,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Dumps a Trevni file as JSON.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+stdin,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+",",Punctuation
+"
+",Newline
+                 ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+filename,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+pretty,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+2,Literal
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+"""-pretty""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+pretty,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+filename,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+filename,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Usage: [-pretty] input""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+toJson,Identifier
+(,Punctuation
+TrevniUtil,Identifier
+.,Punctuation
+input,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+pretty,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Read a Trevni file and print each row as a JSON object. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+toJson,Identifier
+(,Punctuation
+Input,Identifier
+ ,Whitespace
+input,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+pretty,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+generator,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+FACTORY,Identifier
+.,Punctuation
+createJsonGenerator,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+JsonEncoding,Identifier
+.,Punctuation
+UTF8,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pretty,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+useDefaultPrettyPrinter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+                                      ,Whitespace
+// ensure newline separation,Comment
+"
+",Newline
+      ,Whitespace
+MinimalPrettyPrinter,Identifier
+ ,Whitespace
+pp,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+MinimalPrettyPrinter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+pp,Identifier
+.,Punctuation
+setRootValueSeparator,Identifier
+(,Punctuation
+System,Identifier
+.,Punctuation
+getProperty,Identifier
+(,Punctuation
+"""line.separator""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+setPrettyPrinter,Identifier
+(,Punctuation
+pp,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnFileReader,Identifier
+(,Punctuation
+input,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+columnCount,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+reader,Identifier
+.,Punctuation
+getColumnCount,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+values,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnValues,Identifier
+[,Punctuation
+columnCount,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+shortNames,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+columnCount,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+columnCount,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+values,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getValues,Identifier
+(,Punctuation
+i,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+shortNames,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+shortName,Identifier
+(,Punctuation
+reader,Identifier
+.,Punctuation
+getColumnMetaData,Identifier
+(,Punctuation
+i,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+ ,Whitespace
+roots,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getRoots,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getRowCount,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+row,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ColumnValues,Identifier
+ ,Whitespace
+v,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+values,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+v,Identifier
+.,Punctuation
+startRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeStartObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ColumnMetaData,Identifier
+ ,Whitespace
+root,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+roots,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+valueToJson,Identifier
+(,Punctuation
+root,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeEndObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+reader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+valueToJson,Identifier
+(,Punctuation
+ColumnMetaData,Identifier
+ ,Whitespace
+column,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+shortNames,Identifier
+[,Punctuation
+column,Identifier
+.,Punctuation
+getNumber,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ColumnValues,Identifier
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+values,Identifier
+[,Punctuation
+column,Identifier
+.,Punctuation
+getNumber,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+column,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+primitiveToJson,Identifier
+(,Punctuation
+column,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+.,Punctuation
+nextValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeStartArray,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+nextLength,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+length,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+nextValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+List,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+ ,Whitespace
+children,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+getChildren,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+children,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+primitiveToJson,Identifier
+(,Punctuation
+column,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+generator,Identifier
+.,Punctuation
+writeStartObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+value,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+generator,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+"""value$""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+primitiveToJson,Identifier
+(,Punctuation
+column,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+          ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ColumnMetaData,Identifier
+ ,Whitespace
+child,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+children,Identifier
+),Punctuation
+"
+",Newline
+            ,Whitespace
+valueToJson,Identifier
+(,Punctuation
+child,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+generator,Identifier
+.,Punctuation
+writeEndObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeEndArray,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+primitiveToJson,Identifier
+(,Punctuation
+ColumnMetaData,Identifier
+ ,Whitespace
+column,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+column,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+NULL,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNull,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BOOLEAN,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeBoolean,Identifier
+(,Punctuation
+(,Punctuation
+Boolean,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+       ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+INT,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumber,Identifier
+(,Punctuation
+(,Punctuation
+Integer,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+LONG,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumber,Identifier
+(,Punctuation
+(,Punctuation
+Long,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+           ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED32,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumber,Identifier
+(,Punctuation
+(,Punctuation
+Integer,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED64,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumber,Identifier
+(,Punctuation
+(,Punctuation
+Long,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+           ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FLOAT,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumber,Identifier
+(,Punctuation
+(,Punctuation
+Float,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+          ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+DOUBLE,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumber,Identifier
+(,Punctuation
+(,Punctuation
+Double,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+         ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+(,Punctuation
+String,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+         ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BYTES,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeBinary,Identifier
+(,Punctuation
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Unknown value type: """,String
++,Operator
+column,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+// trim off portion of name shared with parent,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+shortName,Identifier
+(,Punctuation
+ColumnMetaData,Identifier
+ ,Whitespace
+column,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+parent,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+getParent,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+parent,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+name,Identifier
+.,Punctuation
+startsWith,Identifier
+(,Punctuation
+parent,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+name,Identifier
+.,Punctuation
+substring,Identifier
+(,Punctuation
+parent,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+Character,Identifier
+.,Punctuation
+isLetterOrDigit,Identifier
+(,Punctuation
+name,Identifier
+.,Punctuation
+charAt,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+name,Identifier
+.,Punctuation
+substring,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

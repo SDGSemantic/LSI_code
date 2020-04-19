@@ -1,0 +1,2361 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+PrintWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+MalformedURLException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+URL,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+ServletException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+http,Identifier
+.,Punctuation
+HttpServlet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+http,Identifier
+.,Punctuation
+HttpServletRequest,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+http,Identifier
+.,Punctuation
+HttpServletResponse,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+HttpTransceiver,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificRequestor,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+.,Punctuation
+TraceCollection,Identifier
+.,Punctuation
+TraceNodeStats,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+Template,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+VelocityContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+app,Identifier
+.,Punctuation
+VelocityEngine,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+exception,Identifier
+.,Punctuation
+ParseErrorException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+exception,Identifier
+.,Punctuation
+ResourceNotFoundException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TraceClientServlet,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+HttpServlet,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Template,Identifier
+ ,Whitespace
+getTemplate,Identifier
+(,Punctuation
+VelocityEngine,Identifier
+ ,Whitespace
+ve,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+path,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+ve,Identifier
+.,Punctuation
+getTemplate,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ResourceNotFoundException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ParseErrorException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+VelocityEngine,Identifier
+ ,Whitespace
+velocityEngine,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+activeSpans,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Integer,Identifier
+",",Punctuation
+ ,Whitespace
+TraceCollection,Identifier
+>,Operator
+ ,Whitespace
+activeCollections,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+lastInput,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TraceClientServlet,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+velocityEngine,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+VelocityEngine,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+activeCollections,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Integer,Identifier
+",",Punctuation
+ ,Whitespace
+TraceCollection,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+activeSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// These two properties tell Velocity to use its own classpath-based loader,Comment
+"
+",Newline
+    ,Whitespace
+velocityEngine,Identifier
+.,Punctuation
+addProperty,Identifier
+(,Punctuation
+"""resource.loader""",String
+",",Punctuation
+ ,Whitespace
+"""class""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+velocityEngine,Identifier
+.,Punctuation
+addProperty,Identifier
+(,Punctuation
+"""class.resource.loader.class""",String
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+"""org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+doPost,Identifier
+(,Punctuation
+HttpServletRequest,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+HttpServletResponse,Identifier
+ ,Whitespace
+response,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+ServletException,Identifier
+",",Punctuation
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+response,Identifier
+.,Punctuation
+setContentType,Identifier
+(,Punctuation
+"""text/html""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+"
+",Newline
+    ,Whitespace
+PrintWriter,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+response,Identifier
+.,Punctuation
+getWriter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+servers,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+request,Identifier
+.,Punctuation
+getParameter,Identifier
+(,Punctuation
+"""servers""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+(,Punctuation
+servers,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+splitToken,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+System,Identifier
+.,Punctuation
+getProperty,Identifier
+(,Punctuation
+"""line.separator""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+lastInput,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+servers,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+splitToken,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+splitToken,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""\n""",String
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+parts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+servers,Identifier
+.,Punctuation
+split,Identifier
+(,Punctuation
+splitToken,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+URL,Identifier
+>,Operator
+ ,Whitespace
+urls,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+URL,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+parts,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+portHost,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+split,Identifier
+(,Punctuation
+""":""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+portHost,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+2,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+continue,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+URL,Identifier
+ ,Whitespace
+url,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+URL,Identifier
+(,Punctuation
+"""http://""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+p,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+urls,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+url,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+MalformedURLException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+spans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+collectAllSpans,Identifier
+(,Punctuation
+urls,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+merged,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SpanAggregator,Identifier
+.,Punctuation
+getFullSpans,Identifier
+(,Punctuation
+spans,Identifier
+),Punctuation
+.,Punctuation
+completeSpans,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+activeSpans,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+merged,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+Trace,Identifier
+>,Operator
+ ,Whitespace
+traces,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SpanAggregator,Identifier
+.,Punctuation
+getTraces,Identifier
+(,Punctuation
+merged,Identifier
+),Punctuation
+.,Punctuation
+traces,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+TraceCollection,Identifier
+>,Operator
+ ,Whitespace
+collections,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+SpanAggregator,Identifier
+.,Punctuation
+getTraceCollections,Identifier
+(,Punctuation
+traces,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+TraceCollection,Identifier
+ ,Whitespace
+col,Identifier
+:,Operator
+ ,Whitespace
+collections,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+activeCollections,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+col,Identifier
+.,Punctuation
+getExecutionPathHash,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+col,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+response,Identifier
+.,Punctuation
+sendRedirect,Identifier
+(,Punctuation
+"""/overview/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""No text entered.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+collectAllSpans,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+URL,Identifier
+>,Operator
+ ,Whitespace
+hosts,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+URL,Identifier
+ ,Whitespace
+url,Identifier
+:,Operator
+ ,Whitespace
+hosts,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+HttpTransceiver,Identifier
+ ,Whitespace
+trans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HttpTransceiver,Identifier
+(,Punctuation
+url,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+AvroTrace,Identifier
+ ,Whitespace
+client,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+AvroTrace,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+SpecificRequestor,Identifier
+.,Punctuation
+getClient,Identifier
+(,Punctuation
+AvroTrace,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+ ,Whitespace
+trans,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+client,Identifier
+.,Punctuation
+getAllSpans,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+out,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+collectRangedSpans,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+URL,Identifier
+>,Operator
+ ,Whitespace
+hosts,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+end,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+URL,Identifier
+ ,Whitespace
+url,Identifier
+:,Operator
+ ,Whitespace
+hosts,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+HttpTransceiver,Identifier
+ ,Whitespace
+trans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HttpTransceiver,Identifier
+(,Punctuation
+url,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+AvroTrace,Identifier
+ ,Whitespace
+client,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+AvroTrace,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+SpecificRequestor,Identifier
+.,Punctuation
+getClient,Identifier
+(,Punctuation
+AvroTrace,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+ ,Whitespace
+trans,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+client,Identifier
+.,Punctuation
+getSpansInRange,Identifier
+(,Punctuation
+start,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+out,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * We support the following URL patterns
+   * 
+   *   /overview/                          Show all execution patterns
+   *   /collection/[p_id]                  Show details for pattern with [p_id]
+   *   /collection/[p_id]/[n_id]/          Show trace node with [n_id] 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+doGet,Identifier
+(,Punctuation
+HttpServletRequest,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+HttpServletResponse,Identifier
+ ,Whitespace
+response,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+response,Identifier
+.,Punctuation
+setContentType,Identifier
+(,Punctuation
+"""text/html""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+PrintWriter,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+response,Identifier
+.,Punctuation
+getWriter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+URL,Identifier
+ ,Whitespace
+url,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+URL,Identifier
+(,Punctuation
+request,Identifier
+.,Punctuation
+getRequestURL,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+url,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+pathParts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+.,Punctuation
+split,Identifier
+(,Punctuation
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pathParts,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+ ,Whitespace
+||,Operator
+ ,Whitespace
+pathParts,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+loadSpans,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pathParts,Identifier
+[,Punctuation
+1,Literal
+],Punctuation
+.,Punctuation
+equals,Identifier
+(,Punctuation
+"""overview""",String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+overview,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pathParts,Identifier
+[,Punctuation
+1,Literal
+],Punctuation
+.,Punctuation
+equals,Identifier
+(,Punctuation
+"""collection""",String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pathParts,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+3,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+patternID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+parseInt,Identifier
+(,Punctuation
+pathParts,Identifier
+[,Punctuation
+2,Literal
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+collection,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+patternID,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pathParts,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+4,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+patternID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+parseInt,Identifier
+(,Punctuation
+pathParts,Identifier
+[,Punctuation
+2,Literal
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+nodeID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+parseInt,Identifier
+(,Punctuation
+pathParts,Identifier
+[,Punctuation
+3,Literal
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+collectionNode,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+patternID,Identifier
+",",Punctuation
+ ,Whitespace
+nodeID,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+response,Identifier
+.,Punctuation
+sendRedirect,Identifier
+(,Punctuation
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// Default,Comment
+"
+",Newline
+    ,Whitespace
+response,Identifier
+.,Punctuation
+sendRedirect,Identifier
+(,Punctuation
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+// VIEW FUNCTIONS,Comment
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Display an overview of patterns detected from a group of spans.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+overview,Identifier
+(,Punctuation
+PrintWriter,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+VelocityContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+VelocityContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""collections""",String
+",",Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+activeCollections,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""spans""",String
+",",Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+activeSpans,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Template,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getTemplate,Identifier
+(,Punctuation
+velocityEngine,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+"""org/apache/avro/ipc/trace/templates/overview.vm""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+merge,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Display summary statistics for a { @link TraceCollection } of individual
+   * Traces.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collection,Identifier
+(,Punctuation
+PrintWriter,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+patternID,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+VelocityContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+VelocityContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+TraceCollection,Identifier
+ ,Whitespace
+col,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+activeCollections,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+patternID,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""collection""",String
+",",Punctuation
+ ,Whitespace
+col,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Template,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getTemplate,Identifier
+(,Punctuation
+velocityEngine,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+"""org/apache/avro/ipc/trace/templates/collection.vm""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+merge,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Display in-depth statistics for an individual node of a 
+   * { @link TraceCollection }. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collectionNode,Identifier
+(,Punctuation
+PrintWriter,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+patternID,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+nodeID,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+VelocityContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+VelocityContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+TraceCollection,Identifier
+ ,Whitespace
+col,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+activeCollections,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+patternID,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+TraceNodeStats,Identifier
+ ,Whitespace
+node,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+col,Identifier
+.,Punctuation
+getNodeWithID,Identifier
+(,Punctuation
+nodeID,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""collection""",String
+",",Punctuation
+ ,Whitespace
+col,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""node""",String
+",",Punctuation
+ ,Whitespace
+node,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Template,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getTemplate,Identifier
+(,Punctuation
+velocityEngine,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+"""org/apache/avro/ipc/trace/templates/node.vm""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+merge,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Display a simple UI for loading span data from remote machines.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+loadSpans,Identifier
+(,Punctuation
+PrintWriter,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+VelocityContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+VelocityContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""last_input""",String
+",",Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+lastInput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""default_port""",String
+",",Punctuation
+ ,Whitespace
+TracePluginConfiguration,Identifier
+.,Punctuation
+DEFAULT_PORT,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Template,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getTemplate,Identifier
+(,Punctuation
+velocityEngine,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+"""org/apache/avro/ipc/trace/templates/traceinput.vm""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+merge,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

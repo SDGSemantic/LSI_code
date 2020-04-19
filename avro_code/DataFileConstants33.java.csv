@@ -1,0 +1,314 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Constants used in data files.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+DataFileConstants,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+DataFileConstants,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+                  ,Whitespace
+// no public ctor,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+byte,Keyword
+ ,Whitespace
+VERSION,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+MAGIC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+(,Punctuation
+byte,Keyword
+),Punctuation
+'O',String
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+byte,Keyword
+),Punctuation
+'b',String
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+byte,Keyword
+),Punctuation
+'j',String
+",",Punctuation
+ ,Whitespace
+VERSION,Identifier
+"
+",Newline
+  ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+FOOTER_BLOCK,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+SYNC_SIZE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+16,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+DEFAULT_SYNC_INTERVAL,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+4000,Literal
+*,Operator
+SYNC_SIZE,Identifier
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.schema""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CODEC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.codec""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+NULL_CODEC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""null""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+DEFLATE_CODEC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""deflate""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+SNAPPY_CODEC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""snappy""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+BZIP2_CODEC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""bzip2""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+XZ_CODEC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""xz""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

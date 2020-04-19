@@ -1,0 +1,1059 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BufferedInputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BufferedOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+PrintStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionParser,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSpec,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+CodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Reads a text file into an Avro data file.
+ * 
+ * Can accept a file name, and HDFS file URI, or stdin. Can write to a file
+ * name, an HDFS URI, or stdout.*/",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+FromTextTool,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Tool,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+TEXT_FILE_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+"""\""bytes\""""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""fromtext""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getShortDescription,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Imports a text file into an avro data file.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+stdin,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+OptionParser,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+OptionParser,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+ ,Whitespace
+level,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+compressionLevelOption,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+compressionCodecOption,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+OptionSet,Identifier
+ ,Whitespace
+opts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+nargs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+opts,Identifier
+.,Punctuation
+nonOptionArguments,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+nargs,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+2,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Expected 2 args: from_file to_file (local filenames,""",String
+ ,Whitespace
++,Operator
+"
+",Newline
+          ,Whitespace
+""" Hadoop URI's, or '-' for stdin/stdout""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+p,Identifier
+.,Punctuation
+printHelpOn,Identifier
+(,Punctuation
+err,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+codecFactory,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+codecFactory,Identifier
+(,Punctuation
+opts,Identifier
+",",Punctuation
+ ,Whitespace
+codec,Identifier
+",",Punctuation
+ ,Whitespace
+level,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+    ,Whitespace
+BufferedInputStream,Identifier
+ ,Whitespace
+inStream,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+fileOrStdin,Identifier
+(,Punctuation
+nargs,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+",",Punctuation
+ ,Whitespace
+stdin,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+BufferedOutputStream,Identifier
+ ,Whitespace
+outStream,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+fileOrStdout,Identifier
+(,Punctuation
+nargs,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+(,Punctuation
+new,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+setCodec,Identifier
+(,Punctuation
+codecFactory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+TEXT_FILE_SCHEMA,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+outStream,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+line,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+128,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+returnSeen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+buf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+8192,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+end,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inStream,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+buf,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+end,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+ ,Whitespace
+end,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inStream,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+buf,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+end,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buf,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+&,Operator
+ ,Whitespace
+0xFF,Literal
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+b,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+'\n',String
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                          ,Whitespace
+// newline,Comment
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+returnSeen,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+System,Identifier
+.,Punctuation
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Writing line = """,String
++,Operator
+line,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+line,Identifier
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+writer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+line,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+line,Identifier
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+returnSeen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+b,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+'\r',String
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                   ,Whitespace
+// return,Comment
+"
+",Newline
+          ,Whitespace
+line,Identifier
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+writer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+line,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+line,Identifier
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+returnSeen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+line,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+line,Identifier
+.,Punctuation
+limit,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+    ,Whitespace
+// reallocate longer line,Comment
+"
+",Newline
+            ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+tempLine,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+line,Identifier
+.,Punctuation
+limit,Identifier
+(,Punctuation
+),Punctuation
+*,Operator
+2,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+line,Identifier
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+tempLine,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+line,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+line,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+tempLine,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+          ,Whitespace
+line,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+(,Punctuation
+byte,Keyword
+),Punctuation
+b,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+returnSeen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+inStream,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

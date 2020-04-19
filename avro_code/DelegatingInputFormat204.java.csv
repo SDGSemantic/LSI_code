@@ -1,0 +1,1282 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FileInputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+InputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+InputSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+RecordReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reporter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * An {@link InputFormat} that delegates read behavior of paths based on
+ * their associated avro schema.
+ * @see MultipleInputs#addInputPath(JobConf, Path, Class, Class)
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+DelegatingInputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+InputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+InputSplit,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getSplits,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+numSplits,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+confCopy,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JobConf,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+InputSplit,Identifier
+>,Operator
+ ,Whitespace
+splits,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+InputSplit,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>>,Operator
+ ,Whitespace
+mapperMap,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroMultipleInputs,Identifier
+"
+",Newline
+       ,Whitespace
+.,Punctuation
+getMapperTypeMap,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+>,Operator
+ ,Whitespace
+schemaMap,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroMultipleInputs,Identifier
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+getInputSchemaMap,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>>,Operator
+ ,Whitespace
+schemaPaths,Identifier
+"
+",Newline
+        ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"// First, build a map of Schemas to Paths",Comment
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Entry,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+>,Operator
+ ,Whitespace
+entry,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+schemaMap,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+schemaPaths,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+schemaPaths,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+System,Identifier
+.,Punctuation
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+System,Identifier
+.,Punctuation
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+schemaPaths,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+add,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Entry,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>>,Operator
+ ,Whitespace
+schemaEntry,Identifier
+ ,Whitespace
+:,Operator
+"
+",Newline
+        ,Whitespace
+schemaPaths,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schemaEntry,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+InputFormat,Identifier
+ ,Whitespace
+format,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+InputFormat,Identifier
+),Punctuation
+ ,Whitespace
+ReflectionUtils,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+"
+",Newline
+         ,Whitespace
+AvroInputFormat,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+ ,Whitespace
+paths,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schemaEntry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+Map,Identifier
+<,Operator
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>>,Operator
+ ,Whitespace
+mapperPaths,Identifier
+"
+",Newline
+          ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"// Now, for each set of paths that have a common Schema, build",Comment
+"
+",Newline
+      ,Whitespace
+// a map of Mappers to the paths they're used for,Comment
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Path,Identifier
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+paths,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+mapperClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mapperMap,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+mapperPaths,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+mapperClass,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+         ,Whitespace
+mapperPaths,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+mapperClass,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+       ,Whitespace
+mapperPaths,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+mapperClass,Identifier
+),Punctuation
+.,Punctuation
+add,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Now each set of paths that has a common InputFormat and Mapper can,Comment
+"
+",Newline
+      ,Whitespace
+"// be added to the same job, and split together.",Comment
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Entry,Identifier
+<,Operator
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>>,Operator
+ ,Whitespace
+mapEntry,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+mapperPaths,Identifier
+"
+",Newline
+         ,Whitespace
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+paths,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mapEntry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+mapperClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mapEntry,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+       ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+mapperClass,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+         ,Whitespace
+mapperClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getMapperClass,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+       ,Whitespace
+FileInputFormat,Identifier
+.,Punctuation
+setInputPaths,Identifier
+(,Punctuation
+confCopy,Identifier
+",",Punctuation
+ ,Whitespace
+paths,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Path,Identifier
+[,Punctuation
+paths,Identifier
+"
+",Newline
+           ,Whitespace
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+       ,Whitespace
+// Get splits for each input path and tag with InputFormat,Comment
+"
+",Newline
+       ,Whitespace
+// and Mapper types by wrapping in a TaggedInputSplit.,Comment
+"
+",Newline
+       ,Whitespace
+InputSplit,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+pathSplits,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+format,Identifier
+.,Punctuation
+getSplits,Identifier
+(,Punctuation
+confCopy,Identifier
+",",Punctuation
+ ,Whitespace
+numSplits,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+InputSplit,Identifier
+ ,Whitespace
+pathSplit,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+pathSplits,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+         ,Whitespace
+splits,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+TaggedInputSplit,Identifier
+(,Punctuation
+pathSplit,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+format,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+             ,Whitespace
+mapperClass,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+splits,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+InputSplit,Identifier
+[,Punctuation
+splits,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordReader,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+getRecordReader,Identifier
+(,Punctuation
+InputSplit,Identifier
+ ,Whitespace
+split,Identifier
+",",Punctuation
+ ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Find the Schema and then build the RecordReader from the,Comment
+"
+",Newline
+    ,Whitespace
+// TaggedInputSplit.,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+TaggedInputSplit,Identifier
+ ,Whitespace
+taggedInputSplit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+TaggedInputSplit,Identifier
+),Punctuation
+ ,Whitespace
+split,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+taggedInputSplit,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+setInputSchema,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+InputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+inputFormat,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+InputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+ReflectionUtils,Identifier
+"
+",Newline
+       ,Whitespace
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+taggedInputSplit,Identifier
+.,Punctuation
+getInputFormatClass,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+inputFormat,Identifier
+.,Punctuation
+getRecordReader,Identifier
+(,Punctuation
+taggedInputSplit,Identifier
+.,Punctuation
+getInputSplit,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+"
+",Newline
+       ,Whitespace
+reporter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

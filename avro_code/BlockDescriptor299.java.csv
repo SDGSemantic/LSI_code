@@ -1,0 +1,299 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+class,Keyword
+ ,Whitespace
+BlockDescriptor,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+int,Keyword
+ ,Whitespace
+rowCount,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+int,Keyword
+ ,Whitespace
+uncompressedSize,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+int,Keyword
+ ,Whitespace
+compressedSize,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+BlockDescriptor,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+BlockDescriptor,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+rowCount,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+uncompressedSize,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+compressedSize,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+rowCount,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+rowCount,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+uncompressedSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+uncompressedSize,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+compressedSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+compressedSize,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeTo,Identifier
+(,Punctuation
+OutputBuffer,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeFixed32,Identifier
+(,Punctuation
+rowCount,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeFixed32,Identifier
+(,Punctuation
+uncompressedSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeFixed32,Identifier
+(,Punctuation
+compressedSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+BlockDescriptor,Identifier
+ ,Whitespace
+read,Identifier
+(,Punctuation
+InputBuffer,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+BlockDescriptor,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BlockDescriptor,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+rowCount,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readFixed32,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+uncompressedSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readFixed32,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+compressedSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readFixed32,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

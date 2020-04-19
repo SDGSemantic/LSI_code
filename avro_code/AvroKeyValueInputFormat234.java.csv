@@ -1,0 +1,432 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroKey,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroValue,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+InputSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+RecordReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+input,Identifier
+.,Punctuation
+FileInputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A MapReduce InputFormat that reads from Avro container files of key/value generic records.
+ *
+ * <p>Avro container files that container generic records with the two fields 'key' and
+ * 'value' are expected.  The contents of the 'key' field will be used as the job input
+ * key, and the contents of the 'value' field will be used as the job output value.</p>
+ *
+ * @param <K> The type of the Avro key to read.
+ * @param <V> The type of the Avro value to read.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroKeyValueInputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+FileInputFormat,Identifier
+<,Operator
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+AvroKeyValueInputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordReader,Identifier
+<,Operator
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>>,Operator
+ ,Whitespace
+createRecordReader,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+InputSplit,Identifier
+ ,Whitespace
+split,Identifier
+",",Punctuation
+ ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keyReaderSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getInputKeySchema,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+keyReaderSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Key reader schema was not set. Use AvroJob.setInputKeySchema() if desired.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""Using a key reader schema equal to the writer schema.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+valueReaderSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getInputValueSchema,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+valueReaderSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Value reader schema was not set. Use AvroJob.setInputValueSchema() if desired.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""Using a value reader schema equal to the writer schema.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKeyValueRecordReader,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+(,Punctuation
+keyReaderSchema,Identifier
+",",Punctuation
+ ,Whitespace
+valueReaderSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

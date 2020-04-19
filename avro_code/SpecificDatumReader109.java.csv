@@ -1,0 +1,819 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ClassUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** {@link org.apache.avro.io.DatumReader DatumReader} for generated Java classes. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct for reading instances of a class. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+new,Keyword
+ ,Whitespace
+SpecificData,Identifier
+(,Punctuation
+c,Identifier
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setSchema,Identifier
+(,Punctuation
+getSpecificData,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct where the writer's and reader's schemas are the same. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct given writer's and reader's schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+reader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Construct given writer's schema, reader's schema, and a {@link
+   * SpecificData}. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+"
+",Newline
+                             ,Whitespace
+SpecificData,Identifier
+ ,Whitespace
+data,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+data,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct given a {@link SpecificData}. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+(,Punctuation
+SpecificData,Identifier
+ ,Whitespace
+data,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+data,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the contained {@link SpecificData}. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificData,Identifier
+ ,Whitespace
+getSpecificData,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+SpecificData,Identifier
+),Punctuation
+getData,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+actual,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"// if expected is unset and actual is a specific record,",Comment
+"
+",Newline
+    ,Whitespace
+// then default expected to schema of currently loaded class,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+getExpected,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+actual,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+actual,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+RECORD,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+SpecificData,Identifier
+ ,Whitespace
+data,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getSpecificData,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+actual,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+c,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+SpecificRecord,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+setExpected,Identifier
+(,Punctuation
+data,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+setSchema,Identifier
+(,Punctuation
+actual,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+protected,Keyword
+ ,Whitespace
+Class,Identifier
+ ,Whitespace
+findStringClass,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+ ,Whitespace
+stringClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+schema,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+stringClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getPropAsClass,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+CLASS_PROP,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+MAP,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+stringClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getPropAsClass,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+KEY_CLASS_PROP,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+stringClass,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+stringClass,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+super,Keyword
+.,Punctuation
+findStringClass,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+ ,Whitespace
+getPropAsClass,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+prop,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getProp,Identifier
+(,Punctuation
+prop,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+name,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+ClassUtils,Identifier
+.,Punctuation
+forName,Identifier
+(,Punctuation
+getData,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ClassNotFoundException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

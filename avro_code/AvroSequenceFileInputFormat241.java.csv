@@ -1,0 +1,1159 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileSystem,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+AvroSequenceFile,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+SequenceFile,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+InputSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+RecordReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+input,Identifier
+.,Punctuation
+FileSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+input,Identifier
+.,Punctuation
+SequenceFileInputFormat,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * An input format for reading from AvroSequenceFiles (sequence files that support Avro data).
+ *
+ * @param <K> The input key type.
+ * @param <V> The input value type.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroSequenceFileInputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+SequenceFileInputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordReader,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+createRecordReader,Identifier
+(,Punctuation
+InputSplit,Identifier
+ ,Whitespace
+inputSplit,Identifier
+",",Punctuation
+ ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroSequenceFileRecordReader,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Reads records from a SequenceFile that supports Avro data.
+   *
+   * <p>This class is based on Hadoop's SequenceFileRecordReader, modified to construct an
+   * AvroSequenceFile.Reader instead of a SequenceFile.Reader.</p>
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroSequenceFileRecordReader,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RecordReader,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+Reader,Identifier
+ ,Whitespace
+mReader,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+mStart,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+mEnd,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+mHasMoreData,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+K,Identifier
+ ,Whitespace
+mCurrentKey,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+V,Identifier
+ ,Whitespace
+mCurrentValue,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+initialize,Identifier
+(,Punctuation
+InputSplit,Identifier
+ ,Whitespace
+split,Identifier
+",",Punctuation
+ ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+FileSplit,Identifier
+ ,Whitespace
+fileSplit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+FileSplit,Identifier
+),Punctuation
+ ,Whitespace
+split,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileSplit,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+fs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Configure the SequenceFile reader.,Comment
+"
+",Newline
+      ,Whitespace
+AvroSequenceFile,Identifier
+.,Punctuation
+Reader,Identifier
+.,Punctuation
+Options,Identifier
+ ,Whitespace
+options,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroSequenceFile,Identifier
+.,Punctuation
+Reader,Identifier
+.,Punctuation
+Options,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+withFileSystem,Identifier
+(,Punctuation
+fs,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+withInputPath,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+withConfiguration,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getInputKeySchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+withKeySchema,Identifier
+(,Punctuation
+keySchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+valueSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getInputValueSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+valueSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+withValueSchema,Identifier
+(,Punctuation
+valueSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+mReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroSequenceFile,Identifier
+.,Punctuation
+Reader,Identifier
+(,Punctuation
+options,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mEnd,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileSplit,Identifier
+.,Punctuation
+getStart,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+fileSplit,Identifier
+.,Punctuation
+getLength,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+fileSplit,Identifier
+.,Punctuation
+getStart,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+mReader,Identifier
+.,Punctuation
+getPosition,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+// Sync to the beginning of the input split.,Comment
+"
+",Newline
+        ,Whitespace
+mReader,Identifier
+.,Punctuation
+sync,Identifier
+(,Punctuation
+fileSplit,Identifier
+.,Punctuation
+getStart,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+mStart,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mReader,Identifier
+.,Punctuation
+getPosition,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mHasMoreData,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mStart,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+mEnd,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+nextKeyValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+mHasMoreData,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mReader,Identifier
+.,Punctuation
+getPosition,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mCurrentKey,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+K,Identifier
+),Punctuation
+ ,Whitespace
+mReader,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+mCurrentKey,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mCurrentKey,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+mEnd,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+mReader,Identifier
+.,Punctuation
+syncSeen,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mHasMoreData,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mCurrentKey,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mCurrentValue,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mCurrentValue,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+V,Identifier
+),Punctuation
+ ,Whitespace
+mReader,Identifier
+.,Punctuation
+getCurrentValue,Identifier
+(,Punctuation
+mCurrentValue,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mHasMoreData,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+K,Identifier
+ ,Whitespace
+getCurrentKey,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mCurrentKey,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+V,Identifier
+ ,Whitespace
+getCurrentValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+mCurrentValue,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+getProgress,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+mEnd,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mStart,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+0.0f,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+Math,Identifier
+.,Punctuation
+min,Identifier
+(,Punctuation
+1.0f,Literal
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+mReader,Identifier
+.,Punctuation
+getPosition,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+mStart,Identifier
+),Punctuation
+ ,Whitespace
+/,Operator
+ ,Whitespace
+(,Punctuation
+float,Keyword
+),Punctuation
+(,Punctuation
+mEnd,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+mStart,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mReader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

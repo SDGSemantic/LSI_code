@@ -1,0 +1,5507 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+ByteArrayInputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+StringWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+MessageDigest,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedHashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collection,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collections,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Set,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashSet,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonNode,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonParser,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonGenerator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+node,Identifier
+.,Punctuation
+TextNode,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** A set of messages forming an application protocol.
+ * <p> A protocol consists of:
+ * <ul>
+ * <li>a <i>name</i> for the protocol;
+ * <li>an optional <i>namespace</i>, further qualifying the name;
+ * <li>a list of <i>types</i>, or named {@link Schema schemas};
+ * <li>a list of <i>errors</i>, or named {@link Schema schemas} for exceptions;
+ * <li>a list of named <i>messages</i>, each of which specifies,
+ *   <ul>
+ *   <li><i>request</i>, the parameter schemas;
+ *   <li>one of either;
+ *     <ul><li>one-way</li></ul>
+ *   or
+ *     <ul>
+ *       <li><i>response</i>, the response schema;
+ *       <li><i>errors</i>, an optional list of potential error schema names.
+ *     </ul>
+ *   </ul>
+ * </ul>
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+JsonProperties,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The version of the protocol specification implemented here. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+VERSION,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+// Support properties for both Protocol and Message objects,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Set,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+MESSAGE_RESERVED,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashSet,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Collections,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+MESSAGE_RESERVED,Identifier
+",",Punctuation
+"
+",Newline
+                       ,Whitespace
+"""doc""",String
+",",Punctuation
+ ,Whitespace
+"""response""",String
+",",Punctuation
+"""request""",String
+",",Punctuation
+ ,Whitespace
+"""errors""",String
+",",Punctuation
+ ,Whitespace
+"""one-way""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** A protocol message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+JsonProperties,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Construct a message. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Message,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+"
+",Newline
+                    ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+?,Operator
+>,Operator
+ ,Whitespace
+propMap,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+MESSAGE_RESERVED,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+doc,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+doc,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+request,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+propMap,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+                        ,Whitespace
+// copy props,Comment
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+?,Operator
+>,Operator
+ ,Whitespace
+prop,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+propMap,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+prop,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+addProp,Identifier
+(,Punctuation
+prop,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                       ,Whitespace
+value,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+String,Identifier
+"
+",Newline
+                       ,Whitespace
+?,Operator
+ ,Whitespace
+TextNode,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+(,Punctuation
+String,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+"
+",Newline
+                       ,Whitespace
+:,Operator
+ ,Whitespace
+(,Punctuation
+JsonNode,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The name of this message. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+name,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+/** The parameters of this message. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getRequest,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+request,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+/** The returned data. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+NULL,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+/** Errors that might be thrown. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getErrors,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+createUnion,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/** Returns true if this is a one-way message, with no response or errors.*/",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+StringWriter,Identifier
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringWriter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+JsonGenerator,Identifier
+ ,Whitespace
+gen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+FACTORY,Identifier
+.,Punctuation
+createJsonGenerator,Identifier
+(,Punctuation
+writer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+toJson,Identifier
+(,Punctuation
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+gen,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+writer,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+void,Keyword
+ ,Whitespace
+toJson,Identifier
+(,Punctuation
+JsonGenerator,Identifier
+ ,Whitespace
+gen,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+writeStartObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+doc,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+gen,Identifier
+.,Punctuation
+writeStringField,Identifier
+(,Punctuation
+"""doc""",String
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writeProps,Identifier
+(,Punctuation
+gen,Identifier
+),Punctuation
+;,Punctuation
+                           ,Whitespace
+// write out properties,Comment
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+"""request""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+request,Identifier
+.,Punctuation
+fieldsToJson,Identifier
+(,Punctuation
+types,Identifier
+",",Punctuation
+ ,Whitespace
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+toJson1,Identifier
+(,Punctuation
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+writeEndObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+void,Keyword
+ ,Whitespace
+toJson1,Identifier
+(,Punctuation
+JsonGenerator,Identifier
+ ,Whitespace
+gen,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+writeStringField,Identifier
+(,Punctuation
+"""response""",String
+",",Punctuation
+ ,Whitespace
+"""null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+writeBooleanField,Identifier
+(,Punctuation
+"""one-way""",String
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+equals,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+o,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+o,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+this,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+o,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Message,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Message,Identifier
+ ,Whitespace
+that,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Message,Identifier
+),Punctuation
+o,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+name,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+request,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+request,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+props,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+props,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+name,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+request,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+props,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getDoc,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+doc,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TwoWayMessage,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+response,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+errors,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** Construct a message. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+TwoWayMessage,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+?,Operator
+>,Operator
+ ,Whitespace
+propMap,Identifier
+",",Punctuation
+"
+",Newline
+                          ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+response,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+errors,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+name,Identifier
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+propMap,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+response,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+errors,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+errors,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+response,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getErrors,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+errors,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+equals,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+o,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+super,Keyword
+.,Punctuation
+equals,Identifier
+(,Punctuation
+o,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+o,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+TwoWayMessage,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+TwoWayMessage,Identifier
+ ,Whitespace
+that,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+TwoWayMessage,Identifier
+),Punctuation
+o,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+response,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+response,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+errors,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+errors,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+super,Keyword
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+response,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+errors,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+toJson1,Identifier
+(,Punctuation
+JsonGenerator,Identifier
+ ,Whitespace
+gen,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+"""response""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+response,Identifier
+.,Punctuation
+toJson,Identifier
+(,Punctuation
+types,Identifier
+",",Punctuation
+ ,Whitespace
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+ ,Whitespace
+errs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+errors,Identifier
+.,Punctuation
+getTypes,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+  ,Whitespace
+// elide system error,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+errs,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Schema,Identifier
+ ,Whitespace
+union,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+createUnion,Identifier
+(,Punctuation
+errs,Identifier
+.,Punctuation
+subList,Identifier
+(,Punctuation
+1,Literal
+",",Punctuation
+ ,Whitespace
+errs,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+gen,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+"""errors""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+union,Identifier
+.,Punctuation
+toJson,Identifier
+(,Punctuation
+types,Identifier
+",",Punctuation
+ ,Whitespace
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namespace,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Names,Identifier
+ ,Whitespace
+types,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Names,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+Message,Identifier
+>,Operator
+ ,Whitespace
+messages,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedHashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+Message,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+md5,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** An error that can be thrown by any message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+SYSTEM_ERROR,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+STRING,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Union type for generating system errors. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+SYSTEM_ERRORS,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+ ,Whitespace
+errors,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+errors,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+SYSTEM_ERROR,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+SYSTEM_ERRORS,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+createUnion,Identifier
+(,Punctuation
+errors,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Set,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+PROTOCOL_RESERVED,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashSet,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Collections,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+PROTOCOL_RESERVED,Identifier
+",",Punctuation
+"
+",Newline
+       ,Whitespace
+"""namespace""",String
+",",Punctuation
+ ,Whitespace
+"""protocol""",String
+",",Punctuation
+ ,Whitespace
+"""doc""",String
+",",Punctuation
+"
+",Newline
+       ,Whitespace
+"""messages""",String
+",",Punctuation
+"""types""",String
+",",Punctuation
+ ,Whitespace
+"""errors""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Protocol,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+PROTOCOL_RESERVED,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Protocol,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namespace,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+PROTOCOL_RESERVED,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+doc,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+doc,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+namespace,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+namespace,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Protocol,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namespace,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+name,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+namespace,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The name of this protocol. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+name,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The namespace of this protocol.  Qualifies its name. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getNamespace,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+namespace,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Doc string for this protocol. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getDoc,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+doc,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The types of this protocol. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Collection,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+ ,Whitespace
+getTypes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+types,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Returns the named type. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getType,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+types,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set the types of this protocol. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setTypes,Identifier
+(,Punctuation
+Collection,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+ ,Whitespace
+newTypes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+types,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Names,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+newTypes,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+types,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The messages of this protocol. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+Message,Identifier
+>,Operator
+ ,Whitespace
+getMessages,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+messages,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Create a one-way message. */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+createMessage,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+createMessage,Identifier
+(,Punctuation
+name,Identifier
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedHashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+",",Punctuation
+request,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+/** Create a one-way message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+createMessage,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+"
+",Newline
+                                   ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+T,Identifier
+>,Operator
+ ,Whitespace
+propMap,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Message,Identifier
+(,Punctuation
+name,Identifier
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+propMap,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Create a two-way message. */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+createMessage,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+"
+",Newline
+                               ,Whitespace
+Schema,Identifier
+ ,Whitespace
+response,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+errors,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+createMessage,Identifier
+(,Punctuation
+name,Identifier
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedHashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                         ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+response,Identifier
+",",Punctuation
+ ,Whitespace
+errors,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+/** Create a two-way message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+createMessage,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+"
+",Newline
+                                   ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+T,Identifier
+>,Operator
+ ,Whitespace
+propMap,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+"
+",Newline
+                                   ,Whitespace
+Schema,Identifier
+ ,Whitespace
+response,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+errors,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TwoWayMessage,Identifier
+(,Punctuation
+name,Identifier
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+propMap,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+response,Identifier
+",",Punctuation
+ ,Whitespace
+errors,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+equals,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+o,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+o,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+this,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+o,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Protocol,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+that,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Protocol,Identifier
+),Punctuation
+o,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+name,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+&&,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+namespace,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+namespace,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+&&,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+types,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+types,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+&&,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+messages,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+messages,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+&&,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+props,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+that,Identifier
+.,Punctuation
+props,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+name,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+namespace,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
++,Operator
+ ,Whitespace
+types,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+messages,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+props,Identifier
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Render this as <a href=""http://json.org/"">JSON</a>.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Render this as <a href=""http://json.org/"">JSON</a>.
+   * @param pretty if true, pretty-print JSON.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+pretty,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+StringWriter,Identifier
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringWriter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+JsonGenerator,Identifier
+ ,Whitespace
+gen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+FACTORY,Identifier
+.,Punctuation
+createJsonGenerator,Identifier
+(,Punctuation
+writer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pretty,Identifier
+),Punctuation
+ ,Whitespace
+gen,Identifier
+.,Punctuation
+useDefaultPrettyPrinter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+toJson,Identifier
+(,Punctuation
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+writer,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+void,Keyword
+ ,Whitespace
+toJson,Identifier
+(,Punctuation
+JsonGenerator,Identifier
+ ,Whitespace
+gen,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+types,Identifier
+.,Punctuation
+space,Identifier
+(,Punctuation
+namespace,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeStartObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeStringField,Identifier
+(,Punctuation
+"""protocol""",String
+",",Punctuation
+ ,Whitespace
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeStringField,Identifier
+(,Punctuation
+"""namespace""",String
+",",Punctuation
+ ,Whitespace
+namespace,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+doc,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+gen,Identifier
+.,Punctuation
+writeStringField,Identifier
+(,Punctuation
+"""doc""",String
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeProps,Identifier
+(,Punctuation
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeArrayFieldStart,Identifier
+(,Punctuation
+"""types""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+.,Punctuation
+Names,Identifier
+ ,Whitespace
+resolved,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Names,Identifier
+(,Punctuation
+namespace,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+type,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+types,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+resolved,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+type,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+type,Identifier
+.,Punctuation
+toJson,Identifier
+(,Punctuation
+resolved,Identifier
+",",Punctuation
+ ,Whitespace
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeEndArray,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeObjectFieldStart,Identifier
+(,Punctuation
+"""messages""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+Message,Identifier
+>,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+messages,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+gen,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+e,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toJson,Identifier
+(,Punctuation
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeEndObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+gen,Identifier
+.,Punctuation
+writeEndObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the MD5 hash of the text of this protocol. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getMD5,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+md5,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+md5,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+MessageDigest,Identifier
+.,Punctuation
+getInstance,Identifier
+(,Punctuation
+"""MD5""",String
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+digest,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+md5,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Read a protocol from a Json file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+FACTORY,Identifier
+.,Punctuation
+createJsonParser,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Read a protocol from a Json stream. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+stream,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+FACTORY,Identifier
+.,Punctuation
+createJsonParser,Identifier
+(,Punctuation
+stream,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Read a protocol from one or more json strings */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+string,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+more,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+StringBuilder,Identifier
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringBuilder,Identifier
+(,Punctuation
+string,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+part,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+more,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+b,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+part,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+b,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Read a protocol from a Json string. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+string,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+FACTORY,Identifier
+.,Punctuation
+createJsonParser,Identifier
+"
+",Newline
+                   ,Whitespace
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ByteArrayInputStream,Identifier
+(,Punctuation
+string,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+JsonParser,Identifier
+ ,Whitespace
+parser,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+protocol,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Protocol,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+protocol,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+MAPPER,Identifier
+.,Punctuation
+readTree,Identifier
+(,Punctuation
+parser,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+protocol,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+parse,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+parseNamespace,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+parseName,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+parseTypes,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+parseMessages,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+parseDoc,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+parseProps,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+parseNamespace,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+nameNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""namespace""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+nameNode,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+;,Punctuation
+                 ,Whitespace
+// no namespace defined,Comment
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+namespace,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+nameNode,Identifier
+.,Punctuation
+getTextValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+types,Identifier
+.,Punctuation
+space,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+namespace,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+parseDoc,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+doc,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+parseDocNode,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+parseDocNode,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+nameNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""doc""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+nameNode,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+                 ,Whitespace
+// no doc defined,Comment
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+nameNode,Identifier
+.,Punctuation
+getTextValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+parseName,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+nameNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""protocol""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+nameNode,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""No protocol name specified: """,String
++,Operator
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+nameNode,Identifier
+.,Punctuation
+getTextValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+parseTypes,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+defs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""types""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+defs,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+;,Punctuation
+                    ,Whitespace
+// no types defined,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+defs,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""Types not an array: """,String
++,Operator
+defs,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+type,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+defs,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+type,Identifier
+.,Punctuation
+isObject,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""Type not an object: """,String
++,Operator
+type,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+type,Identifier
+",",Punctuation
+ ,Whitespace
+types,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+parseProps,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+getFieldNames,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+i,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                        ,Whitespace
+// add non-reserved as props,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+PROTOCOL_RESERVED,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+addProp,Identifier
+(,Punctuation
+p,Identifier
+",",Punctuation
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+parseMessages,Identifier
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+defs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""messages""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+defs,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+;,Punctuation
+                    ,Whitespace
+// no messages defined,Comment
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+defs,Identifier
+.,Punctuation
+getFieldNames,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+prop,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+i,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+messages,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+prop,Identifier
+",",Punctuation
+ ,Whitespace
+parseMessage,Identifier
+(,Punctuation
+prop,Identifier
+",",Punctuation
+ ,Whitespace
+defs,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+prop,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+parseMessage,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+json,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+doc,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+parseDocNode,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+JsonNode,Identifier
+>,Operator
+ ,Whitespace
+mProps,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedHashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+JsonNode,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+getFieldNames,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+i,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                        ,Whitespace
+// add non-reserved as props,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+MESSAGE_RESERVED,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+mProps,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+p,Identifier
+",",Punctuation
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+requestNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""request""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+requestNode,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+||,Operator
+ ,Whitespace
+!,Operator
+requestNode,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""No request specified: """,String
++,Operator
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Field,Identifier
+>,Operator
+ ,Whitespace
+fields,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Field,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+field,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+requestNode,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+fieldNameNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+field,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""name""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+fieldNameNode,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""No param name: """,String
++,Operator
+field,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+fieldTypeNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+field,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""type""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+fieldTypeNode,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""No param type: """,String
++,Operator
+field,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fieldNameNode,Identifier
+.,Punctuation
+getTextValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+fields,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Field,Identifier
+(,Punctuation
+name,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+fieldTypeNode,Identifier
+",",Punctuation
+types,Identifier
+),Punctuation
+",",Punctuation
+"
+",Newline
+                           ,Whitespace
+null,Keyword
+ ,Whitespace
+/* message fields don't have docs */,Comment
+",",Punctuation
+"
+",Newline
+                           ,Whitespace
+field,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""default""",String
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+request,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+createRecord,Identifier
+(,Punctuation
+fields,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+oneWay,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+oneWayNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""one-way""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+oneWayNode,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+oneWayNode,Identifier
+.,Punctuation
+isBoolean,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""one-way must be boolean: """,String
++,Operator
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+oneWay,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+oneWayNode,Identifier
+.,Punctuation
+getBooleanValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+responseNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""response""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+oneWay,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+responseNode,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""No response specified: """,String
++,Operator
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+JsonNode,Identifier
+ ,Whitespace
+decls,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+json,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""errors""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+oneWay,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+decls,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""one-way can't have errors: """,String
++,Operator
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+responseNode,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+"
+",Newline
+          ,Whitespace
+&&,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+responseNode,Identifier
+",",Punctuation
+ ,Whitespace
+types,Identifier
+),Punctuation
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+NULL,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""One way response must be null: """,String
++,Operator
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Message,Identifier
+(,Punctuation
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+mProps,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+responseNode,Identifier
+",",Punctuation
+ ,Whitespace
+types,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+ ,Whitespace
+errs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Schema,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+errs,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+SYSTEM_ERROR,Identifier
+),Punctuation
+;,Punctuation
+                       ,Whitespace
+// every method can throw,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+decls,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+decls,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""Errors not an array: """,String
++,Operator
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+JsonNode,Identifier
+ ,Whitespace
+decl,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+decls,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+decl,Identifier
+.,Punctuation
+getTextValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+types,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+schema,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""Undefined error: """,String
++,Operator
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+schema,Identifier
+.,Punctuation
+isError,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SchemaParseException,Identifier
+(,Punctuation
+"""Not an error: """,String
++,Operator
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+errs,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TwoWayMessage,Identifier
+(,Punctuation
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+doc,Identifier
+",",Punctuation
+ ,Whitespace
+mProps,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+response,Identifier
+",",Punctuation
+"
+",Newline
+                             ,Whitespace
+Schema,Identifier
+.,Punctuation
+createUnion,Identifier
+(,Punctuation
+errs,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+main,Identifier
+(,Punctuation
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+Protocol,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+args,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

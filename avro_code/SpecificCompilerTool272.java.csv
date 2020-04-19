@@ -1,0 +1,1293 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+FilenameFilter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+PrintStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Set,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedHashSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+.,Punctuation
+StringType,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+compiler,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificCompiler,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A Tool for compiling avro protocols or schemas to Java classes using the Avro
+ * SpecificCompiler.
+ */",Comment
+"
+",Newline
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SpecificCompilerTool,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Tool,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+<,Operator
+ ,Whitespace
+3,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Usage: [-string] (schema|protocol) input... outputdir""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+println,Identifier
+(,Punctuation
+""" input - input files or directories""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+println,Identifier
+(,Punctuation
+""" outputdir - directory to write generated java""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+""" -string - use java.lang.String instead of Utf8""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+StringType,Identifier
+ ,Whitespace
+stringType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+StringType,Identifier
+.,Punctuation
+CharSequence,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+arg,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+"""-string""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+arg,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+stringType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+StringType,Identifier
+.,Punctuation
+String,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+arg,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+method,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+arg,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+File,Identifier
+>,Operator
+ ,Whitespace
+inputs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+File,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+File,Identifier
+ ,Whitespace
+output,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+arg,Identifier
++,Operator
+1,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+inputs,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+i,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+"""schema""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+method,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+ ,Whitespace
+parser,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+File,Identifier
+ ,Whitespace
+src,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+determineInputs,Identifier
+(,Punctuation
+inputs,Identifier
+",",Punctuation
+ ,Whitespace
+SCHEMA_FILTER,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+parser,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+src,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+SpecificCompiler,Identifier
+ ,Whitespace
+compiler,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificCompiler,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+compiler,Identifier
+.,Punctuation
+setStringType,Identifier
+(,Punctuation
+stringType,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+compiler,Identifier
+.,Punctuation
+compileToDestination,Identifier
+(,Punctuation
+src,Identifier
+",",Punctuation
+ ,Whitespace
+output,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+"""protocol""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+method,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+File,Identifier
+ ,Whitespace
+src,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+determineInputs,Identifier
+(,Punctuation
+inputs,Identifier
+",",Punctuation
+ ,Whitespace
+PROTOCOL_FILTER,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+protocol,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Protocol,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+src,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+SpecificCompiler,Identifier
+ ,Whitespace
+compiler,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificCompiler,Identifier
+(,Punctuation
+protocol,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+compiler,Identifier
+.,Punctuation
+setStringType,Identifier
+(,Punctuation
+stringType,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+compiler,Identifier
+.,Punctuation
+compileToDestination,Identifier
+(,Punctuation
+src,Identifier
+",",Punctuation
+ ,Whitespace
+output,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Expected \""schema\"" or \""protocol\"".""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""compile""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getShortDescription,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Generates Java code for the given schema.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * For a List of files or directories, returns a File[] containing each file
+   * passed as well as each file with a matching extension found in the directory.
+   *
+   * @param inputs List of File objects that are files or directories
+   * @param filter File extension filter to match on when fetching files from a directory
+   * @return Unique array of files
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+File,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+determineInputs,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+File,Identifier
+>,Operator
+ ,Whitespace
+inputs,Identifier
+",",Punctuation
+ ,Whitespace
+FilenameFilter,Identifier
+ ,Whitespace
+filter,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Set,Identifier
+<,Operator
+File,Identifier
+>,Operator
+ ,Whitespace
+fileSet,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedHashSet,Identifier
+<,Operator
+File,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+// preserve order and uniqueness,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+inputs,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+"// if directory, look at contents to see what files match extension",Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+file,Identifier
+.,Punctuation
+isDirectory,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+File,Identifier
+ ,Whitespace
+f,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+file,Identifier
+.,Punctuation
+listFiles,Identifier
+(,Punctuation
+filter,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+fileSet,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+f,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"// otherwise, just add the file.",Comment
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+fileSet,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+fileSet,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Input files to compile:""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+fileSet,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""  """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+file,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""No input files found.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+fileSet,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+(,Punctuation
+new,Keyword
+ ,Whitespace
+File,Identifier
+[,Punctuation
+fileSet,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+FileExtensionFilter,Identifier
+ ,Whitespace
+SCHEMA_FILTER,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+FileExtensionFilter,Identifier
+(,Punctuation
+"""avsc""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+FileExtensionFilter,Identifier
+ ,Whitespace
+PROTOCOL_FILTER,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+FileExtensionFilter,Identifier
+(,Punctuation
+"""avpr""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+FileExtensionFilter,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+FilenameFilter,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+extension,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+FileExtensionFilter,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+extension,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+extension,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+extension,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+accept,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+dir,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+name,Identifier
+.,Punctuation
+endsWith,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+extension,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

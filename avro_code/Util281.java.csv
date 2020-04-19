@@ -1,0 +1,1920 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+DEFLATE_CODEC,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BufferedInputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BufferedOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collections,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+zip,Identifier
+.,Punctuation
+Deflater,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+CodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileConstants,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DecoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FsInput,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileStatus,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileSystem,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionParser,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSpec,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Static utility methods for tools. */,Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+Util,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns stdin if filename is ""-"", else opens the File in the owning filesystem
+   * and returns an InputStream for it.
+   * Relative paths will be opened in the default filesystem. 
+   * @param filename The filename to be opened
+   * @throws IOException 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+BufferedInputStream,Identifier
+ ,Whitespace
+fileOrStdin,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+",",Punctuation
+ ,Whitespace
+InputStream,Identifier
+ ,Whitespace
+stdin,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BufferedInputStream,Identifier
+(,Punctuation
+filename,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+"""-""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+?,Operator
+ ,Whitespace
+stdin,Identifier
+"
+",Newline
+        ,Whitespace
+:,Operator
+ ,Whitespace
+openFromFS,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns stdout if filename is ""-"", else opens the file from the owning filesystem
+   * and returns an OutputStream for it.
+   * Relative paths will be opened in the default filesystem.  
+   * @param filename The filename to be opened
+   * @throws IOException 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+BufferedOutputStream,Identifier
+ ,Whitespace
+fileOrStdout,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+stdout,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BufferedOutputStream,Identifier
+(,Punctuation
+filename,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+"""-""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+?,Operator
+ ,Whitespace
+stdout,Identifier
+"
+",Newline
+        ,Whitespace
+:,Operator
+ ,Whitespace
+createFromFS,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns an InputStream for the file using the owning filesystem,
+   * or the default if none is given.
+   * @param filename The filename to be opened
+   * @throws IOException 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+InputStream,Identifier
+ ,Whitespace
+openFromFS,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Path,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+p,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Configuration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+open,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns an InputStream for the file using the owning filesystem,
+   * or the default if none is given.
+   * @param filename The filename to be opened
+   * @throws IOException 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+InputStream,Identifier
+ ,Whitespace
+openFromFS,Identifier
+(,Punctuation
+Path,Identifier
+ ,Whitespace
+filename,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+filename,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Configuration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+open,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns a seekable FsInput using the owning filesystem, 
+   * or the default if none is given.
+   * @param filename The filename to be opened
+   * @throws IOException 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+FsInput,Identifier
+ ,Whitespace
+openSeekableFromFS,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+       ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FsInput,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Configuration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Opens the file for writing in the owning filesystem,
+   * or the default if none is given.
+   * @param filename The filename to be opened.
+   * @return An OutputStream to the specified file.
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+createFromFS,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Path,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BufferedOutputStream,Identifier
+(,Punctuation
+p,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Configuration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+create,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Closes the inputstream created from {@link Util.fileOrStdin} 
+   * unless it is System.in.
+   * @param in The inputstream to be closed.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+System,Identifier
+.,Punctuation
+in,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+in,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""could not close InputStream """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Closes the outputstream created from {@link Util.fileOrStdout}
+   * unless it is System.out.
+   * @param out The outputStream to be closed.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+System,Identifier
+.,Punctuation
+out,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""could not close OutputStream """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+out,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**If pathname is a file, this method returns a list with a single absolute Path to that file,
+   * if pathname is a directory, this method returns a list of Pathes to all the files within
+   * this directory.
+   * Only files inside that directory are included, no subdirectories or files in subdirectories
+   * will be added. 
+   * The List is sorted alphabetically.
+   * @param fileOrDirName filename or directoryname
+   * @return A Path List 
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+ ,Whitespace
+getFiles,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+fileOrDirName,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+ ,Whitespace
+pathList,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+  ,Whitespace
+"
+",Newline
+    ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+fileOrDirName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+fs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Configuration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+fs,Identifier
+.,Punctuation
+isFile,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+pathList,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+fs,Identifier
+.,Punctuation
+getFileStatus,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+.,Punctuation
+isDir,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+FileStatus,Identifier
+ ,Whitespace
+status,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+fs,Identifier
+.,Punctuation
+listStatus,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+(,Punctuation
+!,Operator
+status,Identifier
+.,Punctuation
+isDir,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+pathList,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+status,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+Collections,Identifier
+.,Punctuation
+sort,Identifier
+(,Punctuation
+pathList,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+pathList,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * This method returns a list which contains a path to every given file
+   * in the input and a path to every file inside a given directory.
+   * The list is sorted alphabetically and contains no subdirectories or files within those.
+   * @param fileOrDirNames A list of filenames and directorynames
+   * @return A list of Pathes, one for each file 
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+ ,Whitespace
+getFiles,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+fileOrDirNames,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ArrayList,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+ ,Whitespace
+pathList,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+fileOrDirNames,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+pathList,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+getFiles,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+Collections,Identifier
+.,Punctuation
+sort,Identifier
+(,Punctuation
+pathList,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+pathList,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** 
+   * Converts a String JSON object into a generic datum.
+   * 
+   * This is inefficient (creates extra objects), so should be used 
+   * sparingly.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+jsonToGenericDatum,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+jsonData,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+jsonDecoder,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+jsonData,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+datum,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Reads and returns the first datum in a data file. */,Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datumFromFile,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+file,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+DataFileReader,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+(,Punctuation
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+",",Punctuation
+"
+",Newline
+                                 ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+(,Punctuation
+schema,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+OptionSpec,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+compressionCodecOption,Identifier
+(,Punctuation
+OptionParser,Identifier
+ ,Whitespace
+optParser,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+optParser,Identifier
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""codec""",String
+",",Punctuation
+ ,Whitespace
+"""Compression codec""",String
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+String,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+defaultsTo,Identifier
+(,Punctuation
+"""null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+OptionSpec,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+ ,Whitespace
+compressionLevelOption,Identifier
+(,Punctuation
+OptionParser,Identifier
+ ,Whitespace
+optParser,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+optParser,Identifier
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""level""",String
+",",Punctuation
+ ,Whitespace
+"""Compression level (only applies to deflate and xz)""",String
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+Integer,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+defaultsTo,Identifier
+(,Punctuation
+Deflater,Identifier
+.,Punctuation
+DEFAULT_COMPRESSION,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+codecFactory,Identifier
+(,Punctuation
+OptionSet,Identifier
+ ,Whitespace
+opts,Identifier
+",",Punctuation
+ ,Whitespace
+OptionSpec,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+codec,Identifier
+",",Punctuation
+ ,Whitespace
+OptionSpec,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+ ,Whitespace
+level,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+codecFactory,Identifier
+(,Punctuation
+opts,Identifier
+",",Punctuation
+ ,Whitespace
+codec,Identifier
+",",Punctuation
+ ,Whitespace
+level,Identifier
+",",Punctuation
+ ,Whitespace
+DEFLATE_CODEC,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+codecFactory,Identifier
+(,Punctuation
+OptionSet,Identifier
+ ,Whitespace
+opts,Identifier
+",",Punctuation
+ ,Whitespace
+OptionSpec,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+codec,Identifier
+",",Punctuation
+ ,Whitespace
+OptionSpec,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+ ,Whitespace
+level,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+defaultCodec,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+codecName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+opts,Identifier
+.,Punctuation
+hasArgument,Identifier
+(,Punctuation
+codec,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+?,Operator
+ ,Whitespace
+codec,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+:,Operator
+ ,Whitespace
+defaultCodec,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+(,Punctuation
+codecName,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+DEFLATE_CODEC,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+deflateCodec,Identifier
+(,Punctuation
+level,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+(,Punctuation
+codecName,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+XZ_CODEC,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+xzCodec,Identifier
+(,Punctuation
+level,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+fromString,Identifier
+(,Punctuation
+codec,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,528 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Encoder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** {@link org.apache.avro.io.DatumWriter DatumWriter} for generated Java classes. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+root,Identifier
+",",Punctuation
+ ,Whitespace
+SpecificData,Identifier
+ ,Whitespace
+specificData,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+root,Identifier
+",",Punctuation
+ ,Whitespace
+specificData,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+(,Punctuation
+SpecificData,Identifier
+ ,Whitespace
+specificData,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+specificData,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Returns the {@link SpecificData} implementation used by this writer. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SpecificData,Identifier
+ ,Whitespace
+getSpecificData,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+SpecificData,Identifier
+),Punctuation
+ ,Whitespace
+getData,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeEnum,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+datum,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Enum,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+writeEnum,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+        ,Whitespace
+// punt to generic,Comment
+"
+",Newline
+    ,Whitespace
+else,Keyword
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeEnum,Identifier
+(,Punctuation
+(,Punctuation
+(,Punctuation
+Enum,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeString,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+datum,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+CharSequence,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+getSpecificData,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+isStringable,Identifier
+(,Punctuation
+datum,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+datum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+datum,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                   ,Whitespace
+// convert to string,Comment
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+writeString,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

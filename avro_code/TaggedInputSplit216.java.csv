@@ -1,0 +1,1128 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DataInput,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DataOutput,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configurable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Text,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+InputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+InputSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * An {@link InputSplit} that tags another InputSplit with extra data for use
+ * by {@link DelegatingInputFormat}s and {@link DelegatingMapper}s.
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+TaggedInputSplit,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Configurable,Identifier
+",",Punctuation
+ ,Whitespace
+InputSplit,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+InputSplit,Identifier
+>,Operator
+ ,Whitespace
+inputSplitClass,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+InputSplit,Identifier
+ ,Whitespace
+inputSplit,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+InputFormat,Identifier
+>,Operator
+ ,Whitespace
+inputFormatClass,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+mapperClass,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+ ,Whitespace
+schemaParser,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TaggedInputSplit,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// Default constructor.,Comment
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a new TaggedInputSplit.
+   *
+   * @param inputSplit The InputSplit to be tagged
+   * @param conf The configuration to use
+   * @param inputFormatClass The InputFormat class to use for this job
+   * @param mapperClass The Mapper class to use for this job
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TaggedInputSplit,Identifier
+(,Punctuation
+InputSplit,Identifier
+ ,Whitespace
+inputSplit,Identifier
+",",Punctuation
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+InputFormat,Identifier
+>,Operator
+ ,Whitespace
+inputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+mapperClass,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+inputSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+inputSplitClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inputSplit,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+inputSplit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inputSplit,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+inputFormatClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inputFormatClass,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+mapperClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mapperClass,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inputSchema,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Retrieves the original InputSplit.
+   *
+   * @return The InputSplit that was tagged
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+InputSplit,Identifier
+ ,Whitespace
+getInputSplit,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+inputSplit,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Retrieves the InputFormat class to use for this split.
+   *
+   * @return The InputFormat class to use
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+InputFormat,Identifier
+>,Operator
+ ,Whitespace
+getInputFormatClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+inputFormatClass,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Retrieves the Mapper class to use for this split.
+   *
+   * @return The Mapper class to use
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+getMapperClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+mapperClass,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Retrieves the Schema to use for this split.
+   *
+   * @return The schema for record readers to use
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getLength,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+inputSplit,Identifier
+.,Punctuation
+getLength,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getLocations,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+inputSplit,Identifier
+.,Punctuation
+getLocations,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+readFields,Identifier
+(,Punctuation
+DataInput,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+inputSplitClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+InputSplit,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+readClass,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+inputSplit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+InputSplit,Identifier
+),Punctuation
+ ,Whitespace
+ReflectionUtils,Identifier
+"
+",Newline
+       ,Whitespace
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+inputSplitClass,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+inputSplit,Identifier
+.,Punctuation
+readFields,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+inputFormatClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+InputFormat,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+readClass,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mapperClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+readClass,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+schemaString,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Text,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schemaParser,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+schemaString,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+readClass,Identifier
+(,Punctuation
+DataInput,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+className,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Text,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getClassByName,Identifier
+(,Punctuation
+className,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ClassNotFoundException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""readObject can't find class""",String
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+DataOutput,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Text,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+inputSplitClass,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+inputSplit,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Text,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+inputFormatClass,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Text,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+mapperClass,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Text,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+getConf,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setConf,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+inputSplit,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

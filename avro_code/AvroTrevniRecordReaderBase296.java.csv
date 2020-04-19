@@ -1,0 +1,691 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+AvroJob,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+ReflectData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+InputSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+RecordReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+input,Identifier
+.,Punctuation
+FileSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroColumnReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+HadoopInput,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Abstract base class for <code>RecordReader</code>s that read Trevni container files.
+ *
+ * @param <K> The type of key the record reader should generate.
+ * @param <V> The type of value the record reader should generate.
+ * @param <T> The type of the entries within the Trevni container file being read.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroTrevniRecordReaderBase,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RecordReader,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** The Trevni file reader */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+AvroColumnReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Number of rows in the Trevni file */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+rows,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** The current row number being read in */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+row,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** A reusable object to hold records of the Avro container file. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+mCurrentRecord,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+initialize,Identifier
+(,Punctuation
+InputSplit,Identifier
+ ,Whitespace
+inputSplit,Identifier
+",",Punctuation
+ ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+FileSplit,Identifier
+ ,Whitespace
+file,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+FileSplit,Identifier
+),Punctuation
+inputSplit,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+setStatus,Identifier
+(,Punctuation
+file,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+final,Keyword
+ ,Whitespace
+AvroColumnReader,Identifier
+.,Punctuation
+Params,Identifier
+ ,Whitespace
+params,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroColumnReader,Identifier
+.,Punctuation
+Params,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+HadoopInput,Identifier
+(,Punctuation
+file,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+params,Identifier
+.,Punctuation
+setModel,Identifier
+(,Punctuation
+ReflectData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+getInputKeySchema,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+params,Identifier
+.,Punctuation
+setSchema,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+getInputKeySchema,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroColumnReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+params,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+rows,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getRowCount,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+nextKeyValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+reader,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mCurrentRecord,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+row,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the current record read from the Trevni container file.
+   *
+   * <p>Calling <code>nextKeyValue()</code> moves this to the next record.</p>
+   *
+   * @return The current Trevni record (may be null if no record has been read).
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+getCurrentRecord,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+mCurrentRecord,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+reader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+getProgress,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+rows,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

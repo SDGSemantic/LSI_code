@@ -1,0 +1,420 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+OutputCollector,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+class,Keyword
+ ,Whitespace
+MapCollector,Identifier
+<,Operator
+OUT,Identifier
+",",Punctuation
+K,Identifier
+",",Punctuation
+V,Identifier
+",",Punctuation
+KO,Identifier
+",",Punctuation
+VO,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+<,Operator
+OUT,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+<,Operator
+OUT,Identifier
+>,Operator
+ ,Whitespace
+wrapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+<,Operator
+OUT,Identifier
+>,Operator
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+ ,Whitespace
+keyWrapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>,Operator
+ ,Whitespace
+valueWrapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>,Operator
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+OutputCollector,Identifier
+<,Operator
+KO,Identifier
+",",Punctuation
+VO,Identifier
+>,Operator
+ ,Whitespace
+collector,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMapOnly,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+MapCollector,Identifier
+(,Punctuation
+OutputCollector,Identifier
+<,Operator
+KO,Identifier
+",",Punctuation
+VO,Identifier
+>,Operator
+ ,Whitespace
+collector,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMapOnly,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+collector,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+collector,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+isMapOnly,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isMapOnly,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collect,Identifier
+(,Punctuation
+OUT,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isMapOnly,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+wrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+collector,Identifier
+.,Punctuation
+collect,Identifier
+(,Punctuation
+(,Punctuation
+KO,Identifier
+),Punctuation
+wrapper,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+VO,Identifier
+),Punctuation
+NullWritable,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// split a pair,Comment
+"
+",Newline
+      ,Whitespace
+Pair,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>,Operator
+ ,Whitespace
+pair,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Pair,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>,Operator
+),Punctuation
+datum,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+keyWrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+pair,Identifier
+.,Punctuation
+key,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valueWrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+pair,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+collector,Identifier
+.,Punctuation
+collect,Identifier
+(,Punctuation
+(,Punctuation
+KO,Identifier
+),Punctuation
+keyWrapper,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+VO,Identifier
+),Punctuation
+valueWrapper,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

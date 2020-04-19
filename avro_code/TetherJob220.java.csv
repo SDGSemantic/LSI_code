@@ -1,0 +1,969 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+tether,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collection,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+URI,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+URISyntaxException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configured,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+filecache,Identifier
+.,Punctuation
+DistributedCache,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobClient,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+RunningJob,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Constructs and submits tether jobs. This may be used as an API-based
+ *  method to launch tether jobs. */",Comment
+"
+",Newline
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""deprecation""",String
+),Punctuation
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TetherJob,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Configured,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+TETHER_EXEC,Identifier
+=,Operator
+"""avro.tether.executable""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+TETHER_EXEC_ARGS,Identifier
+=,Operator
+"""avro.tether.executable_args""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+TETHER_EXEC_CACHED,Identifier
+=,Operator
+"""avro.tether.executable_cached""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Get the URI of the application's executable. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+URI,Identifier
+ ,Whitespace
+getExecutable,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+URI,Identifier
+(,Punctuation
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""avro.tether.executable""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+URISyntaxException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Set the URI for the application's executable. Normally this in HDFS. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setExecutable,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+executable,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+setExecutable,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+executable,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+",",Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Set the URI for the application's executable (i.e the program to run in a subprocess 
+   * and provides the mapper/reducer). 
+   * @param job - Job
+   * @param executable - The URI of the executable
+   * @param args - A string of additional arguments
+   * @param cached - If true, the executable URI is cached using DistributedCache
+   *               - if false its not cached. I.e if the file is already stored on each local file system
+   *                or if its on a NFS share
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setExecutable,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+executable,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+cached,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+TETHER_EXEC,Identifier
+",",Punctuation
+ ,Whitespace
+executable,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+StringBuilder,Identifier
+ ,Whitespace
+sb,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringBuilder,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+a,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+sb,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+a,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+sb,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+'\n',String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+TETHER_EXEC_ARGS,Identifier
+",",Punctuation
+ ,Whitespace
+sb,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+TETHER_EXEC_CACHED,Identifier
+",",Punctuation
+  ,Whitespace
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Boolean,Identifier
+(,Punctuation
+cached,Identifier
+),Punctuation
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Submit a job to the map/reduce cluster. All of the necessary
+   * modifications to the job to run under tether are made to the
+   * configuration.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+RunningJob,Identifier
+ ,Whitespace
+runJob,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+setupTetherJob,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+JobClient,Identifier
+.,Punctuation
+runJob,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Submit a job to the Map-Reduce framework. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+RunningJob,Identifier
+ ,Whitespace
+submitJob,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+setupTetherJob,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JobClient,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+.,Punctuation
+submitJob,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setupTetherJob,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setMapRunnerClass,Identifier
+(,Punctuation
+TetherMapRunner,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setPartitionerClass,Identifier
+(,Punctuation
+TetherPartitioner,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setReducerClass,Identifier
+(,Punctuation
+TetherReducer,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setInputFormat,Identifier
+(,Punctuation
+TetherInputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setOutputFormat,Identifier
+(,Punctuation
+TetherOutputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setOutputKeyClass,Identifier
+(,Punctuation
+TetherData,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setOutputKeyComparatorClass,Identifier
+(,Punctuation
+TetherKeyComparator,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setMapOutputValueClass,Identifier
+(,Punctuation
+NullWritable,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// set the map output key class to TetherData,Comment
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setMapOutputKeyClass,Identifier
+(,Punctuation
+TetherData,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// add TetherKeySerialization to io.serializations,Comment
+"
+",Newline
+    ,Whitespace
+Collection,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+serializations,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+getStringCollection,Identifier
+(,Punctuation
+"""io.serializations""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+serializations,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+TetherKeySerialization,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+serializations,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+TetherKeySerialization,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+setStrings,Identifier
+(,Punctuation
+"""io.serializations""",String
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+serializations,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// determine whether the executable should be added to the cache.,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+job,Identifier
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+TETHER_EXEC_CACHED,Identifier
+",",Punctuation
+false,Keyword
+),Punctuation
+),Punctuation
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+DistributedCache,Identifier
+.,Punctuation
+addCacheFile,Identifier
+(,Punctuation
+getExecutable,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

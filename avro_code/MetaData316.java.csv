@@ -1,0 +1,1287 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+charset,Identifier
+.,Punctuation
+Charset,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedHashMap,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Base class for metadata. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+MetaData,Identifier
+<,Operator
+T,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+MetaData,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+LinkedHashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""trevni.""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CODEC_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""codec""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CHECKSUM_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""checksum""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Charset,Identifier
+ ,Whitespace
+UTF8,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Charset,Identifier
+.,Punctuation
+forName,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+MetaData,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+defaults,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+void,Keyword
+ ,Whitespace
+setDefaults,Identifier
+(,Punctuation
+MetaData,Identifier
+ ,Whitespace
+defaults,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+defaults,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+defaults,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the compression codec name. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getCodec,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+getString,Identifier
+(,Punctuation
+CODEC_KEY,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set the compression codec name. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+setCodec,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+codec,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+setReserved,Identifier
+(,Punctuation
+CODEC_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+codec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+T,Identifier
+),Punctuation
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+   ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Return the checksum algorithm name. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getChecksum,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+getString,Identifier
+(,Punctuation
+CHECKSUM_KEY,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set the checksum algorithm name. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+setChecksum,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+checksum,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+setReserved,Identifier
+(,Punctuation
+CHECKSUM_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+checksum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+T,Identifier
+),Punctuation
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the value of a metadata property as a String. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getString,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+get,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+value,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+defaults,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+defaults,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+value,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+value,Identifier
+",",Punctuation
+ ,Whitespace
+UTF8,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the value of a metadata property as a long. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getLong,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Long,Identifier
+.,Punctuation
+parseLong,Identifier
+(,Punctuation
+getString,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Return true iff a key has any value, false if it is not present. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+getBoolean,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+get,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set a metadata property to a binary value. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+set,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isReserved,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Cannot set reserved key: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+put,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+T,Identifier
+),Punctuation
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Test if a metadata key is reserved. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isReserved,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+key,Identifier
+.,Punctuation
+startsWith,Identifier
+(,Punctuation
+RESERVED_KEY_PREFIX,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set a metadata property to a String value. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+set,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+set,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+UTF8,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+T,Identifier
+ ,Whitespace
+setReserved,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+put,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+UTF8,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+T,Identifier
+),Punctuation
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+T,Identifier
+ ,Whitespace
+setReservedBoolean,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+value,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+setReserved,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+"
+",Newline
+      ,Whitespace
+remove,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+T,Identifier
+),Punctuation
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set a metadata property to a long value. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+set,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+set,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+OutputBuffer,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+>,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeBytes,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+read,Identifier
+(,Punctuation
+InputBuffer,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+MetaData,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+metaData,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readInt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+"
+",Newline
+      ,Whitespace
+metaData,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readBytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+StringBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringBuffer,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+buffer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+"""{ """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+>,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+buffer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+buffer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+"""=""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+buffer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""ISO-8859-1""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+UnsupportedEncodingException,Identifier
+ ,Whitespace
+error,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+error,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+buffer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+""" """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+buffer,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+"""}""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

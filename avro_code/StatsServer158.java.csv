@@ -1,0 +1,312 @@
+Text,Token
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+stats,Identifier
+;,Punctuation
+"
+",Newline
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+Server,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+Context,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+ServletHolder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/* This is a server that displays live information from a StatsPlugin.
+ * 
+ *  Typical usage is as follows:
+ *    StatsPlugin plugin = new StatsPlugin(); 
+ *    requestor.addPlugin(plugin);
+ *    StatsServer server = new StatsServer(plugin, 8080);
+ *    
+ *  */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+StatsServer,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+Server,Identifier
+ ,Whitespace
+httpServer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+StatsPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/* Start a stats server on the given port, 
+   * responsible for the given plugin. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+StatsServer,Identifier
+(,Punctuation
+StatsPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+port,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+httpServer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Server,Identifier
+(,Punctuation
+port,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+plugin,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+plugin,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+Context,Identifier
+ ,Whitespace
+staticContext,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Context,Identifier
+(,Punctuation
+httpServer,Identifier
+",",Punctuation
+ ,Whitespace
+"""/static""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+staticContext,Identifier
+.,Punctuation
+addServlet,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ServletHolder,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+StaticServlet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+Context,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Context,Identifier
+(,Punctuation
+httpServer,Identifier
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+addServlet,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ServletHolder,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+StatsServlet,Identifier
+(,Punctuation
+plugin,Identifier
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+httpServer,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/* Stops this server. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+stop,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+httpServer,Identifier
+.,Punctuation
+stop,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

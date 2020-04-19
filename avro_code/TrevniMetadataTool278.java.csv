@@ -1,0 +1,949 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+PrintStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+Input,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnFileReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+MetaData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnMetaData,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonGenerator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonEncoding,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+MinimalPrettyPrinter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Tool to print Trevni file metadata as JSON. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TrevniMetadataTool,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Tool,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+JsonFactory,Identifier
+ ,Whitespace
+FACTORY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JsonFactory,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+JsonGenerator,Identifier
+ ,Whitespace
+generator,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnFileReader,Identifier
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""trevni_meta""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getShortDescription,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Dumps a Trevni file's metadata as JSON.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+stdin,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+",",Punctuation
+"
+",Newline
+                 ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+filename,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+pretty,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+2,Literal
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+"""-pretty""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+pretty,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+filename,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+filename,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Usage: [-pretty] input""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+dump,Identifier
+(,Punctuation
+TrevniUtil,Identifier
+.,Punctuation
+input,Identifier
+(,Punctuation
+filename,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+pretty,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Read a Trevni file and print each row as a JSON object. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+dump,Identifier
+(,Punctuation
+Input,Identifier
+ ,Whitespace
+input,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+pretty,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+generator,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+FACTORY,Identifier
+.,Punctuation
+createJsonGenerator,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+JsonEncoding,Identifier
+.,Punctuation
+UTF8,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pretty,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+useDefaultPrettyPrinter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+                                      ,Whitespace
+// ensure newline separation,Comment
+"
+",Newline
+      ,Whitespace
+MinimalPrettyPrinter,Identifier
+ ,Whitespace
+pp,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+MinimalPrettyPrinter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+pp,Identifier
+.,Punctuation
+setRootValueSeparator,Identifier
+(,Punctuation
+System,Identifier
+.,Punctuation
+getProperty,Identifier
+(,Punctuation
+"""line.separator""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+setPrettyPrinter,Identifier
+(,Punctuation
+pp,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnFileReader,Identifier
+(,Punctuation
+input,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeStartObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumberField,Identifier
+(,Punctuation
+"""rowCount""",String
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getRowCount,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeNumberField,Identifier
+(,Punctuation
+"""columnCount""",String
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getColumnCount,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+"""metadata""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+dump,Identifier
+(,Punctuation
+reader,Identifier
+.,Punctuation
+getMetaData,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeFieldName,Identifier
+(,Punctuation
+"""columns""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeStartArray,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ColumnMetaData,Identifier
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getColumnMetaData,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+dump,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeEndArray,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeEndObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+reader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+dump,Identifier
+(,Punctuation
+MetaData,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+meta,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeStartObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+>,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+meta,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+generator,Identifier
+.,Punctuation
+writeStringField,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                                 ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""ISO-8859-1""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+generator,Identifier
+.,Punctuation
+writeEndObject,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

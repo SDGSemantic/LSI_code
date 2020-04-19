@@ -1,0 +1,4068 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+file,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Closeable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+NavigableMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+TreeMap,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericRecord,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+CodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+AvroCharSequenceComparator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+AvroKeyValue,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FsInput,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileSystem,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A SortedKeyValueFile is an indexed Avro container file of KeyValue records
+ * sorted by key.
+ *
+ * <p>The SortedKeyValueFile is a directory with two files, named 'data' and
+ * 'index'. The 'data' file is an ordinary Avro container file with
+ * records. Each record has exactly two fields, 'key' and 'value'. The keys are
+ * sorted lexicographically. The 'index' file is a small Avro container file
+ * mapping keys in the 'data' file to their byte positions. The index file is
+ * intended to fit in memory, so it should remain small. There is one entry in
+ * the index file for each data block in the Avro container file.</p>
+ *
+ * <p>SortedKeyValueFile is to Avro container file as MapFile is to
+ * SequenceFile.</p>
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SortedKeyValueFile,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+SortedKeyValueFile,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The name of the data file within the SortedKeyValueFile directory. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+DATA_FILENAME,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""data""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The name of the index file within the SortedKeyValueFile directory. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+INDEX_FILENAME,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""index""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Reads a SortedKeyValueFile by loading the key index into memory.
+   *
+   * <p>When doing a lookup, this reader finds the correct block in the data file using
+   * the key index. It performs a single disk seek to the block and loads the entire block
+   * into memory. The block is scanned until the key is found or is determined not to
+   * exist.</p>
+   *
+   * @param <K> The key type.
+   * @param <V> The value type.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Reader,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Closeable,Identifier
+",",Punctuation
+ ,Whitespace
+Iterable,Identifier
+<,Operator
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+/** The index from key to its byte offset into the data file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+NavigableMap,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+mIndex,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The reader for the data file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+mDataFileReader,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The key schema for the data file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mKeySchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The model for the data. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** A class to encapsulate the options of a Reader. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+/** The configuration. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The path to the SortedKeyValueFile to read. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+mPath,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The reader schema for the key. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mKeySchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The reader schema for the value. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mValueSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The model for the data. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the configuration.
+       *
+       * @param conf The configuration.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withConfiguration,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mConf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the configuration.
+       *
+       * @return The configuration.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the input path.
+       *
+       * @param path The input path.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withPath,Identifier
+(,Punctuation
+Path,Identifier
+ ,Whitespace
+path,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mPath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the input path.
+       *
+       * @return The input path.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+getPath,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mPath,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the reader schema for the key.
+       *
+       * @param keySchema The reader schema for the key.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withKeySchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mKeySchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+keySchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the reader schema for the key.
+       *
+       * @return The reader schema for the key.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getKeySchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mKeySchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the reader schema for the value.
+       *
+       * @param valueSchema The reader schema for the value.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withValueSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+valueSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mValueSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+valueSchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the reader schema for the value.
+       *
+       * @return The reader schema for the value.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getValueSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mValueSchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** Set the data model. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withDataModel,Identifier
+(,Punctuation
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+model,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** Return the data model. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+getDataModel,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Constructs a reader.
+     *
+     * @param options The options.
+     * @throws IOException If there is an error.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Reader,Identifier
+(,Punctuation
+Options,Identifier
+ ,Whitespace
+options,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mKeySchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getKeySchema,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+model,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getDataModel,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Load the whole index file into memory.,Comment
+"
+",Newline
+      ,Whitespace
+Path,Identifier
+ ,Whitespace
+indexFilePath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+INDEX_FILENAME,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Loading the index from """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+indexFilePath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mIndex,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+loadIndexFile,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+indexFilePath,Identifier
+",",Punctuation
+ ,Whitespace
+mKeySchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Open the data file.,Comment
+"
+",Newline
+      ,Whitespace
+Path,Identifier
+ ,Whitespace
+dataFilePath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+DATA_FILENAME,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Loading the data file """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+dataFilePath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+recordSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroKeyValue,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+mKeySchema,Identifier
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getValueSchema,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+DatumReader,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+model,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+recordSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mDataFileReader,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+new,Keyword
+ ,Whitespace
+FsInput,Identifier
+(,Punctuation
+dataFilePath,Identifier
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Gets the first value associated with a given key, or null if it is not found.
+     *
+     * <p>This method will move the current position in the file to the record immediately
+     * following the requested key.</p>
+     *
+     * @param key The key to look up.
+     * @return The value associated with the key, or null if not found.
+     * @throws IOException If there is an error.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+V,Identifier
+ ,Whitespace
+get,Identifier
+(,Punctuation
+K,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// Look up the entry in the index.,Comment
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Looking up key """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" in the index.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+indexEntry,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mIndex,Identifier
+.,Punctuation
+floorEntry,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+indexEntry,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Key """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" was not found in the index (it is before the first entry)""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Key was found in the index, seeking to syncpoint """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+indexEntry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Seek to the data block that would contain the entry.,Comment
+"
+",Newline
+      ,Whitespace
+mDataFileReader,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+indexEntry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Scan from this position of the file until we find it or pass it.,Comment
+"
+",Newline
+      ,Whitespace
+Iterator,Identifier
+<,Operator
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>>,Operator
+ ,Whitespace
+iter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+iterator,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+iter,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+record,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+iter,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+comparison,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+model,Identifier
+.,Punctuation
+compare,Identifier
+(,Punctuation
+record,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+mKeySchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+0,Literal
+ ,Whitespace
+==,Operator
+ ,Whitespace
+comparison,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+// We've found it!,Comment
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Found record for key """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+record,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+comparison,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+// We've passed it.,Comment
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Searched beyond the point where key """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" would appear in the file.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// We've reached the end of the file.,Comment
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Searched to the end of the file but did not find key """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Returns an iterator starting at the current position in the file.
+     *
+     * <p>Use the get() method to move the current position.</p>
+     *
+     * <p>Note that this iterator is shared with other clients of the file; it does not
+     * contain a separate pointer into the file.</p>
+     *
+     * @return An iterator.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>>,Operator
+ ,Whitespace
+iterator,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKeyValue,Identifier
+.,Punctuation
+Iterator,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+(,Punctuation
+mDataFileReader,Identifier
+.,Punctuation
+iterator,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mDataFileReader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Loads an index file into an in-memory map, from key to file offset in bytes.
+     *
+     * @param conf The configuration.
+     * @param path The path to the index file.
+     * @param keySchema The reader schema for the key.
+     * @throws IOException If there is an error.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+<,Operator
+K,Identifier
+>,Operator
+ ,Whitespace
+NavigableMap,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+loadIndexFile,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+DatumReader,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+model,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+AvroKeyValue,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+keySchema,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+LONG,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+DataFileReader,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+fileReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+new,Keyword
+ ,Whitespace
+FsInput,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+NavigableMap,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+index,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+STRING,Identifier
+),Punctuation
+.,Punctuation
+equals,Identifier
+(,Punctuation
+keySchema,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+// Because Avro STRING types are mapped to the Java CharSequence class that does not,Comment
+"
+",Newline
+        ,Whitespace
+"// mandate the implementation of Comparable, we need to specify a special",Comment
+"
+",Newline
+        ,Whitespace
+// CharSequence comparator if the key type is a string.  This hack only fixes the,Comment
+"
+",Newline
+        ,Whitespace
+"// problem for primitive string types.  If, for example, you tried to use a record",Comment
+"
+",Newline
+        ,Whitespace
+"// type as the key, any string fields inside of it would not be compared correctly",Comment
+"
+",Newline
+        ,Whitespace
+// against java.lang.Strings.,Comment
+"
+",Newline
+        ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+(,Punctuation
+new,Keyword
+ ,Whitespace
+AvroCharSequenceComparator,Identifier
+<,Operator
+K,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+GenericRecord,Identifier
+ ,Whitespace
+genericRecord,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+fileReader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+indexRecord,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+(,Punctuation
+genericRecord,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+index,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+indexRecord,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+indexRecord,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+fileReader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+index,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Writes a SortedKeyValueFile.
+   *
+   * @param <K> The key type.
+   * @param <V> The value type.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Writer,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Closeable,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+/** The key schema. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mKeySchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The value schema. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mValueSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The schema of the data file records. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mRecordSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The schema of the index file records. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mIndexSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The model for the data. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The writer for the data file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+mDataFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The writer for the index file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+mIndexFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** We store an indexed key for every mIndexInterval records written to the data file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+mIndexInterval,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** The number of records written to the file so far. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+mRecordsWritten,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/** The most recent key that was appended to the file, or null. */",Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+K,Identifier
+ ,Whitespace
+mPreviousKey,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** A class to encapsulate the various options of a SortedKeyValueFile.Writer. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+/** The key schema. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mKeySchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The value schema. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mValueSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The configuration. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The path to the output file. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+mPath,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The number of records between indexed entries. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+mIndexInterval,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+128,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The model for the data. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** The compression codec for the data. */,Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+nullCodec,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the key schema.
+       *
+       * @param keySchema The key schema.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withKeySchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mKeySchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+keySchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the key schema.
+       *
+       * @return The key schema.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getKeySchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mKeySchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the value schema.
+       *
+       * @param valueSchema The value schema.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withValueSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+valueSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mValueSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+valueSchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the value schema.
+       *
+       * @return The value schema.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getValueSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mValueSchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the configuration.
+       *
+       * @param conf The configuration.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withConfiguration,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mConf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the configuration.
+       *
+       * @return The configuration.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the output path.
+       *
+       * @param path The output path.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withPath,Identifier
+(,Punctuation
+Path,Identifier
+ ,Whitespace
+path,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mPath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the output path.
+       *
+       * @return The output path.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+getPath,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mPath,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the index interval.
+       *
+       * <p>If the index inverval is N, then every N records will be indexed into the
+       * index file.</p>
+       *
+       * @param indexInterval The index interval.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withIndexInterval,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+indexInterval,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mIndexInterval,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+indexInterval,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the index interval.
+       *
+       * @return The index interval.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getIndexInterval,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mIndexInterval,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** Set the data model. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withDataModel,Identifier
+(,Punctuation
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+model,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** Return the data model. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+getDataModel,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** Set the compression codec. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withCodec,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+codec,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+fromString,Identifier
+(,Punctuation
+codec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** Set the compression codec. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withCodec,Identifier
+(,Punctuation
+CodecFactory,Identifier
+ ,Whitespace
+codec,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+codec,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+/** Return the compression codec. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+getCodec,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a writer for a new file.
+     *
+     * @param options The options.
+     * @throws IOException If there is an error.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Writer,Identifier
+(,Punctuation
+Options,Identifier
+ ,Whitespace
+options,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+model,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getDataModel,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Configuration may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+fileSystem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Save the key and value schemas.,Comment
+"
+",Newline
+      ,Whitespace
+mKeySchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getKeySchema,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mKeySchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Key schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+mValueSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getValueSchema,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mValueSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Value schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Save the index interval.,Comment
+"
+",Newline
+      ,Whitespace
+mIndexInterval,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getIndexInterval,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Create the directory.,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+fileSystem,Identifier
+.,Punctuation
+mkdirs,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""Unable to create directory for SortedKeyValueFile: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Created directory """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Open a writer for the data file.,Comment
+"
+",Newline
+      ,Whitespace
+Path,Identifier
+ ,Whitespace
+dataFilePath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+DATA_FILENAME,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Creating writer for avro data file: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+dataFilePath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mRecordSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroKeyValue,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+mKeySchema,Identifier
+",",Punctuation
+ ,Whitespace
+mValueSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+DatumWriter,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+datumWriter,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+model,Identifier
+.,Punctuation
+createDatumWriter,Identifier
+(,Punctuation
+mRecordSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+dataOutputStream,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileSystem,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+dataFilePath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mDataFileWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+(,Punctuation
+datumWriter,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+setSyncInterval,Identifier
+(,Punctuation
+1,Literal
+ ,Whitespace
+<<,Operator
+ ,Whitespace
+20,Literal
+),Punctuation
+  ,Whitespace
+"// Set the auto-sync interval sufficiently large, since",Comment
+"
+",Newline
+                                     ,Whitespace
+// we will manually sync every mIndexInterval records.,Comment
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+setCodec,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getCodec,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+create,Identifier
+(,Punctuation
+mRecordSchema,Identifier
+",",Punctuation
+ ,Whitespace
+dataOutputStream,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Open a writer for the index file.,Comment
+"
+",Newline
+      ,Whitespace
+Path,Identifier
+ ,Whitespace
+indexFilePath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+options,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+INDEX_FILENAME,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Creating writer for avro index file: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+indexFilePath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mIndexSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroKeyValue,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+mKeySchema,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+LONG,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+DatumWriter,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+ ,Whitespace
+indexWriter,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+model,Identifier
+.,Punctuation
+createDatumWriter,Identifier
+(,Punctuation
+mIndexSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+indexOutputStream,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileSystem,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+indexFilePath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mIndexFileWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+GenericRecord,Identifier
+>,Operator
+(,Punctuation
+indexWriter,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+create,Identifier
+(,Punctuation
+mIndexSchema,Identifier
+",",Punctuation
+ ,Whitespace
+indexOutputStream,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Appends a record to the SortedKeyValueFile.
+     *
+     * @param key The key.
+     * @param value The value.
+     * @throws IOException If there is an error.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+append,Identifier
+(,Punctuation
+K,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// Make sure the keys are inserted in sorted order.,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mPreviousKey,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+model,Identifier
+.,Punctuation
+compare,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+mPreviousKey,Identifier
+",",Punctuation
+ ,Whitespace
+mKeySchema,Identifier
+),Punctuation
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Records must be inserted in sorted key order.""",String
+"
+",Newline
+            ,Whitespace
++,Operator
+ ,Whitespace
+""" Attempted to insert key """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" after """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+mPreviousKey,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""".""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+mPreviousKey,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+model,Identifier
+.,Punctuation
+deepCopy,Identifier
+(,Punctuation
+mKeySchema,Identifier
+",",Punctuation
+ ,Whitespace
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Construct the data record.,Comment
+"
+",Newline
+      ,Whitespace
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+dataRecord,Identifier
+"
+",Newline
+          ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+(,Punctuation
+new,Keyword
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+Record,Identifier
+(,Punctuation
+mRecordSchema,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+dataRecord,Identifier
+.,Punctuation
+setKey,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+dataRecord,Identifier
+.,Punctuation
+setValue,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Index it if necessary.,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+0,Literal
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mRecordsWritten,Identifier
+++,Operator
+ ,Whitespace
+%,Operator
+ ,Whitespace
+mIndexInterval,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+"// Force a sync to the data file writer, which closes the current data block (if",Comment
+"
+",Newline
+        ,Whitespace
+// nonempty) and reports the current position in the file.,Comment
+"
+",Newline
+        ,Whitespace
+long,Keyword
+ ,Whitespace
+position,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mDataFileWriter,Identifier
+.,Punctuation
+sync,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+// Construct the record to put in the index.,Comment
+"
+",Newline
+        ,Whitespace
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+indexRecord,Identifier
+"
+",Newline
+            ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKeyValue,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+(,Punctuation
+new,Keyword
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+Record,Identifier
+(,Punctuation
+mIndexSchema,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+indexRecord,Identifier
+.,Punctuation
+setKey,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+indexRecord,Identifier
+.,Punctuation
+setValue,Identifier
+(,Punctuation
+position,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mIndexFileWriter,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+indexRecord,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// Write it to the data file.,Comment
+"
+",Newline
+      ,Whitespace
+mDataFileWriter,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+dataRecord,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mIndexFileWriter,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mDataFileWriter,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

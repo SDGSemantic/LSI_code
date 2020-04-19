@@ -1,0 +1,376 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+InetSocketAddress,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+URI,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** IPC utilities, including client and server factories. */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Ipc,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Ipc,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+                                ,Whitespace
+// no public ctor,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Create a client {@link Transceiver} connecting to the provided URI. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+createTransceiver,Identifier
+(,Punctuation
+URI,Identifier
+ ,Whitespace
+uri,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+"""http""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+uri,Identifier
+.,Punctuation
+getScheme,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+       ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HttpTransceiver,Identifier
+(,Punctuation
+uri,Identifier
+.,Punctuation
+toURL,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+"""avro""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+uri,Identifier
+.,Punctuation
+getScheme,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslSocketTransceiver,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+new,Keyword
+ ,Whitespace
+InetSocketAddress,Identifier
+(,Punctuation
+uri,Identifier
+.,Punctuation
+getHost,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+uri,Identifier
+.,Punctuation
+getPort,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""unknown uri scheme: """,String
++,Operator
+uri,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Create a {@link Server} listening at the named URI using the provided
+   * responder. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Server,Identifier
+ ,Whitespace
+createServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+"
+",Newline
+                                    ,Whitespace
+URI,Identifier
+ ,Whitespace
+uri,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+"""http""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+uri,Identifier
+.,Punctuation
+getScheme,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+uri,Identifier
+.,Punctuation
+getPort,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+"""avro""",String
+.,Punctuation
+equals,Identifier
+(,Punctuation
+uri,Identifier
+.,Punctuation
+getScheme,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslSocketServer,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+InetSocketAddress,Identifier
+(,Punctuation
+uri,Identifier
+.,Punctuation
+getHost,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+uri,Identifier
+.,Punctuation
+getPort,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""unknown uri scheme: """,String
++,Operator
+uri,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

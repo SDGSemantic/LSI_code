@@ -1,0 +1,3405 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+BindException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+InetAddress,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+UnknownHostException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Random,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRemoteException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+HttpServer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+RPCContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+RPCPlugin,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificResponder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+Server,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+bio,Identifier
+.,Punctuation
+SocketConnector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+Context,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+ServletHolder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A tracing plugin for Avro.
+ * 
+ * This plugin traces RPC call timing and follows nested trees of RPC
+ * calls. To use, instantiate and add to an existing Requestor or
+ * Responder. If you have a Responder that itself acts as an RPC client (i.e.
+ * it contains a Requestor) be sure to pass the same instance of the 
+ * plugin to both components so that propagation occurs correctly.
+ * 
+ * Currently, propagation only works if each requester is performing
+ * serial RPC calls. That is, we cannot support the case in which the
+ * Requestor's request does not occur in the same thread as the Responder's
+ * response. 
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TracePlugin,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RPCPlugin,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+final,Keyword
+ ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Random,Identifier
+ ,Whitespace
+RANDOM,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Random,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+TracePlugin,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+enum,Identifier
+ ,Whitespace
+StorageType,Identifier
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+MEMORY,Identifier
+",",Punctuation
+ ,Whitespace
+DISK,Identifier
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+TracePlugin,Identifier
+ ,Whitespace
+singleton,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+TracePluginConfiguration,Identifier
+ ,Whitespace
+singletonConf,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/*
+   * This plugin uses three key/value meta-data pairs. The value type for all
+   * of these pairs is fixed(8) and they are assumed to be encoded as 8-byte
+   * ID's. The presence of a TRACE_ID_KEY and a SPAN_ID_KEY in a message
+   * signals that tracing is in progress. The optional PARENT_SPAN_ID_KEY
+   * signals that this message has a parent node in the RPC call tree. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+TRACE_ID_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""traceID""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+SPAN_ID_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""spanID""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+PARENT_SPAN_ID_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""parentSpanID""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+class,Keyword
+ ,Whitespace
+TraceResponder,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+AvroTrace,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+SpanStorage,Identifier
+ ,Whitespace
+spanStorage,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+TraceResponder,Identifier
+(,Punctuation
+SpanStorage,Identifier
+ ,Whitespace
+spanStorage,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+spanStorage,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+spanStorage,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+getAllSpans,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+AvroRemoteException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+spanStorage,Identifier
+.,Punctuation
+getAllSpans,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+getSpansInRange,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+end,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+AvroRemoteException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+spanStorage,Identifier
+.,Punctuation
+getSpansInRange,Identifier
+(,Punctuation
+start,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+double,Keyword
+ ,Whitespace
+traceProb,Identifier
+;,Punctuation
+ ,Whitespace
+// Probability of starting tracing,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+port,Identifier
+;,Punctuation
+         ,Whitespace
+// Port to serve tracing data,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+clientPort,Identifier
+;,Punctuation
+   ,Whitespace
+// Port to expose client HTTP interface,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+StorageType,Identifier
+ ,Whitespace
+storageType,Identifier
+;,Punctuation
+  ,Whitespace
+// How to store spans,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+maxSpans,Identifier
+;,Punctuation
+ ,Whitespace
+// Max number of spans to store,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+enabled,Identifier
+;,Punctuation
+ ,Whitespace
+// Whether to participate in tracing,Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+TracePluginConfiguration,Identifier
+ ,Whitespace
+config,Identifier
+;,Punctuation
+ ,Whitespace
+// Init options,Comment
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ThreadLocal,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+currentSpan,Identifier
+;,Punctuation
+ ,Whitespace
+// span in which we are server,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ThreadLocal,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+childSpan,Identifier
+;,Punctuation
+   ,Whitespace
+// span in which we are client,Comment
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+// Storage and serving of spans,Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+SpanStorage,Identifier
+ ,Whitespace
+storage,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+HttpServer,Identifier
+ ,Whitespace
+httpServer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+SpecificResponder,Identifier
+ ,Whitespace
+responder,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+// Client interface,Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Server,Identifier
+ ,Whitespace
+clientFacingServer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+hostname,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Get a singleton TracePlugin. This is useful if you want to persist a plugin
+   * across both a { @link Requestor } and { @link Responder }. This must be
+   * prefixed by at least one call of configureSingleton();
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+TracePlugin,Identifier
+ ,Whitespace
+getSingleton,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+singletonConf,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Singleton not configured yet.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+singleton,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TracePlugin,Identifier
+(,Punctuation
+singletonConf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+singleton,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Configure a singleton instance for this TracePlugin. If a singleton
+   * has already been created according to a different configuration, throw
+   * a RuntimeException.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configureSingleton,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+TracePluginConfiguration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+singleton,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+(,Punctuation
+singleton,Identifier
+.,Punctuation
+config,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Singleton already in use: """,String
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+"""can't reconfigure.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+singletonConf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TracePlugin,Identifier
+(,Punctuation
+TracePluginConfiguration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+config,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+traceProb,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+traceProb,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+port,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+port,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+clientPort,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+clientPort,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+storageType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+storageType,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+maxSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+maxSpans,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+enabled,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+enabled,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// check bounds,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+traceProb,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+0.0,Literal
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+traceProb,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+1.0,Literal
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+traceProb,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0.0,Literal
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+port,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+port,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+65535,Literal
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+port,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+51001,Literal
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+clientPort,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+clientPort,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+65535,Literal
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+clientPort,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+51200,Literal
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+maxSpans,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+maxSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+5000,Literal
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+hostname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+InetAddress,Identifier
+.,Punctuation
+getLocalHost,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+UnknownHostException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+hostname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""Unknown""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+currentSpan,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ThreadLocal,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+protected,Keyword
+ ,Whitespace
+Span,Identifier
+ ,Whitespace
+initialValue,Identifier
+(,Punctuation
+),Punctuation
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+childSpan,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ThreadLocal,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+protected,Keyword
+ ,Whitespace
+Span,Identifier
+ ,Whitespace
+initialValue,Identifier
+(,Punctuation
+),Punctuation
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+storageType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+StorageType,Identifier
+.,Punctuation
+MEMORY,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+storage,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+InMemorySpanStorage,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+storageType,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+StorageType,Identifier
+.,Punctuation
+DISK,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+storage,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FileSpanStorage,Identifier
+(,Punctuation
+false,Keyword
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+// default,Comment
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+storage,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+InMemorySpanStorage,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+storage,Identifier
+.,Punctuation
+setMaxSpans,Identifier
+(,Punctuation
+maxSpans,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// Start serving span data,Comment
+"
+",Newline
+    ,Whitespace
+responder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificResponder,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+AvroTrace,Identifier
+.,Punctuation
+PROTOCOL,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TraceResponder,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+storage,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+bound,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+bound,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+"// rather than die if port is taken, try to fail over to another port.",Comment
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+httpServer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+port,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+httpServer,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+bound,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+AvroRuntimeException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+e,Identifier
+.,Punctuation
+getCause,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+BindException,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+error,Identifier
+(,Punctuation
+"""Failed to bind to port: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+port,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+port,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+port,Identifier
+ ,Whitespace
++,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+e,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// Start client-facing servlet,Comment
+"
+",Newline
+    ,Whitespace
+initializeClientServer,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+clientStartConnect,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// There are two cases in which we will need to seed a trace,Comment
+"
+",Newline
+    ,Whitespace
+// (1) If we probabilistically decide to seed a new trace,Comment
+"
+",Newline
+    ,Whitespace
+// (2) If we are part of an existing trace,Comment
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+RANDOM,Identifier
+.,Punctuation
+nextFloat,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+<,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+traceProb,Identifier
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+enabled,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// Start new trace,Comment
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+span,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+createEventlessSpan,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+requestorHostname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+hostname,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+span,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+enabled,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+currSpan,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+span,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+createEventlessSpan,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+currSpan,Identifier
+.,Punctuation
+traceID,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+currSpan,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+;,Punctuation
+   ,Whitespace
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+requestorHostname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+hostname,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+span,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+span,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+context,Identifier
+.,Punctuation
+requestHandshakeMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+put,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+TRACE_ID_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+span,Identifier
+.,Punctuation
+traceID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+context,Identifier
+.,Punctuation
+requestHandshakeMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+put,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+SPAN_ID_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+span,Identifier
+.,Punctuation
+spanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+span,Identifier
+.,Punctuation
+parentSpanID,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+context,Identifier
+.,Punctuation
+requestHandshakeMeta,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+put,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+PARENT_SPAN_ID_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+span,Identifier
+.,Punctuation
+parentSpanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+serverConnecting,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+meta,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+requestHandshakeMeta,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// Are we being asked to propagate a trace?,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+meta,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+TRACE_ID_KEY,Identifier
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+enabled,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+meta,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+SPAN_ID_KEY,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Span ID missing for trace """,String
+ ,Whitespace
++,Operator
+"
+",Newline
+            ,Whitespace
+meta,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+TRACE_ID_KEY,Identifier
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+;,Punctuation
+ ,Whitespace
+// should have been given full span data,Comment
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+spanIDBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+8,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+meta,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+SPAN_ID_KEY,Identifier
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+spanIDBytes,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ID,Identifier
+ ,Whitespace
+spanID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+spanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+spanIDBytes,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+ID,Identifier
+ ,Whitespace
+parentSpanID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+meta,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+PARENT_SPAN_ID_KEY,Identifier
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+parentSpanID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+parentSpanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+meta,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+PARENT_SPAN_ID_KEY,Identifier
+),Punctuation
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+ID,Identifier
+ ,Whitespace
+traceID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+traceID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+meta,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+TRACE_ID_KEY,Identifier
+),Punctuation
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+span,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+createEventlessSpan,Identifier
+(,Punctuation
+traceID,Identifier
+",",Punctuation
+ ,Whitespace
+spanID,Identifier
+",",Punctuation
+ ,Whitespace
+parentSpanID,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+responderHostname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+hostname,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+events,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+Array,Identifier
+<,Operator
+TimestampedEvent,Identifier
+>,Operator
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+100,Literal
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+createArray,Identifier
+(,Punctuation
+TimestampedEvent,Identifier
+.,Punctuation
+SCHEMA$,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+span,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+clientFinishConnect,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+clientSendRequest,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+child,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Util,Identifier
+.,Punctuation
+addEvent,Identifier
+(,Punctuation
+child,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_SEND,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+child,Identifier
+.,Punctuation
+messageName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+child,Identifier
+.,Punctuation
+requestPayloadSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+context,Identifier
+.,Punctuation
+getRequestPayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+serverReceiveRequest,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+current,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Util,Identifier
+.,Punctuation
+addEvent,Identifier
+(,Punctuation
+current,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+SERVER_RECV,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+current,Identifier
+.,Punctuation
+messageName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+current,Identifier
+.,Punctuation
+requestPayloadSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+context,Identifier
+.,Punctuation
+getRequestPayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+serverSendResponse,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+current,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Util,Identifier
+.,Punctuation
+addEvent,Identifier
+(,Punctuation
+current,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+SERVER_SEND,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+current,Identifier
+.,Punctuation
+responsePayloadSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+Util,Identifier
+.,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getResponsePayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+storage,Identifier
+.,Punctuation
+addSpan,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+currentSpan,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+clientReceiveResponse,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+child,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Util,Identifier
+.,Punctuation
+addEvent,Identifier
+(,Punctuation
+child,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_RECV,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+child,Identifier
+.,Punctuation
+responsePayloadSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+Util,Identifier
+.,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getResponsePayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+storage,Identifier
+.,Punctuation
+addSpan,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+childSpan,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+stopClientServer,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+clientFacingServer,Identifier
+.,Punctuation
+stop,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// ignore,Comment
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Start a client-facing server. Can be overridden if users
+   * prefer to attach client Servlet to their own server. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+initializeClientServer,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+clientFacingServer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Server,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Context,Identifier
+ ,Whitespace
+staticContext,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Context,Identifier
+(,Punctuation
+clientFacingServer,Identifier
+",",Punctuation
+ ,Whitespace
+"""/static""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+staticContext,Identifier
+.,Punctuation
+addServlet,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ServletHolder,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+StaticServlet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Context,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Context,Identifier
+(,Punctuation
+clientFacingServer,Identifier
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+addServlet,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ServletHolder,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+TraceClientServlet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+connected,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+SocketConnector,Identifier
+ ,Whitespace
+socket,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// Keep trying ports until we can connect,Comment
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+connected,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+socket,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SocketConnector,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+socket,Identifier
+.,Punctuation
+setPort,Identifier
+(,Punctuation
+clientPort,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+clientFacingServer,Identifier
+.,Punctuation
+addConnector,Identifier
+(,Punctuation
+socket,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+clientFacingServer,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+connected,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+e,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+BindException,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+clientFacingServer,Identifier
+.,Punctuation
+removeConnector,Identifier
+(,Punctuation
+socket,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+clientPort,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+clientPort,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+break,Keyword
+;,Punctuation
+ ,Whitespace
+// Fail silently here (this is currently unused),Comment
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

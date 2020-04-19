@@ -1,0 +1,730 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+tether,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+MapRunner,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+OutputCollector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+RecordReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reporter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Counters,Identifier
+.,Punctuation
+Counter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroJob,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+class,Keyword
+ ,Whitespace
+TetherMapRunner,Identifier
+"
+",Newline
+  ,Whitespace
+extends,Keyword
+ ,Whitespace
+MapRunner,Identifier
+<,Operator
+TetherData,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+",",Punctuation
+ ,Whitespace
+TetherData,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+TetherMapRunner,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+TetheredProcess,Identifier
+ ,Whitespace
+process,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configure,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+job,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+RecordReader,Identifier
+<,Operator
+TetherData,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+recordReader,Identifier
+",",Punctuation
+"
+",Newline
+                  ,Whitespace
+OutputCollector,Identifier
+<,Operator
+TetherData,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+collector,Identifier
+",",Punctuation
+"
+",Newline
+                  ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// start tethered process,Comment
+"
+",Newline
+      ,Whitespace
+process,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TetheredProcess,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+collector,Identifier
+",",Punctuation
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// configure it,Comment
+"
+",Newline
+      ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+configure,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+TaskType,Identifier
+.,Punctuation
+MAP,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+         ,Whitespace
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+INPUT_SCHEMA,Identifier
+),Punctuation
+",",Punctuation
+"
+",Newline
+         ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getMapOutputSchema,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+         ,Whitespace
+"
+",Newline
+      ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+partitions,Identifier
+(,Punctuation
+job,Identifier
+.,Punctuation
+getNumReduceTasks,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// run map,Comment
+"
+",Newline
+      ,Whitespace
+Counter,Identifier
+ ,Whitespace
+inputRecordCounter,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+reporter,Identifier
+.,Punctuation
+getCounter,Identifier
+(,Punctuation
+"""org.apache.hadoop.mapred.Task$Counter""",String
+",",Punctuation
+"
+",Newline
+                            ,Whitespace
+"""MAP_INPUT_RECORDS""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+TetherData,Identifier
+ ,Whitespace
+data,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TetherData,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+recordReader,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+data,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+input,Identifier
+(,Punctuation
+data,Identifier
+.,Punctuation
+buffer,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+data,Identifier
+.,Punctuation
+count,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+inputRecordCounter,Identifier
+.,Punctuation
+increment,Identifier
+(,Punctuation
+data,Identifier
+.,Punctuation
+count,Identifier
+(,Punctuation
+),Punctuation
+-,Operator
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+process,Identifier
+.,Punctuation
+outputService,Identifier
+.,Punctuation
+isFinished,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+complete,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+// wait for completion,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+process,Identifier
+.,Punctuation
+outputService,Identifier
+.,Punctuation
+waitForFinish,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Task failed: """,String
++,Operator
+process,Identifier
+.,Punctuation
+outputService,Identifier
+.,Punctuation
+error,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Throwable,Identifier
+ ,Whitespace
+t,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                       ,Whitespace
+// send abort,Comment
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Task failed""",String
+",",Punctuation
+ ,Whitespace
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+process,Identifier
+.,Punctuation
+inputClient,Identifier
+.,Punctuation
+abort,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Task failed: """,String
++,Operator
+t,Identifier
+",",Punctuation
+ ,Whitespace
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+                                   ,Whitespace
+// clean up,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+process,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+process,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+},Punctuation
+"
+",Newline

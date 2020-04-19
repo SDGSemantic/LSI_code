@@ -1,0 +1,1650 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+avro,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collection,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnFileMetaData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+TrevniRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericFixed,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Utf8,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroColumnator,Identifier
+.,Punctuation
+isSimple,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Write Avro records to a Trevni column file.
+ *
+ * <p>Each primitive type is written to a separate column.
+ *
+ * <p>Output is buffered until {@link #writeTo(OutputStream)} is called.  The
+ * {@link #sizeEstimate()} indicates both the amount of data buffered and the
+ * size of the file that will be written.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroColumnWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnFileWriter,Identifier
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+arrayWidths,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+SCHEMA_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.schema""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroColumnWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+ColumnFileMetaData,Identifier
+ ,Whitespace
+meta,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+s,Identifier
+",",Punctuation
+ ,Whitespace
+meta,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroColumnWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+ColumnFileMetaData,Identifier
+ ,Whitespace
+meta,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+model,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+AvroColumnator,Identifier
+ ,Whitespace
+columnator,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroColumnator,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+meta,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+SCHEMA_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+           ,Whitespace
+// save schema in file,Comment
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnFileWriter,Identifier
+(,Punctuation
+meta,Identifier
+",",Punctuation
+ ,Whitespace
+columnator,Identifier
+.,Punctuation
+getColumns,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+arrayWidths,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+columnator,Identifier
+.,Punctuation
+getArrayWidths,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+model,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+model,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Return the approximate size of the file that will be written.  Tries to
+   * slightly over-estimate.  Indicates both the size in memory of the buffered
+   * data as well as the size of the file that will be written by {@link
+   * #writeTo(OutputStream)}. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+sizeEstimate,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+writer,Identifier
+.,Punctuation
+sizeEstimate,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Write all rows added to the named output stream. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeTo,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+writeTo,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Write all rows added to the named file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeTo,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+writeTo,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Add a row to the file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+D,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+startRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+count,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+write,Identifier
+(,Punctuation
+value,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+(,Punctuation
+count,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+writer,Identifier
+.,Punctuation
+getColumnCount,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+endRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+o,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+column,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isSimple,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writeValue,Identifier
+(,Punctuation
+o,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+column,Identifier
++,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+MAP,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+Map,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+?,Operator
+>,Operator
+ ,Whitespace
+map,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+),Punctuation
+o,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+map,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+map,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+.,Punctuation
+writeValue,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+.,Punctuation
+writeValue,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
++,Operator
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+write,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getValueType,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
++,Operator
+2,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+assert,Identifier
+(,Punctuation
+c,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+column,Identifier
++,Operator
+arrayWidths,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+column,Identifier
++,Operator
+arrayWidths,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+RECORD,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Field,Identifier
+ ,Whitespace
+f,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getFields,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+write,Identifier
+(,Punctuation
+model,Identifier
+.,Punctuation
+getField,Identifier
+(,Punctuation
+o,Identifier
+",",Punctuation
+f,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+f,Identifier
+.,Punctuation
+pos,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+schema,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+column,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ARRAY,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+Collection,Identifier
+ ,Whitespace
+elements,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Collection,Identifier
+),Punctuation
+o,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+elements,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isSimple,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+getElementType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+         ,Whitespace
+// optimize simple arrays,Comment
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+element,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+elements,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+writeValue,Identifier
+(,Punctuation
+element,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getElementType,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+column,Identifier
++,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+element,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+elements,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+.,Punctuation
+writeValue,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+write,Identifier
+(,Punctuation
+element,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getElementType,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+column,Identifier
++,Operator
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+assert,Identifier
+(,Punctuation
+c,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+column,Identifier
++,Operator
+arrayWidths,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+column,Identifier
++,Operator
+arrayWidths,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+UNION,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+model,Identifier
+.,Punctuation
+resolveUnion,Identifier
+(,Punctuation
+s,Identifier
+",",Punctuation
+ ,Whitespace
+o,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+branch,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getTypes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+boolean,Keyword
+ ,Whitespace
+selected,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+i,Identifier
+++,Operator
+ ,Whitespace
+==,Operator
+ ,Whitespace
+b,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+branch,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+NULL,Identifier
+),Punctuation
+ ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+selected,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+writer,Identifier
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+0,Literal
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+column,Identifier
++=,Operator
+arrayWidths,Identifier
+[,Punctuation
+column,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+writer,Identifier
+.,Punctuation
+writeLength,Identifier
+(,Punctuation
+1,Literal
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isSimple,Identifier
+(,Punctuation
+branch,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+writeValue,Identifier
+(,Punctuation
+o,Identifier
+",",Punctuation
+ ,Whitespace
+branch,Identifier
+",",Punctuation
+ ,Whitespace
+column,Identifier
+++,Operator
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+writer,Identifier
+.,Punctuation
+writeValue,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+write,Identifier
+(,Punctuation
+o,Identifier
+",",Punctuation
+ ,Whitespace
+branch,Identifier
+",",Punctuation
+ ,Whitespace
+column,Identifier
++,Operator
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+column,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Unknown schema: """,String
++,Operator
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeValue,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+value,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+column,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+value,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Utf8,Identifier
+),Punctuation
+                    ,Whitespace
+// convert Utf8 to String,Comment
+"
+",Newline
+        ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+value,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ENUM,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+value,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Enum,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Enum,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+.,Punctuation
+ordinal,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getEnumOrdinal,Identifier
+(,Punctuation
+value,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+GenericFixed,Identifier
+),Punctuation
+value,Identifier
+),Punctuation
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+writer,Identifier
+.,Punctuation
+writeValue,Identifier
+(,Punctuation
+value,Identifier
+",",Punctuation
+ ,Whitespace
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

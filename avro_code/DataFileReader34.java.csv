@@ -1,0 +1,2237 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EOFException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DecoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+SYNC_SIZE,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+MAGIC,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Random access to files written with {@link DataFileWriter}.
+ * @see DataFileWriter
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+"
+",Newline
+  ,Whitespace
+extends,Keyword
+ ,Whitespace
+DataFileStream,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+FileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+SeekableInputStream,Identifier
+ ,Whitespace
+sin,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+blockStart,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Open a reader for a file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+FileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+openReader,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+",",Punctuation
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+openReader,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+SeekableFileInput,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Open a reader for a file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+FileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+openReader,Identifier
+(,Punctuation
+SeekableInput,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+"
+",Newline
+                                             ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+in,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+<,Operator
+ ,Whitespace
+MAGIC,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Not an Avro data file""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// read magic header,Comment
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+magic,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+MAGIC,Identifier
+.,Punctuation
+length,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+in,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+magic,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+magic,Identifier
+",",Punctuation
+ ,Whitespace
+c,Identifier
+",",Punctuation
+ ,Whitespace
+magic,Identifier
+.,Punctuation
+length,Identifier
+-,Operator
+c,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+"
+",Newline
+    ,Whitespace
+in,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+Arrays,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+MAGIC,Identifier
+",",Punctuation
+ ,Whitespace
+magic,Identifier
+),Punctuation
+),Punctuation
+              ,Whitespace
+// current format,Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+(,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+Arrays,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+DataFileReader12,Identifier
+.,Punctuation
+MAGIC,Identifier
+",",Punctuation
+ ,Whitespace
+magic,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+// 1.2 format,Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader12,Identifier
+<,Operator
+D,Identifier
+>,Operator
+(,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Not an Avro data file""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Construct a reader for a file at the current position of the input,
+   * without reading the header.
+   * @param sync True to read forward to the next sync point after opening,
+   *             false to assume that the input is already at a valid sync
+   *             point.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+openReader,Identifier
+(,Punctuation
+SeekableInput,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+"
+",Newline
+                                                 ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+"
+",Newline
+                                                 ,Whitespace
+Header,Identifier
+ ,Whitespace
+header,Identifier
+",",Punctuation
+"
+",Newline
+                                                 ,Whitespace
+boolean,Keyword
+ ,Whitespace
+sync,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+DataFileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+dreader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+(,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+header,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// seek/sync to an (assumed) valid position,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+sync,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+dreader,Identifier
+.,Punctuation
+sync,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+"
+",Newline
+      ,Whitespace
+dreader,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+dreader,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct a reader for a file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+",",Punctuation
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+new,Keyword
+ ,Whitespace
+SeekableFileInput,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct a reader for a file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+(,Punctuation
+SeekableInput,Identifier
+ ,Whitespace
+sin,Identifier
+",",Punctuation
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+reader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+sin,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SeekableInputStream,Identifier
+(,Punctuation
+sin,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+initialize,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+sin,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+blockFinished,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Construct using a {@link DataFileStream.Header}.  Does not call {@link
+      #sync(long)} or {@link #seek(long)}. */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+(,Punctuation
+SeekableInput,Identifier
+ ,Whitespace
+sin,Identifier
+",",Punctuation
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+"
+",Newline
+                           ,Whitespace
+Header,Identifier
+ ,Whitespace
+header,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+reader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+sin,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SeekableInputStream,Identifier
+(,Punctuation
+sin,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+initialize,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+sin,Identifier
+",",Punctuation
+ ,Whitespace
+header,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Move to a specific, known synchronization point, one returned from {@link
+   * DataFileWriter#sync()} while writing.  If synchronization points were not
+   * saved while writing a file, use {@link #sync(long)} instead. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+seek,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+position,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+sin,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+position,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+vin,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+binaryDecoder,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+sin,Identifier
+",",Punctuation
+ ,Whitespace
+vin,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+datumIn,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+blockRemaining,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+blockStart,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+position,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Move to the next synchronization point after a position. To process a
+   * range of file entires, call this with the starting position, then check
+   * {@link #pastSync(long)} with the end point before each call to {@link
+   * #next()}. */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+sync,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+position,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+seek,Identifier
+(,Punctuation
+position,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// work around an issue where 1.5.4 C stored sync in metadata,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+position,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+getMeta,Identifier
+(,Punctuation
+"""avro.sync""",String
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+initialize,Identifier
+(,Punctuation
+sin,Identifier
+),Punctuation
+;,Punctuation
+                            ,Whitespace
+// re-init to skip header,Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+=,Operator
+0,Literal
+",",Punctuation
+ ,Whitespace
+b,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+vin,Identifier
+.,Punctuation
+inputStream,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+vin,Identifier
+.,Punctuation
+readFixed,Identifier
+(,Punctuation
+syncBuffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+j,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+;,Punctuation
+ ,Whitespace
+j,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+SYNC_SIZE,Identifier
+;,Punctuation
+ ,Whitespace
+j,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+getHeader,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+sync,Identifier
+[,Punctuation
+j,Identifier
+],Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+syncBuffer,Identifier
+[,Punctuation
+(,Punctuation
+i,Identifier
++,Operator
+j,Identifier
+),Punctuation
+%,Operator
+SYNC_SIZE,Identifier
+],Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+j,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+SYNC_SIZE,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                       ,Whitespace
+// matched a complete sync,Comment
+"
+",Newline
+        ,Whitespace
+blockStart,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+position,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+i,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+SYNC_SIZE,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+b,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+syncBuffer,Identifier
+[,Punctuation
+i,Identifier
+++,Operator
+%,Operator
+SYNC_SIZE,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+byte,Keyword
+),Punctuation
+b,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+b,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+EOFException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// fall through,Comment
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+// if no match or EOF set start to the end position,Comment
+"
+",Newline
+      ,Whitespace
+blockStart,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sin,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"//System.out.println(""block start location after EOF: "" + blockStart );",Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+blockFinished,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+blockStart,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sin,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+vin,Identifier
+.,Punctuation
+inputStream,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+available,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the last synchronization point before our current position. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+previousSync,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+blockStart,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return true if past the next synchronization point after a position. */,Comment
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+pastSync,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+position,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+blockStart,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+position,Identifier
++,Operator
+SYNC_SIZE,Identifier
+),Punctuation
+||,Operator
+(,Punctuation
+blockStart,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+sin,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+tell,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+sin,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SeekableInputStream,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+InputStream,Identifier
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+implements,Keyword
+ ,Whitespace
+SeekableInput,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+oneByte,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+1,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+SeekableInput,Identifier
+ ,Whitespace
+in,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+SeekableInputStream,Identifier
+(,Punctuation
+SeekableInput,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+seek,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+p,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+p,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Illegal seek: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+p,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+p,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+tell,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+read,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+b,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+b,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+read,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+b,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+read,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+n,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+read,Identifier
+(,Punctuation
+oneByte,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+n,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+oneByte,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+ ,Whitespace
+&,Operator
+ ,Whitespace
+0xff,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+n,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+skip,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+skip,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+position,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+remaining,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+position,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+remaining,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+skip,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+in,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+skip,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+position,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+in,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+remaining,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+position,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+in,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+super,Keyword
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+available,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+remaining,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+in,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+remaining,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+MAX_VALUE,Identifier
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+MAX_VALUE,Identifier
+"
+",Newline
+          ,Whitespace
+:,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+remaining,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

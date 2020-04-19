@@ -1,0 +1,1897 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Comparator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collections,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A Trace is a tree of spans which reflects the actual call structure of a 
+ * recursive RPC call tree. Each node in a Trace represents a RPC 
+ * request/response pair. Each node also has zero or more child nodes.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Trace,Identifier
+ ,Whitespace
+{,Punctuation
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+root,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Construct a trace given a root TraceNode.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Trace,Identifier
+(,Punctuation
+TraceNode,Identifier
+ ,Whitespace
+root,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+root,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+root,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return the root node of this trace.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+getRoot,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+root,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Provide a hashCode unique to the execution path of this trace.
+   * 
+   * This is useful for grouping several traces which represent the same
+   * execution path (for instance, when we want to calculate averages for a
+   * large number of identical traces).
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+executionPathHash,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"// The string representation will be unique to a call tree, so we",Comment
+"
+",Newline
+    ,Whitespace
+// can borrow the hashCode from that string.,Comment
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+printBrief,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+hashCode,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+NodeComparator,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Comparator,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+compare,Identifier
+(,Punctuation
+TraceNode,Identifier
+ ,Whitespace
+tn0,Identifier
+",",Punctuation
+ ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+tn1,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// We sort nodes alphabetically by the message name,Comment
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Comparable,Identifier
+),Punctuation
+tn0,Identifier
+.,Punctuation
+span,Identifier
+.,Punctuation
+messageName,Identifier
+),Punctuation
+.,Punctuation
+compareTo,Identifier
+(,Punctuation
+(,Punctuation
+Comparable,Identifier
+),Punctuation
+tn1,Identifier
+.,Punctuation
+span,Identifier
+.,Punctuation
+messageName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+result,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"/* NOTE:
+       * If two spans containing the *same* RPC message share a parent, we need
+       * a way to consistently order them. Here, we use the send time to
+       * break ties. This will only work deterministically for non-async
+       * clients. For asynchronous clients, aggregated statistics based on this 
+       * ordering may be incorrect, since we have no way to disambiguate one
+       * function call from another. 
+       */",Comment
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Long,Identifier
+ ,Whitespace
+tn0SendTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+tn0,Identifier
+.,Punctuation
+extractEventTime,Identifier
+(,Punctuation
+tn0,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_SEND,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+Long,Identifier
+ ,Whitespace
+tn1SendTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+tn1,Identifier
+.,Punctuation
+extractEventTime,Identifier
+(,Punctuation
+tn1,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_SEND,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+tn0SendTime,Identifier
+.,Punctuation
+compareTo,Identifier
+(,Punctuation
+tn1SendTime,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Print a brief description of this trace describing the execution
+   * path, but not timing data. This is for debugging or quickly profiling
+   * traces.
+   * 
+   * For instance the trace:
+   *     x
+   *    /
+   *   w
+   *    \
+   *     y--z
+   *     
+   * is encoded as:
+   * (w (x) (y (z)))
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+printBrief,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+root,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Trace: <empty>""",String
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""Trace: (""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+root,Identifier
+.,Punctuation
+span,Identifier
+.,Punctuation
+messageName,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" """,String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+printBriefRecurse,Identifier
+(,Punctuation
+root,Identifier
+.,Punctuation
+children,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+""")""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+printBriefRecurse,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+ ,Whitespace
+children,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// We sort so equivalent traces always print identically ,Comment
+"
+",Newline
+    ,Whitespace
+Collections,Identifier
+.,Punctuation
+sort,Identifier
+(,Punctuation
+children,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NodeComparator,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+children,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+tn,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+children,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+i,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+"""(""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+tn,Identifier
+.,Punctuation
+span,Identifier
+.,Punctuation
+messageName,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+tn,Identifier
+.,Punctuation
+children,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+""" """,String
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+printBriefRecurse,Identifier
+(,Punctuation
+tn,Identifier
+.,Punctuation
+children,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+""")""",String
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+i,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+children,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+""" """,String
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Print a description of this trace which includes timing data. This is for 
+   * debugging or quickly profiling traces.
+   * 
+   * For instance the trace:
+   *     x
+   *    /
+   *   w
+   *    \
+   *     x
+   *     
+   * Might print as:
+   * w 87ms
+   *  x 10ms
+   *  x 2ms
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+printWithTiming,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+root,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Trace: <empty>""",String
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""Trace: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""\n""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+ ,Whitespace
+rootList,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+rootList,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+root,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+printWithTimingRecurse,Identifier
+(,Punctuation
+rootList,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+printWithTimingRecurse,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+ ,Whitespace
+children,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+depth,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// We sort so equivalent traces always print identically ,Comment
+"
+",Newline
+    ,Whitespace
+Collections,Identifier
+.,Punctuation
+sort,Identifier
+(,Punctuation
+children,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NodeComparator,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+TraceNode,Identifier
+ ,Whitespace
+tn,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+children,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+clientSend,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+clientReceive,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+TimestampedEvent,Identifier
+ ,Whitespace
+te,Identifier
+:,Operator
+ ,Whitespace
+tn,Identifier
+.,Punctuation
+span,Identifier
+.,Punctuation
+events,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+te,Identifier
+.,Punctuation
+event,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+SpanEvent,Identifier
+ ,Whitespace
+ev,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+te,Identifier
+.,Punctuation
+event,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+ev,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_RECV,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+clientReceive,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+te,Identifier
+.,Punctuation
+timeStamp,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+1000000,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+ev,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_SEND,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+clientSend,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+te,Identifier
+.,Punctuation
+timeStamp,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+1000000,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+depth,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""  """,String
+;,Punctuation
+ ,Whitespace
+},Punctuation
+ ,Whitespace
+// indent,Comment
+"
+",Newline
+      ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+tn,Identifier
+.,Punctuation
+span,Identifier
+.,Punctuation
+messageName,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+(,Punctuation
+clientReceive,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+clientSend,Identifier
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""ms\n""",String
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+tn,Identifier
+.,Punctuation
+children,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+printWithTimingRecurse,Identifier
+(,Punctuation
+tn,Identifier
+.,Punctuation
+children,Identifier
+",",Punctuation
+ ,Whitespace
+depth,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Construct a Trace from a list of Span objects. If no such trace
+   * can be created (if the list does not describe a complete trace)
+   * returns null.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Trace,Identifier
+ ,Whitespace
+extractTrace,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+spans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"/**
+     * Map of span id's to a list of child span id's
+     */",Comment
+"
+",Newline
+    ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Long,Identifier
+>>,Operator
+ ,Whitespace
+children,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Long,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Map of span id's to spans
+     */",Comment
+"
+",Newline
+    ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+Span,Identifier
+>,Operator
+ ,Whitespace
+spanRef,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Root span
+     */",Comment
+"
+",Newline
+    ,Whitespace
+Span,Identifier
+ ,Whitespace
+rootSpan,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+spans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+spanRef,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+parentSpanID,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+rootSpan,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+children,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+parentSpanID,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LinkedList,Identifier
+<,Operator
+Long,Identifier
+>,Operator
+ ,Whitespace
+list,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Long,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+list,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+children,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+parentSpanID,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+list,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+children,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+parentSpanID,Identifier
+),Punctuation
+),Punctuation
+.,Punctuation
+add,Identifier
+(,Punctuation
+"
+",Newline
+              ,Whitespace
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+rootSpan,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+// We never found a root,Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+rootNode,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getNode,Identifier
+(,Punctuation
+rootSpan,Identifier
+",",Punctuation
+ ,Whitespace
+spanRef,Identifier
+",",Punctuation
+ ,Whitespace
+children,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Trace,Identifier
+(,Punctuation
+rootNode,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Recursive helper method to create a span tree. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+getNode,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+Span,Identifier
+>,Operator
+ ,Whitespace
+spanRef,Identifier
+",",Punctuation
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Long,Identifier
+>>,Operator
+ ,Whitespace
+children,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TraceNode,Identifier
+(,Punctuation
+s,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Long,Identifier
+>,Operator
+ ,Whitespace
+kids,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+children,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+kids,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+ ,Whitespace
+// no children (base case) ,Comment
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+childID,Identifier
+:,Operator
+ ,Whitespace
+kids,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+childSpan,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+spanRef,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+childID,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+childSpan,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+ ,Whitespace
+// invalid span reference,Comment
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+children,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+getNode,Identifier
+(,Punctuation
+childSpan,Identifier
+",",Punctuation
+ ,Whitespace
+spanRef,Identifier
+",",Punctuation
+ ,Whitespace
+children,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

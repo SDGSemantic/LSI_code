@@ -1,0 +1,1731 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+avro,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+IdentityHashMap,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ColumnMetaData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+ValueType,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+.,Punctuation
+TrevniRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Utility that computes the column layout of a schema. */,Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+AvroColumnator,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+ ,Whitespace
+columns,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+ ,Whitespace
+arrayWidths,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroColumnator,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+columnize,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return columns for the schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getColumns,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+columns,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+[,Punctuation
+columns,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Return array giving the number of columns immediately following each
+   * column that are descendents of that column. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getArrayWidths,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+int,Keyword
+[,Punctuation
+arrayWidths,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Integer,Identifier
+ ,Whitespace
+width,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+arrayWidths,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+result,Identifier
+[,Punctuation
+i,Identifier
+++,Operator
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+width,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Schema,Identifier
+>,Operator
+ ,Whitespace
+seen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IdentityHashMap,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Schema,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+columnize,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+"
+",Newline
+                         ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isArray,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isSimple,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+path,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getFullName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+addColumn,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+simpleValueType,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+isArray,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+seen,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+),Punctuation
+                      ,Whitespace
+// catch recursion,Comment
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Cannot shred recursive schemas: """,String
++,Operator
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+seen,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+s,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+MAP,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+""">""",String
+ ,Whitespace
+:,Operator
+ ,Whitespace
+path,Identifier
++,Operator
+""">""",String
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+columns,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+addColumn,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+NULL,Identifier
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+addColumn,Identifier
+(,Punctuation
+p,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+"""key""",String
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+",",Punctuation
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+STRING,Identifier
+",",Punctuation
+ ,Whitespace
+p,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+columnize,Identifier
+(,Punctuation
+p,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+"""value""",String
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getValueType,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+p,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+arrayWidths,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+start,Identifier
+",",Punctuation
+ ,Whitespace
+columns,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+-,Operator
+start,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+// fixup with actual width,Comment
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+RECORD,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Field,Identifier
+ ,Whitespace
+field,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getFields,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+           ,Whitespace
+// flatten fields to columns,Comment
+"
+",Newline
+        ,Whitespace
+columnize,Identifier
+(,Punctuation
+p,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+field,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""#""",String
+),Punctuation
+",",Punctuation
+ ,Whitespace
+field,Identifier
+.,Punctuation
+schema,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+isArray,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ARRAY,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+"""[]""",String
+ ,Whitespace
+:,Operator
+ ,Whitespace
+path,Identifier
++,Operator
+"""[]""",String
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+addArrayColumn,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getElementType,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+UNION,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+branch,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+getTypes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+          ,Whitespace
+// array per non-null branch,Comment
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+branch,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+NULL,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+addArrayColumn,Identifier
+(,Punctuation
+p,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+branch,Identifier
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+",",Punctuation
+ ,Whitespace
+branch,Identifier
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Unknown schema: """,String
++,Operator
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+seen,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+p,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+child,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+sep,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+child,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+UNION,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+parent,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+p,Identifier
+(,Punctuation
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+child,Identifier
+.,Punctuation
+getFullName,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+sep,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+p,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+child,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+sep,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+parent,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+child,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+parent,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+sep,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+child,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+addColumn,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+path,Identifier
+",",Punctuation
+ ,Whitespace
+ValueType,Identifier
+ ,Whitespace
+type,Identifier
+",",Punctuation
+"
+",Newline
+                                   ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isArray,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+type,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+parent,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+column,Identifier
+.,Punctuation
+setParent,Identifier
+(,Punctuation
+parent,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+column,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+isArray,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+columns,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+column,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+arrayWidths,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+                           ,Whitespace
+// placeholder,Comment
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+column,Identifier
+;,Punctuation
+"
+",Newline
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addArrayColumn,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+element,Identifier
+",",Punctuation
+"
+",Newline
+                              ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+parent,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+path,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+element,Identifier
+.,Punctuation
+getFullName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isSimple,Identifier
+(,Punctuation
+element,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                      ,Whitespace
+// optimize simple arrays,Comment
+"
+",Newline
+      ,Whitespace
+addColumn,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+simpleValueType,Identifier
+(,Punctuation
+element,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+// complex array: insert a parent column with lengths,Comment
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+columns,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+addColumn,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+NULL,Identifier
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+columnize,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+element,Identifier
+",",Punctuation
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+arrayWidths,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+start,Identifier
+",",Punctuation
+ ,Whitespace
+columns,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+-,Operator
+start,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+// fixup with actual width,Comment
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isSimple,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+NULL,Identifier
+:,Operator
+ ,Whitespace
+case,Keyword
+ ,Whitespace
+BOOLEAN,Identifier
+:,Operator
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+INT,Identifier
+:,Operator
+ ,Whitespace
+case,Keyword
+ ,Whitespace
+LONG,Identifier
+:,Operator
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FLOAT,Identifier
+:,Operator
+ ,Whitespace
+case,Keyword
+ ,Whitespace
+DOUBLE,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BYTES,Identifier
+:,Operator
+ ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ENUM,Identifier
+:,Operator
+ ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ValueType,Identifier
+ ,Whitespace
+simpleValueType,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+NULL,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+NULL,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BOOLEAN,Identifier
+:,Operator
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+BOOLEAN,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+INT,Identifier
+:,Operator
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+INT,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+LONG,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+LONG,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FLOAT,Identifier
+:,Operator
+  ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+FLOAT,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+DOUBLE,Identifier
+:,Operator
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+DOUBLE,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BYTES,Identifier
+:,Operator
+  ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+BYTES,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+STRING,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ENUM,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+INT,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED,Identifier
+:,Operator
+  ,Whitespace
+return,Keyword
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+BYTES,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Unknown schema: """,String
++,Operator
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+    ,Whitespace
+"
+",Newline

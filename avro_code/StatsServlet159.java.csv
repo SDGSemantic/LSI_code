@@ -1,0 +1,2766 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+stats,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Writer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+text,Identifier
+.,Punctuation
+SimpleDateFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Date,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Set,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+ServletException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+UnavailableException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+http,Identifier
+.,Punctuation
+HttpServlet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+http,Identifier
+.,Punctuation
+HttpServletRequest,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+http,Identifier
+.,Punctuation
+HttpServletResponse,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+Template,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+VelocityContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+app,Identifier
+.,Punctuation
+VelocityEngine,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+exception,Identifier
+.,Punctuation
+ParseErrorException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+velocity,Identifier
+.,Punctuation
+exception,Identifier
+.,Punctuation
+ResourceNotFoundException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+.,Punctuation
+Message,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+RPCContext,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Exposes information provided by a StatsPlugin as
+ * a web page.
+ *
+ * This class follows the same synchronization conventions
+ * as StatsPlugin, to avoid requiring StatsPlugin to serve
+ * a copy of the data.
+ */",Comment
+ ,Whitespace
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+StatsServlet,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+HttpServlet,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+StatsPlugin,Identifier
+ ,Whitespace
+statsPlugin,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+VelocityEngine,Identifier
+ ,Whitespace
+velocityEngine,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+SimpleDateFormat,Identifier
+ ,Whitespace
+FORMATTER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+SimpleDateFormat,Identifier
+(,Punctuation
+"""dd-MMM-yyyy HH:mm:ss""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+StatsServlet,Identifier
+(,Punctuation
+StatsPlugin,Identifier
+ ,Whitespace
+statsPlugin,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+UnavailableException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+statsPlugin,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+velocityEngine,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+VelocityEngine,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// These two properties tell Velocity to use its own classpath-based loader,Comment
+"
+",Newline
+    ,Whitespace
+velocityEngine,Identifier
+.,Punctuation
+addProperty,Identifier
+(,Punctuation
+"""resource.loader""",String
+",",Punctuation
+ ,Whitespace
+"""class""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+velocityEngine,Identifier
+.,Punctuation
+addProperty,Identifier
+(,Punctuation
+"""class.resource.loader.class""",String
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+"""org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+velocityEngine,Identifier
+.,Punctuation
+setProperty,Identifier
+(,Punctuation
+"""runtime.references.strict""",String
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+logChuteName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""org.apache.velocity.runtime.log.NullLogChute""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+velocityEngine,Identifier
+.,Punctuation
+setProperty,Identifier
+(,Punctuation
+"""runtime.log.logsystem.class""",String
+",",Punctuation
+ ,Whitespace
+logChuteName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/* Helper class to store per-message data which is passed to templates.
+   * 
+   * The template expects a list of charts, each of which is parameterized by
+   * map key-value string attributes. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+RenderableMessage,Identifier
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+// Velocity brakes if not public,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+numCalls,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>>,Operator
+ ,Whitespace
+charts,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+RenderableMessage,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+charts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>>,Operator
+ ,Whitespace
+getCharts,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+charts,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getname,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getNumCalls,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+numCalls,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/* Surround each string in an array with
+   * quotation marks and escape existing quotes.
+   * 
+   * This is useful when we have an array of strings that we want to turn into
+   * a javascript array declaration. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+escapeStringArray,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+input,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+input,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+i,Identifier
+",",Punctuation
+ ,Whitespace
+"""\""""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+i,Identifier
+),Punctuation
+.,Punctuation
+replace,Identifier
+(,Punctuation
+"""\""""",String
+",",Punctuation
+ ,Whitespace
+"""\\\""""",String
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""\""""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+doGet,Identifier
+(,Punctuation
+HttpServletRequest,Identifier
+ ,Whitespace
+req,Identifier
+",",Punctuation
+ ,Whitespace
+HttpServletResponse,Identifier
+ ,Whitespace
+resp,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+ServletException,Identifier
+",",Punctuation
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+resp,Identifier
+.,Punctuation
+setContentType,Identifier
+(,Punctuation
+"""text/html""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+url,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+req,Identifier
+.,Punctuation
+getRequestURL,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+parts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+url,Identifier
+.,Punctuation
+split,Identifier
+(,Punctuation
+"""//""",String
+),Punctuation
+[,Punctuation
+1,Literal
+],Punctuation
+.,Punctuation
+split,Identifier
+(,Punctuation
+"""/""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writeStats,Identifier
+(,Punctuation
+resp,Identifier
+.,Punctuation
+getWriter,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+e,Identifier
+.,Punctuation
+printStackTrace,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+void,Keyword
+ ,Whitespace
+writeStats,Identifier
+(,Punctuation
+Writer,Identifier
+ ,Whitespace
+w,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+VelocityContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+VelocityContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""title""",String
+",",Punctuation
+ ,Whitespace
+"""Avro RPC Stats""",String
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+rpcs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+  ,Whitespace
+// in flight rpcs,Comment
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+ArrayList,Identifier
+<,Operator
+RenderableMessage,Identifier
+>,Operator
+ ,Whitespace
+messages,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+RenderableMessage,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Entry,Identifier
+<,Operator
+RPCContext,Identifier
+",",Punctuation
+ ,Whitespace
+Stopwatch,Identifier
+>,Operator
+ ,Whitespace
+rpc,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+"
+",Newline
+         ,Whitespace
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+activeRpcs,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+rpcs,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+renderActiveRpc,Identifier
+(,Punctuation
+rpc,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+rpc,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// Get set of all seen messages,Comment
+"
+",Newline
+    ,Whitespace
+Set,Identifier
+<,Operator
+Message,Identifier
+>,Operator
+ ,Whitespace
+keys,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+methodTimings,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+keys,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+methodTimings,Identifier
+.,Punctuation
+keySet,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Message,Identifier
+ ,Whitespace
+m,Identifier
+:,Operator
+ ,Whitespace
+keys,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+messages,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+renderMethod,Identifier
+(,Punctuation
+m,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""inFlightRpcs""",String
+",",Punctuation
+ ,Whitespace
+rpcs,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""messages""",String
+",",Punctuation
+ ,Whitespace
+messages,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""currTime""",String
+",",Punctuation
+ ,Whitespace
+FORMATTER,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Date,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""startupTime""",String
+",",Punctuation
+ ,Whitespace
+FORMATTER,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+startupTime,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+Template,Identifier
+ ,Whitespace
+t,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+velocityEngine,Identifier
+.,Punctuation
+getTemplate,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+"""org/apache/avro/ipc/stats/templates/statsview.vm""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ResourceNotFoundException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ParseErrorException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+merge,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+w,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+renderActiveRpc,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+rpc,Identifier
+",",Punctuation
+ ,Whitespace
+Stopwatch,Identifier
+ ,Whitespace
+stopwatch,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+rpc,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+""": """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+formatMillis,Identifier
+(,Punctuation
+StatsPlugin,Identifier
+.,Punctuation
+nanosToMillis,Identifier
+(,Punctuation
+stopwatch,Identifier
+.,Punctuation
+elapsedNanos,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+RenderableMessage,Identifier
+ ,Whitespace
+renderMethod,Identifier
+(,Punctuation
+Message,Identifier
+ ,Whitespace
+message,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+RenderableMessage,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RenderableMessage,Identifier
+(,Punctuation
+message,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+methodTimings,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+FloatHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+hist,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+methodTimings,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+message,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+numCalls,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+hist,Identifier
+.,Punctuation
+getCount,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+ ,Whitespace
+latencyBar,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+// Fill in chart attributes for velocity,Comment
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""type""",String
+",",Punctuation
+ ,Whitespace
+"""bar""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""title""",String
+",",Punctuation
+ ,Whitespace
+"""All-Time Latency""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""units""",String
+",",Punctuation
+ ,Whitespace
+"""ms""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""numCalls""",String
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getCount,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""avg""",String
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getMean,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""stdDev""",String
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getUnbiasedStdDev,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""labelStr""",String
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getSegmenter,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getBoundaryLabels,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""boundaryStr""",String
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+escapeStringArray,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getSegmenter,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+"
+",Newline
+              ,Whitespace
+getBucketLabels,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""dataStr""",String
+",",Punctuation
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getHistogram,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+charts,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+latencyBar,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+ ,Whitespace
+latencyDot,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""title""",String
+",",Punctuation
+ ,Whitespace
+"""Latency""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""type""",String
+",",Punctuation
+ ,Whitespace
+"""dot""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""dataStr""",String
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getRecentAdditions,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+charts,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+latencyDot,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+sendPayloads,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+hist,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+sendPayloads,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+message,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+ ,Whitespace
+latencyBar,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+// Fill in chart attributes for velocity,Comment
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""type""",String
+",",Punctuation
+ ,Whitespace
+"""bar""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""title""",String
+",",Punctuation
+ ,Whitespace
+"""All-Time Send Payload""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""units""",String
+",",Punctuation
+ ,Whitespace
+"""ms""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""numCalls""",String
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getCount,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""avg""",String
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getMean,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""stdDev""",String
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getUnbiasedStdDev,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""labelStr""",String
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getSegmenter,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getBoundaryLabels,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""boundaryStr""",String
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+escapeStringArray,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getSegmenter,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+"
+",Newline
+              ,Whitespace
+getBucketLabels,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""dataStr""",String
+",",Punctuation
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getHistogram,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+charts,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+latencyBar,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+ ,Whitespace
+latencyDot,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""title""",String
+",",Punctuation
+ ,Whitespace
+"""Send Payload""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""type""",String
+",",Punctuation
+ ,Whitespace
+"""dot""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""dataStr""",String
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getRecentAdditions,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+charts,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+latencyDot,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+receivePayloads,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+hist,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+statsPlugin,Identifier
+.,Punctuation
+receivePayloads,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+message,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+ ,Whitespace
+latencyBar,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+// Fill in chart attributes for velocity,Comment
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""type""",String
+",",Punctuation
+ ,Whitespace
+"""bar""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""title""",String
+",",Punctuation
+ ,Whitespace
+"""All-Time Receive Payload""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""units""",String
+",",Punctuation
+ ,Whitespace
+"""ms""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""numCalls""",String
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getCount,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""avg""",String
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getMean,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""stdDev""",String
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getUnbiasedStdDev,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""labelStr""",String
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getSegmenter,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getBoundaryLabels,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""boundaryStr""",String
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+escapeStringArray,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getSegmenter,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+"
+",Newline
+              ,Whitespace
+getBucketLabels,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyBar,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""dataStr""",String
+",",Punctuation
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getHistogram,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+charts,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+latencyBar,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+ ,Whitespace
+latencyDot,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""title""",String
+",",Punctuation
+ ,Whitespace
+"""Recv Payload""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""type""",String
+",",Punctuation
+ ,Whitespace
+"""dot""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+latencyDot,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""dataStr""",String
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+hist,Identifier
+.,Punctuation
+getRecentAdditions,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+charts,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+latencyDot,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+CharSequence,Identifier
+ ,Whitespace
+formatMillis,Identifier
+(,Punctuation
+float,Keyword
+ ,Whitespace
+millis,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+String,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+"""%.0fms""",String
+",",Punctuation
+ ,Whitespace
+millis,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

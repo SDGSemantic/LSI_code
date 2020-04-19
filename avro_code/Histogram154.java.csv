@@ -1,0 +1,2016 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+stats,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+SortedSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+TreeMap,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Represents a histogram of values.  This class uses a {@link Segmenter}
+ * to determine which bucket to place a given value into. Also stores the last
+ * MAX_HISTORY_SIZE entries which have been added to this histogram, in order.
+ *
+ * Note that Histogram, by itself, is not synchronized.
+ * @param <B> Bucket type.  Often String, since buckets are typically
+ * used for their toString() representation.
+ * @param <T> Type of value
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+Histogram,Identifier
+<,Operator
+B,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * How many recent additions we should track.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+MAX_HISTORY_SIZE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+20,Literal
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+B,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+segmenter,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+counts,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+totalCount,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+recentAdditions,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Interface to determine which bucket to place a value in.
+   *
+   * Segmenters should be immutable, so many histograms can re-use
+   * the same segmenter.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+interface,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+B,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+/** Number of buckets to use. */,Comment
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"/**
+     * Which bucket to place value in.
+     *
+     * @return Index of bucket for the value.  At least 0 and less than size().
+     * @throws SegmenterException if value does not fit in a bucket.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+segment,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"/**
+     * Returns an iterator of buckets. The order of iteration
+     * is consistent with the segment numbers.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+Iterator,Identifier
+<,Operator
+B,Identifier
+>,Operator
+ ,Whitespace
+getBuckets,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Returns a List of bucket boundaries. Useful for printing
+     * segmenters.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getBoundaryLabels,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Returns the bucket labels as an array;
+     */",Comment
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getBucketLabels,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SegmenterException,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SegmenterException,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TreeMapSegmenter,Identifier
+<,Operator
+T,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Comparable,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+"
+",Newline
+      ,Whitespace
+implements,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+T,Identifier
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+>,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+T,Identifier
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+TreeMapSegmenter,Identifier
+(,Punctuation
+SortedSet,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+leftEndpoints,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+leftEndpoints,Identifier
+.,Punctuation
+isEmpty,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""Endpoints must not be empty: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+leftEndpoints,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+T,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+leftEndpoints,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+index,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+t,Identifier
+",",Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+segment,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+T,Identifier
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+>,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+.,Punctuation
+floorEntry,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+e,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SegmenterException,Identifier
+(,Punctuation
+"""Could not find bucket for: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+e,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+index,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+rangeAsString,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+a,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+b,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+String,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+"""[%s,%s)""",String
+",",Punctuation
+ ,Whitespace
+a,Identifier
+",",Punctuation
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+"""infinity""",String
+ ,Whitespace
+:,Operator
+ ,Whitespace
+b,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getBoundaryLabels,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+outArray,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+index,Identifier
+.,Punctuation
+keySet,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+T,Identifier
+ ,Whitespace
+obj,Identifier
+:,Operator
+ ,Whitespace
+index,Identifier
+.,Punctuation
+keySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+outArray,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+obj,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+outArray,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getBucketLabels,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+outArray,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+index,Identifier
+.,Punctuation
+keySet,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+bucketsIt,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+getBuckets,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+bucketsIt,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+outArray,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+bucketsIt,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+outArray,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getBuckets,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Iterator,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+it,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+index,Identifier
+.,Punctuation
+keySet,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+iterator,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+T,Identifier
+ ,Whitespace
+cur,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+it,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+// there's always at least one element,Comment
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+"
+",Newline
+        ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+        ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+index,Identifier
+.,Punctuation
+keySet,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+        ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+next,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+T,Identifier
+ ,Whitespace
+left,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+cur,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+cur,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+it,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+it,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+:,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+rangeAsString,Identifier
+(,Punctuation
+left,Identifier
+",",Punctuation
+ ,Whitespace
+cur,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+        ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+remove,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a histogram using the specified segmenter.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Histogram,Identifier
+(,Punctuation
+Segmenter,Identifier
+<,Operator
+B,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+segmenter,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+segmenter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+segmenter,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+counts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+int,Keyword
+[,Punctuation
+segmenter,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+recentAdditions,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Tallies a value in the histogram. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+add,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+segmenter,Identifier
+.,Punctuation
+segment,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+counts,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+totalCount,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+recentAdditions,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+Histogram,Identifier
+.,Punctuation
+MAX_HISTORY_SIZE,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+recentAdditions,Identifier
+.,Punctuation
+pollLast,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+recentAdditions,Identifier
+.,Punctuation
+push,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns the underlying bucket values.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getHistogram,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+counts,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns the underlying segmenter used for this histogram.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+B,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+getSegmenter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+segmenter,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns values recently added to this histogram. These are in reverse
+   * order (most recent first).
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+getRecentAdditions,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+recentAdditions,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Returns the total count of entries. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getCount,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+totalCount,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+StringBuilder,Identifier
+ ,Whitespace
+sb,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringBuilder,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+first,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Entry,Identifier
+<,Operator
+B,Identifier
+>,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+entries,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+first,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+sb,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+""";""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+first,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+sb,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+bucket,Identifier
+),Punctuation
+.,Punctuation
+append,Identifier
+(,Punctuation
+"""=""",String
+),Punctuation
+.,Punctuation
+append,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+count,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+sb,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Entry,Identifier
+<,Operator
+B,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Entry,Identifier
+(,Punctuation
+B,Identifier
+ ,Whitespace
+bucket,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+count,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+bucket,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bucket,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+count,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+count,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+B,Identifier
+ ,Whitespace
+bucket,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+count,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+EntryIterator,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Iterable,Identifier
+<,Operator
+Entry,Identifier
+<,Operator
+B,Identifier
+>>,Operator
+",",Punctuation
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+Entry,Identifier
+<,Operator
+B,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Iterator,Identifier
+<,Operator
+B,Identifier
+>,Operator
+ ,Whitespace
+bucketNameIterator,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+segmenter,Identifier
+.,Punctuation
+getBuckets,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+Entry,Identifier
+<,Operator
+B,Identifier
+>>,Operator
+ ,Whitespace
+iterator,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+segmenter,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Entry,Identifier
+<,Operator
+B,Identifier
+>,Operator
+ ,Whitespace
+next,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Entry,Identifier
+<,Operator
+B,Identifier
+>,Operator
+(,Punctuation
+bucketNameIterator,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+counts,Identifier
+[,Punctuation
+i,Identifier
+++,Operator
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+remove,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Iterable,Identifier
+<,Operator
+Entry,Identifier
+<,Operator
+B,Identifier
+>>,Operator
+ ,Whitespace
+entries,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EntryIterator,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

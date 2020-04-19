@@ -1,0 +1,1235 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EOFException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+Proxy,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+URL,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+HttpURLConnection,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** An HTTP-based {@link Transceiver} implementation. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+HttpTransceiver,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONTENT_TYPE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro/binary""",String
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+URL,Identifier
+ ,Whitespace
+url,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Proxy,Identifier
+ ,Whitespace
+proxy,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+HttpURLConnection,Identifier
+ ,Whitespace
+connection,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+timeout,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpTransceiver,Identifier
+(,Punctuation
+URL,Identifier
+ ,Whitespace
+url,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+url,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+url,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpTransceiver,Identifier
+(,Punctuation
+URL,Identifier
+ ,Whitespace
+url,Identifier
+",",Punctuation
+ ,Whitespace
+Proxy,Identifier
+ ,Whitespace
+proxy,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+url,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+proxy,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+proxy,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Set the connect and read timeouts, in milliseconds. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setTimeout,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+timeout,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+timeout,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+timeout,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+url,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+readBuffers,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+connection,Identifier
+.,Punctuation
+getInputStream,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readBuffers,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBuffers,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+buffers,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+proxy,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+connection,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+HttpURLConnection,Identifier
+),Punctuation
+url,Identifier
+.,Punctuation
+openConnection,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+"
+",Newline
+      ,Whitespace
+connection,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+HttpURLConnection,Identifier
+),Punctuation
+url,Identifier
+.,Punctuation
+openConnection,Identifier
+(,Punctuation
+proxy,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+connection,Identifier
+.,Punctuation
+setRequestMethod,Identifier
+(,Punctuation
+"""POST""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connection,Identifier
+.,Punctuation
+setRequestProperty,Identifier
+(,Punctuation
+"""Content-Type""",String
+",",Punctuation
+ ,Whitespace
+CONTENT_TYPE,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connection,Identifier
+.,Punctuation
+setRequestProperty,Identifier
+(,Punctuation
+"""Content-Length""",String
+",",Punctuation
+"
+",Newline
+                                  ,Whitespace
+Integer,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+getLength,Identifier
+(,Punctuation
+buffers,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connection,Identifier
+.,Punctuation
+setDoOutput,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connection,Identifier
+.,Punctuation
+setReadTimeout,Identifier
+(,Punctuation
+timeout,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connection,Identifier
+.,Punctuation
+setConnectTimeout,Identifier
+(,Punctuation
+timeout,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+connection,Identifier
+.,Punctuation
+getOutputStream,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writeBuffers,Identifier
+(,Punctuation
+buffers,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getLength,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+buffers,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+buffers,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+length,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+4,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+length,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+length,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+4,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+length,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+readBuffers,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+buffers,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+true,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+length,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+),Punctuation
+<<,Operator
+24,Literal
+),Punctuation
++,Operator
+(,Punctuation
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+),Punctuation
+<<,Operator
+16,Literal
+),Punctuation
++,Operator
+(,Punctuation
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+),Punctuation
+<<,Operator
+8,Literal
+),Punctuation
++,Operator
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+length,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                       ,Whitespace
+// end of buffers,Comment
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+buffers,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+allocate,Identifier
+(,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+hasRemaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+p,Identifier
+",",Punctuation
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EOFException,Identifier
+(,Punctuation
+"""Unexpected EOF""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+buffer,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+p,Identifier
++,Operator
+i,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+buffer,Identifier
+.,Punctuation
+flip,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+buffers,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBuffers,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+buffers,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+buffers,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writeLength,Identifier
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+limit,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+           ,Whitespace
+// length-prefix,Comment
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+remaining,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+buffer,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+limit,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+writeLength,Identifier
+(,Punctuation
+0,Literal
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+                          ,Whitespace
+// null-terminate,Comment
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeLength,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+length,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+0xff,Literal
+ ,Whitespace
+&,Operator
+ ,Whitespace
+(,Punctuation
+length,Identifier
+ ,Whitespace
+>>>,Operator
+ ,Whitespace
+24,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+0xff,Literal
+ ,Whitespace
+&,Operator
+ ,Whitespace
+(,Punctuation
+length,Identifier
+ ,Whitespace
+>>>,Operator
+ ,Whitespace
+16,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+0xff,Literal
+ ,Whitespace
+&,Operator
+ ,Whitespace
+(,Punctuation
+length,Identifier
+ ,Whitespace
+>>>,Operator
+ ,Whitespace
+8,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+0xff,Literal
+ ,Whitespace
+&,Operator
+ ,Whitespace
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

@@ -1,0 +1,1415 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** An iterator over column values. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ColumnValues,Identifier
+<,Operator
+T,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Comparable,Identifier
+>,Operator
+"
+",Newline
+  ,Whitespace
+implements,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+T,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+Iterable,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ColumnDescriptor,Identifier
+ ,Whitespace
+column,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ValueType,Identifier
+ ,Whitespace
+type,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Codec,Identifier
+ ,Whitespace
+codec,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Checksum,Identifier
+ ,Whitespace
+checksum,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+InputBuffer,Identifier
+ ,Whitespace
+in,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+InputBuffer,Identifier
+ ,Whitespace
+values,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+block,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+previous,Identifier
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+arrayLength,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+ColumnValues,Identifier
+(,Punctuation
+ColumnDescriptor,Identifier
+ ,Whitespace
+column,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+column,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+column,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+type,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Codec,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+column,Identifier
+.,Punctuation
+metaData,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+checksum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Checksum,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+column,Identifier
+.,Punctuation
+metaData,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+InputBuffer,Identifier
+(,Punctuation
+column,Identifier
+.,Punctuation
+file,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+column,Identifier
+.,Punctuation
+ensureBlocksRead,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the current row number within this file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getRow,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+row,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Seek to the named row. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+seek,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+r,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+r,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+r,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+lastRow,Identifier
+(,Punctuation
+block,Identifier
+),Punctuation
+),Punctuation
+    ,Whitespace
+// not in current block,Comment
+"
+",Newline
+      ,Whitespace
+startBlock,Identifier
+(,Punctuation
+column,Identifier
+.,Punctuation
+findBlock,Identifier
+(,Punctuation
+r,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+            ,Whitespace
+// seek to block start,Comment
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+r,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                ,Whitespace
+// skip within block,Comment
+"
+",Newline
+      ,Whitespace
+values,Identifier
+.,Punctuation
+skipValue,Identifier
+(,Punctuation
+type,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+row,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+previous,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Seek to the named value. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+seek,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+v,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+hasIndexValues,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+"""Column does not have value index: """,String
+ ,Whitespace
++,Operator
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+previous,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+                          ,Whitespace
+// not in current block?,Comment
+"
+",Newline
+        ,Whitespace
+||,Operator
+ ,Whitespace
+previous,Identifier
+.,Punctuation
+compareTo,Identifier
+(,Punctuation
+v,Identifier
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+"
+",Newline
+        ,Whitespace
+||,Operator
+ ,Whitespace
+(,Punctuation
+block,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+blockCount,Identifier
+(,Punctuation
+),Punctuation
+-,Operator
+1,Literal
+"
+",Newline
+            ,Whitespace
+&&,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+firstValues,Identifier
+[,Punctuation
+block,Identifier
++,Operator
+1,Literal
+],Punctuation
+.,Punctuation
+compareTo,Identifier
+(,Punctuation
+v,Identifier
+),Punctuation
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+startBlock,Identifier
+(,Punctuation
+column,Identifier
+.,Punctuation
+findBlock,Identifier
+(,Punctuation
+v,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+            ,Whitespace
+// seek to block start,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                           ,Whitespace
+// scan block,Comment
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+savedPosition,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+values,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+T,Identifier
+ ,Whitespace
+savedPrevious,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+previous,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+compareTo,Identifier
+(,Punctuation
+v,Identifier
+),Punctuation
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+values,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+savedPosition,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+previous,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+savedPrevious,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+row,Identifier
+--,Operator
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+startBlock,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+block,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+block,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+block,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+row,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+firstRows,Identifier
+[,Punctuation
+block,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+in,Identifier
+.,Punctuation
+seek,Identifier
+(,Punctuation
+column,Identifier
+.,Punctuation
+blockStarts,Identifier
+[,Punctuation
+block,Identifier
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+end,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+blocks,Identifier
+[,Punctuation
+block,Identifier
+],Punctuation
+.,Punctuation
+compressedSize,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+raw,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+end,Identifier
++,Operator
+checksum,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+in,Identifier
+.,Punctuation
+readFully,Identifier
+(,Punctuation
+raw,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+data,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+codec,Identifier
+.,Punctuation
+decompress,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+raw,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+end,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+checksum,Identifier
+.,Punctuation
+compute,Identifier
+(,Punctuation
+data,Identifier
+),Punctuation
+.,Punctuation
+equals,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+raw,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+",",Punctuation
+ ,Whitespace
+checksum,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Checksums mismatch.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+values,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+InputBuffer,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+InputBytes,Identifier
+(,Punctuation
+data,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+Iterator,Identifier
+ ,Whitespace
+iterator,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+block,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+blockCount,Identifier
+(,Punctuation
+),Punctuation
+-,Operator
+1,Literal
+ ,Whitespace
+||,Operator
+ ,Whitespace
+row,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+lastRow,Identifier
+(,Punctuation
+block,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+next,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+||,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+getParent,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+"""Column is array: """,String
+ ,Whitespace
++,Operator
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+startRow,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+nextValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Expert: Must be called before any calls to {@link #nextLength()} or
+   * {@link #nextValue()}. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+startRow,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+row,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+lastRow,Identifier
+(,Punctuation
+block,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+block,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+column,Identifier
+.,Punctuation
+blockCount,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Read past end of column.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+startBlock,Identifier
+(,Punctuation
+block,Identifier
++,Operator
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+row,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Expert: Returns the next length in an array column. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+nextLength,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+"
+",Newline
+        ,Whitespace
+(,Punctuation
+"""Column is not array: """,String
+ ,Whitespace
++,Operator
+column,Identifier
+.,Punctuation
+metaData,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+arrayLength,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+arrayLength,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+values,Identifier
+.,Punctuation
+readLength,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Expert: Returns the next value in a column. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+nextValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+arrayLength,Identifier
+--,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+previous,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+values,Identifier
+.,Punctuation
+<,Operator
+T,Identifier
+>,Operator
+readValue,Identifier
+(,Punctuation
+type,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+remove,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

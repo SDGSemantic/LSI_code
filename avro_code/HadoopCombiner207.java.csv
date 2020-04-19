@@ -1,0 +1,490 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+OutputCollector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Bridge between a {@link org.apache.hadoop.mapred.Reducer} and an {@link
+ * AvroReducer} used when combining.  When combining, map output pairs must be
+ * split before they're collected. */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+HadoopCombiner,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>,Operator
+"
+",Newline
+  ,Whitespace
+extends,Keyword
+ ,Whitespace
+HadoopReducerBase,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+",",Punctuation
+Pair,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>,Operator
+",",Punctuation
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+",",Punctuation
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+AvroReducer,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+",",Punctuation
+Pair,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>>,Operator
+ ,Whitespace
+getReducer,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+ReflectionUtils,Identifier
+.,Punctuation
+newInstance,Identifier
+"
+",Newline
+      ,Whitespace
+(,Punctuation
+conf,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+COMBINER,Identifier
+",",Punctuation
+ ,Whitespace
+AvroReducer,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+ ,Whitespace
+AvroReducer,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+",",Punctuation
+"
+",Newline
+       ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+PairCollector,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+<,Operator
+Pair,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+ ,Whitespace
+keyWrapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>,Operator
+ ,Whitespace
+valueWrapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>,Operator
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+OutputCollector,Identifier
+<,Operator
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+",",Punctuation
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>>,Operator
+ ,Whitespace
+collector,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+PairCollector,Identifier
+(,Punctuation
+OutputCollector,Identifier
+<,Operator
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+",",Punctuation
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>>,Operator
+ ,Whitespace
+collector,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+collector,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+collector,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+collect,Identifier
+(,Punctuation
+Pair,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>,Operator
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+keyWrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+datum,Identifier
+.,Punctuation
+key,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+              ,Whitespace
+// split the Pair,Comment
+"
+",Newline
+      ,Whitespace
+valueWrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+datum,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+collector,Identifier
+.,Punctuation
+collect,Identifier
+(,Punctuation
+keyWrapper,Identifier
+",",Punctuation
+ ,Whitespace
+valueWrapper,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+AvroCollector,Identifier
+<,Operator
+Pair,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+V,Identifier
+>>,Operator
+"
+",Newline
+    ,Whitespace
+getCollector,Identifier
+(,Punctuation
+OutputCollector,Identifier
+<,Operator
+AvroKey,Identifier
+<,Operator
+K,Identifier
+>,Operator
+",",Punctuation
+AvroValue,Identifier
+<,Operator
+V,Identifier
+>>,Operator
+ ,Whitespace
+collector,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+PairCollector,Identifier
+(,Punctuation
+collector,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

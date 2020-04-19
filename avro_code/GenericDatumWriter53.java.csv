@@ -1,0 +1,2291 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ConcurrentModificationException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collection,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroTypeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Encoder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** {@link DatumWriter} for generic Java objects. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+DatumWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+data,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+root,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+(,Punctuation
+GenericData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+(,Punctuation
+GenericData,Identifier
+ ,Whitespace
+data,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+data,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+root,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setSchema,Identifier
+(,Punctuation
+root,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+root,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+data,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+data,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setSchema,Identifier
+(,Punctuation
+root,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the {@link GenericData} implementation. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+getData,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+data,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+root,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+root,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+root,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+D,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+write,Identifier
+(,Punctuation
+root,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Called to write data.*/,Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+schema,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+RECORD,Identifier
+:,Operator
+ ,Whitespace
+writeRecord,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+ENUM,Identifier
+:,Operator
+   ,Whitespace
+writeEnum,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+   ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+ARRAY,Identifier
+:,Operator
+  ,Whitespace
+writeArray,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+  ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+MAP,Identifier
+:,Operator
+    ,Whitespace
+writeMap,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+    ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+UNION,Identifier
+:,Operator
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+resolveUnion,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+writeIndex,Identifier
+(,Punctuation
+index,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+write,Identifier
+(,Punctuation
+schema,Identifier
+.,Punctuation
+getTypes,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+index,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED,Identifier
+:,Operator
+   ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+   ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+  ,Whitespace
+writeString,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+  ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+BYTES,Identifier
+:,Operator
+   ,Whitespace
+writeBytes,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+           ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+INT,Identifier
+:,Operator
+     ,Whitespace
+out,Identifier
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+(,Punctuation
+(,Punctuation
+Number,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+.,Punctuation
+intValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+LONG,Identifier
+:,Operator
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeLong,Identifier
+(,Punctuation
+(,Punctuation
+Long,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+       ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+FLOAT,Identifier
+:,Operator
+   ,Whitespace
+out,Identifier
+.,Punctuation
+writeFloat,Identifier
+(,Punctuation
+(,Punctuation
+Float,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+     ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+DOUBLE,Identifier
+:,Operator
+  ,Whitespace
+out,Identifier
+.,Punctuation
+writeDouble,Identifier
+(,Punctuation
+(,Punctuation
+Double,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+   ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+BOOLEAN,Identifier
+:,Operator
+ ,Whitespace
+out,Identifier
+.,Punctuation
+writeBoolean,Identifier
+(,Punctuation
+(,Punctuation
+Boolean,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+NULL,Identifier
+:,Operator
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeNull,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                  ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+default,Keyword
+:,Operator
+ ,Whitespace
+error,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+NullPointerException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+npe,Identifier
+(,Punctuation
+e,Identifier
+",",Punctuation
+ ,Whitespace
+""" of """,String
++,Operator
+schema,Identifier
+.,Punctuation
+getFullName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Helper method for adding a message to an NPE. */,Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+NullPointerException,Identifier
+ ,Whitespace
+npe,Identifier
+(,Punctuation
+NullPointerException,Identifier
+ ,Whitespace
+e,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+NullPointerException,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NullPointerException,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
++,Operator
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+initCause,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getCause,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+e,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+getCause,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to write a record.  May be overridden for alternate record
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeRecord,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Object,Identifier
+ ,Whitespace
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+getRecordState,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Field,Identifier
+ ,Whitespace
+f,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getFields,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writeField,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+f,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+state,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to write a single field of a record. May be overridden for more 
+   * efficient or alternate implementations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeField,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Field,Identifier
+ ,Whitespace
+f,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+state,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+getField,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+pos,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+state,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+write,Identifier
+(,Punctuation
+f,Identifier
+.,Punctuation
+schema,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+value,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+NullPointerException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+npe,Identifier
+(,Punctuation
+e,Identifier
+",",Punctuation
+ ,Whitespace
+""" in field """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+f,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to write an enum value.  May be overridden for alternate enum
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeEnum,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeEnum,Identifier
+(,Punctuation
+schema,Identifier
+.,Punctuation
+getEnumOrdinal,Identifier
+(,Punctuation
+datum,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to write a array.  May be overridden for alternate array
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArray,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+element,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getElementType,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getArraySize,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+actualSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeArrayStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Iterator,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Object,Identifier
+>,Operator
+ ,Whitespace
+it,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getArrayElements,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+it,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+write,Identifier
+(,Punctuation
+element,Identifier
+",",Punctuation
+ ,Whitespace
+it,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+actualSize,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeArrayEnd,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+actualSize,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ConcurrentModificationException,Identifier
+(,Punctuation
+"""Size of array written was """,String
+ ,Whitespace
++,Operator
+"
+",Newline
+          ,Whitespace
+size,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""", but number of elements written was """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+actualSize,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""". """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to find the index for a datum within a union.  By default calls
+   * {@link GenericData#resolveUnion(Schema,Object)}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+resolveUnion,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+union,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+data,Identifier
+.,Punctuation
+resolveUnion,Identifier
+(,Punctuation
+union,Identifier
+",",Punctuation
+ ,Whitespace
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #writeArray} to get the
+   * size of an array.  The default implementation is for {@link Collection}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getArraySize,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+array,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Collection,Identifier
+),Punctuation
+ ,Whitespace
+array,Identifier
+),Punctuation
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #writeArray} to enumerate
+   * array elements.  The default implementation is for {@link Collection}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Object,Identifier
+>,Operator
+ ,Whitespace
+getArrayElements,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+array,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Collection,Identifier
+),Punctuation
+ ,Whitespace
+array,Identifier
+),Punctuation
+.,Punctuation
+iterator,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to write a map.  May be overridden for alternate map
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeMap,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getValueType,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getMapSize,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+actualSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeMapStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+Object,Identifier
+",",Punctuation
+Object,Identifier
+>,Operator
+ ,Whitespace
+entry,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+getMapEntries,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writeString,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+write,Identifier
+(,Punctuation
+value,Identifier
+",",Punctuation
+ ,Whitespace
+entry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+actualSize,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeMapEnd,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+actualSize,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ConcurrentModificationException,Identifier
+(,Punctuation
+"""Size of map written was """,String
+ ,Whitespace
++,Operator
+"
+",Newline
+          ,Whitespace
+size,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""", but number of entries written was """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+actualSize,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""". """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #writeMap} to get the size
+   * of a map.  The default implementation is for {@link Map}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getMapSize,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+map,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Map,Identifier
+),Punctuation
+ ,Whitespace
+map,Identifier
+),Punctuation
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #writeMap} to enumerate
+   * map elements.  The default implementation is for {@link Map}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Iterable,Identifier
+<,Operator
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+Object,Identifier
+",",Punctuation
+Object,Identifier
+>>,Operator
+ ,Whitespace
+getMapEntries,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+map,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Map,Identifier
+),Punctuation
+ ,Whitespace
+map,Identifier
+),Punctuation
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to write a string.  May be overridden for alternate string
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeString,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writeString,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"/** Called to write a string.  May be overridden for alternate string
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeString,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+(,Punctuation
+CharSequence,Identifier
+),Punctuation
+ ,Whitespace
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to write a bytes.  May be overridden for alternate bytes
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBytes,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeBytes,Identifier
+(,Punctuation
+(,Punctuation
+ByteBuffer,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to write a fixed value.  May be overridden for alternate fixed
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+(,Punctuation
+(,Punctuation
+GenericFixed,Identifier
+),Punctuation
+datum,Identifier
+),Punctuation
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getFixedSize,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+error,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroTypeException,Identifier
+(,Punctuation
+"""Not a """,String
++,Operator
+schema,Identifier
++,Operator
+""": """,String
++,Operator
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

@@ -1,0 +1,951 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+TreeMap,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Command-line driver.*/,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Main,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * Available tools, initialized in constructor.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+final,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+Tool,Identifier
+>,Operator
+ ,Whitespace
+tools,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+int,Keyword
+ ,Whitespace
+maxLen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+Main,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+tools,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+Tool,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Tool,Identifier
+ ,Whitespace
+tool,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Tool,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+CatTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificCompilerTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+InduceSchemaTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+JsonToBinaryFragmentTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+BinaryFragmentToJsonTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+CreateRandomFileTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReadTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileWriteTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileGetMetaTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileGetSchemaTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+IdlTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+IdlToSchemataTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+RecodecTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+ConcatTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+RpcReceiveTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+RpcSendTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+RpcProtocolTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+FromTextTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+ToTextTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+ToTrevniTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+TetherTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniCreateRandomTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniMetadataTool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniToJsonTool,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Tool,Identifier
+ ,Whitespace
+prev,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+tools,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+tool,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+tool,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+prev,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AssertionError,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""Two tools with identical names: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+tool,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""", """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+prev,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+maxLen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Math,Identifier
+.,Punctuation
+max,Identifier
+(,Punctuation
+tool,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+maxLen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+main,Identifier
+(,Punctuation
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+rc,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Main,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+run,Identifier
+(,Punctuation
+args,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+exit,Identifier
+(,Punctuation
+rc,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Delegates to tool specified on the command-line.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+args,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Tool,Identifier
+ ,Whitespace
+tool,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+tools,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+args,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+tool,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+tool,Identifier
+.,Punctuation
+run,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+System,Identifier
+.,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+System,Identifier
+.,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+",",Punctuation
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+asList,Identifier
+(,Punctuation
+args,Identifier
+),Punctuation
+.,Punctuation
+subList,Identifier
+(,Punctuation
+1,Literal
+",",Punctuation
+ ,Whitespace
+args,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+print,Identifier
+(,Punctuation
+"""Version """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+printStream,Identifier
+(,Punctuation
+Main,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getResourceAsStream,Identifier
+(,Punctuation
+"""VERSION.txt""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+print,Identifier
+(,Punctuation
+""" of """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+printStream,Identifier
+(,Punctuation
+Main,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getResourceAsStream,Identifier
+(,Punctuation
+"""NOTICE.txt""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""----------------""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Available tools:""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Tool,Identifier
+ ,Whitespace
+k,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+tools,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+printf,Identifier
+(,Punctuation
+"""%""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+maxLen,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""s  %s\n""",String
+",",Punctuation
+ ,Whitespace
+k,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+k,Identifier
+.,Punctuation
+getShortDescription,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+printStream,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+1024,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+buffer,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+err,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+buffer,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+i,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

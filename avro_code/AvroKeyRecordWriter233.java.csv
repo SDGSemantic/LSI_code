@@ -1,0 +1,574 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+CodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileConstants,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroKey,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+RecordWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Writes Avro records to an Avro container file output stream.
+ *
+ * @param <T> The Java type of the Avro data to write.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroKeyRecordWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+AvroKey,Identifier
+<,Operator
+T,Identifier
+>,Operator
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Syncable,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** A writer for the Avro container file. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+mAvroFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructor.
+   *
+   * @param writerSchema The writer schema for the records in the Avro container file.
+   * @param compressionCodec A compression codec factory for the Avro container file.
+   * @param outputStream The output stream to write the Avro container file to.
+   * @param syncInterval The sync interval for the Avro container file.
+   * @throws IOException If the record writer cannot be opened.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroKeyRecordWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+compressionCodec,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+outputStream,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+syncInterval,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// Create an Avro container file and a writer to it.,Comment
+"
+",Newline
+    ,Whitespace
+mAvroFileWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+dataModel,Identifier
+.,Punctuation
+createDatumWriter,Identifier
+(,Punctuation
+writerSchema,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroFileWriter,Identifier
+.,Punctuation
+setCodec,Identifier
+(,Punctuation
+compressionCodec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroFileWriter,Identifier
+.,Punctuation
+setSyncInterval,Identifier
+(,Punctuation
+syncInterval,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroFileWriter,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+outputStream,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructor.
+   *
+   * @param writerSchema The writer schema for the records in the Avro container file.
+   * @param compressionCodec A compression codec factory for the Avro container file.
+   * @param outputStream The output stream to write the Avro container file to.
+   * @throws IOException If the record writer cannot be opened.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroKeyRecordWriter,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+compressionCodec,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+outputStream,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+dataModel,Identifier
+",",Punctuation
+ ,Whitespace
+compressionCodec,Identifier
+",",Punctuation
+ ,Whitespace
+outputStream,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+DataFileConstants,Identifier
+.,Punctuation
+DEFAULT_SYNC_INTERVAL,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+AvroKey,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+record,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+ ,Whitespace
+ignore,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroFileWriter,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+record,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroFileWriter,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+sync,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+mAvroFileWriter,Identifier
+.,Punctuation
+sync,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+  ,Whitespace
+"
+",Newline
+},Punctuation
+"
+",Newline

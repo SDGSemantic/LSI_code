@@ -1,0 +1,1021 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+trevni,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Metadata for a column. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+MetaData,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+NAME_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""name""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+TYPE_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""type""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+VALUES_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""values""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+PARENT_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""parent""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+ARRAY_KEY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESERVED_KEY_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""array""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+// cache these values for better performance,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ValueType,Identifier
+ ,Whitespace
+type,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+values,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+parent,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isArray,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+transient,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+ ,Whitespace
+children,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+transient,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+number,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+                     ,Whitespace
+// non-public ctor,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct given a name and type. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+ValueType,Identifier
+ ,Whitespace
+type,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+name,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setReserved,Identifier
+(,Punctuation
+NAME_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+type,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+type,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setReserved,Identifier
+(,Punctuation
+TYPE_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+type,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return this column's name. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+name,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return this column's type. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ValueType,Identifier
+ ,Whitespace
+getType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+type,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return this column's parent or null. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+getParent,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+parent,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return this column's children or null. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ColumnMetaData,Identifier
+>,Operator
+ ,Whitespace
+getChildren,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+children,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return true if this column is an array. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isArray,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+isArray,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return this column's number in a file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getNumber,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+number,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+void,Keyword
+ ,Whitespace
+setNumber,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+number,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+number,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+number,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Set whether this column has an index of blocks by value.  This only makes
+   * sense for sorted columns and permits one to seek into a column by value.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+hasIndexValues,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+values,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isArray,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Array column cannot have index: """,String
++,Operator
+this,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+values,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+values,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+setReservedBoolean,Identifier
+(,Punctuation
+VALUES_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+values,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set this column's parent.  A parent must be a preceding array column. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+setParent,Identifier
+(,Punctuation
+ColumnMetaData,Identifier
+ ,Whitespace
+parent,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+parent,Identifier
+.,Punctuation
+isArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Parent is not an array: """,String
++,Operator
+parent,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+values,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Array column cannot have index: """,String
++,Operator
+this,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+parent,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+parent,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+parent,Identifier
+.,Punctuation
+children,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+this,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+setReserved,Identifier
+(,Punctuation
+PARENT_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+parent,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set whether this column is an array. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+isArray,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+isArray,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+values,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TrevniRuntimeException,Identifier
+(,Punctuation
+"""Array column cannot have index: """,String
++,Operator
+this,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+isArray,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isArray,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+setReservedBoolean,Identifier
+(,Punctuation
+ARRAY_KEY,Identifier
+",",Punctuation
+ ,Whitespace
+isArray,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Get whether this column has an index of blocks by value. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasIndexValues,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+getBoolean,Identifier
+(,Punctuation
+VALUES_KEY,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+read,Identifier
+(,Punctuation
+InputBuffer,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+ColumnFileReader,Identifier
+ ,Whitespace
+file,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ColumnMetaData,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ColumnMetaData,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+MetaData,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+result,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+result,Identifier
+.,Punctuation
+getString,Identifier
+(,Punctuation
+NAME_KEY,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+type,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ValueType,Identifier
+.,Punctuation
+forName,Identifier
+(,Punctuation
+result,Identifier
+.,Punctuation
+getString,Identifier
+(,Punctuation
+TYPE_KEY,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+values,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+result,Identifier
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+VALUES_KEY,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+result,Identifier
+.,Punctuation
+isArray,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+result,Identifier
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+ARRAY_KEY,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+parentName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+result,Identifier
+.,Punctuation
+getString,Identifier
+(,Punctuation
+PARENT_KEY,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+parentName,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+result,Identifier
+.,Punctuation
+setParent,Identifier
+(,Punctuation
+file,Identifier
+.,Punctuation
+getColumnMetaData,Identifier
+(,Punctuation
+parentName,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

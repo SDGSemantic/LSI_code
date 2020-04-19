@@ -1,0 +1,3978 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+lang,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+Constructor,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collections,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Set,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+StringTokenizer,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+Job,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+JobContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+OutputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+RecordWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptID,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskInputOutputContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * The AvroMultipleOutputs class simplifies writing Avro output data 
+ * to multiple outputs
+ * 
+ * <p> 
+ * Case one: writing to additional outputs other than the job default output.
+ *
+ * Each additional output, or named output, may be configured with its own
+ * <code>Schema</code> and <code>OutputFormat</code>.
+ * </p>
+ * <p>
+ * Case two: to write data to different files provided by user
+ * </p>
+ * 
+ * <p>
+ * AvroMultipleOutputs supports counters, by default they are disabled. The 
+ * counters group is the {@link AvroMultipleOutputs} class name. The names of the 
+ * counters are the same as the output name. These count the number of records 
+ * written to each output name. 
+ * </p>
+ * 
+ * Usage pattern for job submission:
+ * <pre>
+ *
+ * Job job = new Job();
+ *
+ * FileInputFormat.setInputPath(job, inDir);
+ * FileOutputFormat.setOutputPath(job, outDir);
+ *
+ * job.setMapperClass(MyAvroMapper.class);
+ * job.setReducerClass(MyAvroReducer.class);
+ * ...
+ *  
+ * Schema schema;
+ * ...
+ * // Defines additional single output 'avro1' for the job
+ * AvroMultipleOutputs.addNamedOutput(job, ""avro1"", AvroKeyValueOutputFormat.class,
+ * keyschema, valueSchema);  // valueSchema can be set to null if there only Key to be written 
+                                   to file in the RecordWriter
+ *
+ * // Defines additional output 'avro2' with different schema for the job
+ * AvroMultipleOutputs.addNamedOutput(job, ""avro2"",
+ *   AvroKeyOutputFormat.class,
+ *   schema,null); 
+ * ...
+ *
+ * job.waitForCompletion(true);
+ * ...
+ * </pre>
+ * <p>
+ * Usage in Reducer:
+ * <pre>
+ * 
+ * public class MyAvroReducer extends
+ *   Reducer&lt;K, V, T, NullWritable&gt; {
+ * private MultipleOutputs amos;
+ *
+ *
+ * public void setup(Context context) {
+ * ...
+ * amos = new AvroMultipleOutputs(context);
+ * }
+ *
+ * public void reduce(K, Iterator&lt;V&gt; values,Context context)
+ * throws IOException {
+ * ...
+ * amos.write(""avro1"",datum,NullWritable.get());
+ * amos.write(""avro2"",datum,NullWritable.get());
+ * amos.getCollector(""avro3"",datum); // here the value is taken as NullWritable
+ * ...
+ * }
+ *
+ * public void cleanup(Context context) throws IOException {
+ * amos.close();
+ * ...
+ * }
+ *
+ * }
+ * </pre>
+ */",Comment
+"
+",Newline
+"
+",Newline
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroMultipleOutputs,Identifier
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+MULTIPLE_OUTPUTS,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.mapreduce.multipleoutputs""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+MO_PREFIX,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+"""avro.mapreduce.multipleoutputs.namedOutput.""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+FORMAT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+""".format""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+COUNTERS_ENABLED,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+"""avro.mapreduce.multipleoutputs.counters""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Counters group used by the counters of MultipleOutputs.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+COUNTERS_GROUP,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroMultipleOutputs,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Cache for the taskContexts
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+TaskAttemptContext,Identifier
+>,Operator
+ ,Whitespace
+taskContexts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+TaskAttemptContext,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Checks if a named output name is valid token.
+   *
+   * @param namedOutput named output Name
+   * @throws IllegalArgumentException if the output name is not valid.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+checkTokenName,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+namedOutput,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+||,Operator
+ ,Whitespace
+namedOutput,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+"""Name cannot be NULL or empty""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+char,Keyword
+ ,Whitespace
+ch,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+namedOutput,Identifier
+.,Punctuation
+toCharArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+'A',String
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+'Z',String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+'a',String
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+'z',String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+'0',String
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+ch,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+'9',String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+"""Name cannot have a '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+ch,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""' char""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Checks if output name is valid.
+   *
+   * name cannot be the name used for the default output
+   * @param outputPath base output Name
+   * @throws IllegalArgumentException if the output name is not valid.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+checkBaseOutputPath,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+outputPath,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+outputPath,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+"""part""",String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""output name cannot be 'part'""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Checks if a named output name is valid.
+   *
+   * @param namedOutput named output Name
+   * @throws IllegalArgumentException if the output name is not valid.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+checkNamedOutputName,Identifier
+(,Punctuation
+JobContext,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+alreadyDefined,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkTokenName,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+checkBaseOutputPath,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+definedChannels,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getNamedOutputsList,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+alreadyDefined,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+definedChannels,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Named output '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+"""' already alreadyDefined""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+alreadyDefined,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+definedChannels,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Named output '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+"""' not defined""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+// Returns list of channel names.,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+getNamedOutputsList,Identifier
+(,Punctuation
+JobContext,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+names,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+StringTokenizer,Identifier
+ ,Whitespace
+st,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+StringTokenizer,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+MULTIPLE_OUTPUTS,Identifier
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+",",Punctuation
+ ,Whitespace
+""" """,String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+st,Identifier
+.,Punctuation
+hasMoreTokens,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+names,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+st,Identifier
+.,Punctuation
+nextToken,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+names,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+// Returns the named output OutputFormat.,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+>>,Operator
+ ,Whitespace
+getNamedOutputFormatClass,Identifier
+(,Punctuation
+"
+",Newline
+    ,Whitespace
+JobContext,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+>>,Operator
+),Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+FORMAT,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+OutputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+ ,Whitespace
+"/**
+   * Adds a named output for the job.
+   * <p/>
+   *
+   * @param job               job to add the named output
+   * @param namedOutput       named output name, it has to be a word, letters
+   *                          and numbers only, cannot be the word 'part' as
+   *                          that is reserved for the default output.
+   * @param outputFormatClass OutputFormat class.
+   * @param keySchema          Schema for the Key
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addNamedOutput,Identifier
+(,Punctuation
+Job,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+>,Operator
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+addNamedOutput,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+namedOutput,Identifier
+",",Punctuation
+outputFormatClass,Identifier
+",",Punctuation
+keySchema,Identifier
+",",Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Adds a named output for the job.
+   * <p/>
+   *
+   * @param job               job to add the named output
+   * @param namedOutput       named output name, it has to be a word, letters
+   *                          and numbers only, cannot be the word 'part' as
+   *                          that is reserved for the default output.
+   * @param outputFormatClass OutputFormat class.
+   * @param keySchema          Schema for the Key
+   * @param valueSchema        Schema for the Value (used in case of AvroKeyValueOutputFormat or null)
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addNamedOutput,Identifier
+(,Punctuation
+Job,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+OutputFormat,Identifier
+>,Operator
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+valueSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkNamedOutputName,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+MULTIPLE_OUTPUTS,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+MULTIPLE_OUTPUTS,Identifier
+",",Punctuation
+ ,Whitespace
+"""""",String
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+setClass,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+FORMAT,Identifier
+",",Punctuation
+ ,Whitespace
+outputFormatClass,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+OutputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
++,Operator
+namedOutput,Identifier
++,Operator
+""".keyschema""",String
+",",Punctuation
+ ,Whitespace
+keySchema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+(,Punctuation
+valueSchema,Identifier
+!=,Operator
+null,Keyword
+),Punctuation
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
++,Operator
+namedOutput,Identifier
++,Operator
+""".valueschema""",String
+",",Punctuation
+valueSchema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Enables or disables counters for the named outputs.
+   * 
+   * The counters group is the {@link AvroMultipleOutputs} class name.
+   * The names of the counters are the same as the named outputs. These
+   * counters count the number records written to each output name.
+   * By default these counters are disabled.
+   *
+   * @param job    job  to enable counters
+   * @param enabled indicates if the counters will be enabled or not.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setCountersEnabled,Identifier
+(,Punctuation
+Job,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+enabled,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+setBoolean,Identifier
+(,Punctuation
+COUNTERS_ENABLED,Identifier
+",",Punctuation
+ ,Whitespace
+enabled,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns if the counters for the named outputs are enabled or not.
+   * By default these counters are disabled.
+   *
+   * @param job    the job 
+   * @return TRUE if the counters are enabled, FALSE if they are disabled.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+getCountersEnabled,Identifier
+(,Punctuation
+JobContext,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+COUNTERS_ENABLED,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Wraps RecordWriter to increment counters. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+RecordWriterWithCounter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+counterName,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+TaskInputOutputContext,Identifier
+ ,Whitespace
+context,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+RecordWriterWithCounter,Identifier
+(,Punctuation
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+counterName,Identifier
+",",Punctuation
+"
+",Newline
+                                   ,Whitespace
+TaskInputOutputContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+counterName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+counterName,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+{,Punctuation
+"""unchecked""",String
+},Punctuation
+),Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+context,Identifier
+.,Punctuation
+getCounter,Identifier
+(,Punctuation
+COUNTERS_GROUP,Identifier
+",",Punctuation
+ ,Whitespace
+counterName,Identifier
+),Punctuation
+.,Punctuation
+increment,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"// instance code, to be used from Mapper/Reducer code",Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+TaskInputOutputContext,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+>,Operator
+ ,Whitespace
+context,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Set,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+namedOutputs,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+>>,Operator
+ ,Whitespace
+recordWriters,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+countersEnabled,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates and initializes multiple outputs support,
+   * it should be instantiated in the Mapper/Reducer setup method.
+   *
+   * @param context the TaskInputOutputContext object
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroMultipleOutputs,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+TaskInputOutputContext,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+>,Operator
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+namedOutputs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Collections,Identifier
+.,Punctuation
+unmodifiableSet,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+HashSet,Identifier
+<,Operator
+String,Identifier
+>,Operator
+(,Punctuation
+AvroMultipleOutputs,Identifier
+.,Punctuation
+getNamedOutputsList,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+recordWriters,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+RecordWriter,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+?,Operator
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+countersEnabled,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getCountersEnabled,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write key and value to the namedOutput.
+   *
+   * Output path is a unique file generated for the namedOutput.
+   * For example, {namedOutput}-(m|r)-{part-number}
+   * 
+   * @param namedOutput the named output name
+   * @param key         the key , value is NullWritable
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+write,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write key and value to the namedOutput.
+   *
+   * Output path is a unique file generated for the namedOutput.
+   * For example, {namedOutput}-(m|r)-{part-number}
+   * 
+   * @param namedOutput the named output name
+   * @param key         the key
+   * @param value       the value
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+write,Identifier
+(,Punctuation
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write key and value to baseOutputPath using the namedOutput.
+   * 
+   * @param namedOutput    the named output name
+   * @param key            the key
+   * @param value          the value
+   * @param baseOutputPath base-output path to write the record to.
+   * Note: Framework will generate unique filename for the baseOutputPath
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkNamedOutputName,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+checkBaseOutputPath,Identifier
+(,Punctuation
+baseOutputPath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+namedOutputs,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Undefined named output '""",String
+ ,Whitespace
++,Operator
+"
+",Newline
+        ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""'""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+taskContext,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getContext,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+taskContext,Identifier
+",",Punctuation
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+.,Punctuation
+write,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write key value to an output file name.
+   * 
+   * Gets the record writer from job's output format.  
+   * Job's output format should be a FileOutputFormat.
+   * 
+   * @param key       the key
+   * @param value     the value
+   * @param baseOutputPath base-output path to write the record to.
+   * Note: Framework will generate unique filename for the baseOutputPath
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+write,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write key value to an output file name.
+   * 
+   * Gets the record writer from job's output format. Job's output format should
+   * be a FileOutputFormat.
+   * 
+   * @param key   the key
+   * @param value the value
+   * @param keySchema   keySchema to use
+   * @param valSchema   ValueSchema to use
+   * @param baseOutputPath base-output path to write the record to. Note: Framework will
+   *          generate unique filename for the baseOutputPath
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+valSchema,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+checkBaseOutputPath,Identifier
+(,Punctuation
+baseOutputPath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Job,Identifier
+ ,Whitespace
+job,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Job,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setSchema,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+keySchema,Identifier
+",",Punctuation
+ ,Whitespace
+valSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+taskContext,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createTaskAttemptContext,Identifier
+(,Punctuation
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getTaskAttemptID,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+taskContext,Identifier
+",",Punctuation
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+.,Punctuation
+write,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * 
+   * Gets the record writer from job's output format. Job's output format should
+   * be a FileOutputFormat.If the record writer implements Syncable then returns 
+   * the current position as a value that may be passed to DataFileReader.seek(long)
+   * otherwise returns -1. 
+   * Forces the end of the current block, emitting a synchronization marker.
+   * 
+   * @param namedOutput   the namedOutput
+   * @param baseOutputPath base-output path to write the record to. Note: Framework will
+   *          generate unique filename for the baseOutputPath
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+sync,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+   ,Whitespace
+checkNamedOutputName,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+namedOutput,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+checkBaseOutputPath,Identifier
+(,Punctuation
+baseOutputPath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+namedOutputs,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Undefined named output '""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+namedOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""'""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+},Punctuation
+"
+",Newline
+   ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+taskContext,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getContext,Identifier
+(,Punctuation
+namedOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+recordWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+taskContext,Identifier
+",",Punctuation
+ ,Whitespace
+baseOutputPath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+long,Keyword
+ ,Whitespace
+position,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+recordWriter,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Syncable,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Syncable,Identifier
+ ,Whitespace
+syncableWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Syncable,Identifier
+),Punctuation
+ ,Whitespace
+recordWriter,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+position,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+syncableWriter,Identifier
+.,Punctuation
+sync,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+},Punctuation
+"
+",Newline
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+position,Identifier
+;,Punctuation
+"
+",Newline
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+// by being synchronized MultipleOutputTask can be use with a,Comment
+"
+",Newline
+  ,Whitespace
+// MultithreadedMapper.,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+getRecordWriter,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+taskContext,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+baseFileName,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// look for record-writer in the cache,Comment
+"
+",Newline
+    ,Whitespace
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+recordWriters,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+baseFileName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"// If not in cache, create a new one",Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+writer,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// get the record writer from context output format,Comment
+"
+",Newline
+      ,Whitespace
+"//FileOutputFormat.setOutputName(taskContext, baseFileName);",Comment
+"
+",Newline
+      ,Whitespace
+taskContext,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+set,Identifier
+(,Punctuation
+"""avro.mo.config.namedOutput""",String
+",",Punctuation
+baseFileName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+OutputFormat,Identifier
+),Punctuation
+ ,Whitespace
+ReflectionUtils,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+taskContext,Identifier
+.,Punctuation
+getOutputFormatClass,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+taskContext,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+getRecordWriter,Identifier
+(,Punctuation
+taskContext,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ClassNotFoundException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+"// if counters are enabled, wrap the writer with context ",Comment
+"
+",Newline
+      ,Whitespace
+// to increment counters ,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+countersEnabled,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RecordWriterWithCounter,Identifier
+(,Punctuation
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+baseFileName,Identifier
+",",Punctuation
+ ,Whitespace
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+// add the record-writer to the cache,Comment
+"
+",Newline
+      ,Whitespace
+recordWriters,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+baseFileName,Identifier
+",",Punctuation
+ ,Whitespace
+writer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setSchema,Identifier
+(,Punctuation
+Job,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+valSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMaponly,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+.,Punctuation
+getNumReduceTasks,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+keySchema,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isMaponly,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+setMapOutputKeySchema,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+setOutputKeySchema,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+keySchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+valSchema,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isMaponly,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+setMapOutputValueSchema,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+valSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+else,Keyword
+"
+",Newline
+        ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+setOutputValueSchema,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+valSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+   ,Whitespace
+// Create a taskAttemptContext for the named output with ,Comment
+"
+",Newline
+   ,Whitespace
+// output format and output key/value types put in the context,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""deprecation""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+getContext,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+nameOutput,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+taskContext,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+taskContexts,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+nameOutput,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+taskContext,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+taskContext,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// The following trick leverages the instantiation of a record writer via,Comment
+"
+",Newline
+    ,Whitespace
+// the job thus supporting arbitrary output formats.,Comment
+"
+",Newline
+    ,Whitespace
+Job,Identifier
+ ,Whitespace
+job,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Job,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setOutputFormatClass,Identifier
+(,Punctuation
+getNamedOutputFormatClass,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+nameOutput,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+keySchema,Identifier
+=,Operator
+null,Keyword
+",",Punctuation
+valSchema,Identifier
+=,Operator
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+nameOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""".keyschema""",String
+",",Punctuation
+null,Keyword
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+keySchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+nameOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""".keyschema""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+nameOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""".valueschema""",String
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+valSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+MO_PREFIX,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+nameOutput,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""".valueschema""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setSchema,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+keySchema,Identifier
+",",Punctuation
+ ,Whitespace
+valSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+taskContext,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createTaskAttemptContext,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getTaskAttemptID,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+taskContexts,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+nameOutput,Identifier
+",",Punctuation
+ ,Whitespace
+taskContext,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+taskContext,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+createTaskAttemptContext,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+TaskAttemptID,Identifier
+ ,Whitespace
+taskId,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// Use reflection since the context types changed incompatibly between 1.0,Comment
+"
+",Newline
+    ,Whitespace
+// and 2.0.,Comment
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getTaskAttemptContextClass,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Constructor,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+cons,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+c,Identifier
+.,Punctuation
+getConstructor,Identifier
+(,Punctuation
+Configuration,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+TaskAttemptID,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+TaskAttemptContext,Identifier
+),Punctuation
+ ,Whitespace
+cons,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+taskId,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalStateException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+getTaskAttemptContextClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Class,Identifier
+.,Punctuation
+forName,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+"""org.apache.hadoop.mapreduce.task.TaskAttemptContextImpl""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+Class,Identifier
+.,Punctuation
+forName,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""org.apache.hadoop.mapreduce.TaskAttemptContext""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+ex,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalStateException,Identifier
+(,Punctuation
+ex,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Closes all the opened outputs.
+   * 
+   * This should be called from cleanup method of map/reduce task.
+   * If overridden subclasses must invoke <code>super.close()</code> at the
+   * end of their <code>close()</code>
+   * 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+RecordWriter,Identifier
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+recordWriters,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline
+ ,Whitespace
+"
+",Newline

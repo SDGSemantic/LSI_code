@@ -1,0 +1,4742 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+IdentityHashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collection,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+lang,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+Constructor,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+lang,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+InvocationTargetException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Decoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DecoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+ResolvingDecoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Utf8,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+WeakIdentityHashMap,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** {@link DatumReader} for generic Java objects. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+data,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+actual,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+creatorResolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Thread,Identifier
+ ,Whitespace
+creator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct where the writer's and reader's schemas are the same. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct given writer's and reader's schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+reader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+data,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+data,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+actual,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+expected,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+(,Punctuation
+GenericData,Identifier
+ ,Whitespace
+data,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+data,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+creator,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the {@link GenericData} implementation. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+getData,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+data,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the writer's schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+actual,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writer,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+actual,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+expected,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+expected,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+actual,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+creatorResolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Get the reader's schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getExpected,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+expected,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set the reader's schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setExpected,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+reader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+expected,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+creatorResolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ThreadLocal,Identifier
+<,Operator
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ResolvingDecoder,Identifier
+>>>,Operator
+"
+",Newline
+    ,Whitespace
+RESOLVER_CACHE,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+ThreadLocal,Identifier
+<,Operator
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ResolvingDecoder,Identifier
+>>>,Operator
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+protected,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ResolvingDecoder,Identifier
+>>,Operator
+ ,Whitespace
+initialValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+WeakIdentityHashMap,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ResolvingDecoder,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Gets a resolving decoder for use by this GenericDatumReader.
+   *  Unstable API.
+   *  Currently uses a thread local cache to prevent constructing the
+   *  resolvers too often, because that is very expensive.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+getResolver,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+actual,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Thread,Identifier
+ ,Whitespace
+currThread,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+resolver,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+currThread,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+creator,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+creatorResolver,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+creatorResolver,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ResolvingDecoder,Identifier
+>,Operator
+ ,Whitespace
+cache,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+RESOLVER_CACHE,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+actual,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+cache,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+cache,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+WeakIdentityHashMap,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+ResolvingDecoder,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+RESOLVER_CACHE,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+put,Identifier
+(,Punctuation
+actual,Identifier
+",",Punctuation
+ ,Whitespace
+cache,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+resolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+cache,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+resolver,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+resolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+resolvingDecoder,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+Schema,Identifier
+.,Punctuation
+applyAliases,Identifier
+(,Punctuation
+actual,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+cache,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+resolver,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+currThread,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+creator,Identifier
+),Punctuation
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+creatorResolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+resolver,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+resolver,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+D,Identifier
+ ,Whitespace
+read,Identifier
+(,Punctuation
+D,Identifier
+ ,Whitespace
+reuse,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+resolver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getResolver,Identifier
+(,Punctuation
+actual,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+resolver,Identifier
+.,Punctuation
+configure,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+D,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+D,Identifier
+),Punctuation
+ ,Whitespace
+read,Identifier
+(,Punctuation
+reuse,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+resolver,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+resolver,Identifier
+.,Punctuation
+drain,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Called to read data.*/,Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+read,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+expected,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+RECORD,Identifier
+:,Operator
+  ,Whitespace
+return,Keyword
+ ,Whitespace
+readRecord,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ENUM,Identifier
+:,Operator
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+readEnum,Identifier
+(,Punctuation
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ARRAY,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+MAP,Identifier
+:,Operator
+     ,Whitespace
+return,Keyword
+ ,Whitespace
+readMap,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+UNION,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+read,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+.,Punctuation
+getTypes,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+readIndex,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+readFixed,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+  ,Whitespace
+return,Keyword
+ ,Whitespace
+readString,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BYTES,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+readBytes,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+INT,Identifier
+:,Operator
+     ,Whitespace
+return,Keyword
+ ,Whitespace
+readInt,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+LONG,Identifier
+:,Operator
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readLong,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FLOAT,Identifier
+:,Operator
+   ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readFloat,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+DOUBLE,Identifier
+:,Operator
+  ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readDouble,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BOOLEAN,Identifier
+:,Operator
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readBoolean,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+NULL,Identifier
+:,Operator
+    ,Whitespace
+in,Identifier
+.,Punctuation
+readNull,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+ ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Unknown type: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to read a record instance. May be overridden for alternate record
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readRecord,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Object,Identifier
+ ,Whitespace
+r,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+newRecord,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Object,Identifier
+ ,Whitespace
+state,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+getRecordState,Identifier
+(,Punctuation
+r,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Field,Identifier
+ ,Whitespace
+f,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readFieldOrder,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+f,Identifier
+.,Punctuation
+pos,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+f,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Object,Identifier
+ ,Whitespace
+oldDatum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+old,Identifier
+!=,Operator
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+oldDatum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+data,Identifier
+.,Punctuation
+getField,Identifier
+(,Punctuation
+r,Identifier
+",",Punctuation
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+",",Punctuation
+ ,Whitespace
+state,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+readField,Identifier
+(,Punctuation
+r,Identifier
+",",Punctuation
+ ,Whitespace
+f,Identifier
+",",Punctuation
+ ,Whitespace
+oldDatum,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+state,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+r,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to read a single field of a record. May be overridden for more 
+   * efficient or alternate implementations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+readField,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+r,Identifier
+",",Punctuation
+ ,Whitespace
+Field,Identifier
+ ,Whitespace
+f,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+oldDatum,Identifier
+",",Punctuation
+"
+",Newline
+    ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+state,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+data,Identifier
+.,Punctuation
+setField,Identifier
+(,Punctuation
+r,Identifier
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+name,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+pos,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+read,Identifier
+(,Punctuation
+oldDatum,Identifier
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+schema,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+state,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to read an enum value. May be overridden for alternate enum
+   * representations.  By default, returns a GenericEnumSymbol. */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readEnum,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+createEnum,Identifier
+(,Punctuation
+expected,Identifier
+.,Punctuation
+getEnumSymbols,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+readEnum,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to create an enum value. May be overridden for alternate enum
+   * representations.  By default, returns a GenericEnumSymbol. */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+createEnum,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+symbol,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+data,Identifier
+.,Punctuation
+createEnum,Identifier
+(,Punctuation
+symbol,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to read an array instance.  May be overridden for alternate array
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readArray,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expectedType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+expected,Identifier
+.,Punctuation
+getElementType,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readArrayStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+base,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+l,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Object,Identifier
+ ,Whitespace
+array,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+newArray,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+addToArray,Identifier
+(,Punctuation
+array,Identifier
+",",Punctuation
+ ,Whitespace
+base,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+i,Identifier
+",",Punctuation
+ ,Whitespace
+read,Identifier
+(,Punctuation
+peekArray,Identifier
+(,Punctuation
+array,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+expectedType,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+base,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+arrayNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+array,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+newArray,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #readArray} to retrieve a
+   * value from a reused instance.  The default implementation is for {@link
+   * GenericArray}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+peekArray,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+array,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+array,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+GenericArray,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+?,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+GenericArray,Identifier
+),Punctuation
+array,Identifier
+),Punctuation
+.,Punctuation
+peek,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+:,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #readArray} to add a
+   * value.  The default implementation is for {@link Collection}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addToArray,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+array,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+pos,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+(,Punctuation
+(,Punctuation
+Collection,Identifier
+),Punctuation
+ ,Whitespace
+array,Identifier
+),Punctuation
+.,Punctuation
+add,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to read a map instance.  May be overridden for alternate map
+   * representations.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readMap,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+ResolvingDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+eValue,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+expected,Identifier
+.,Punctuation
+getValueType,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readMapStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Object,Identifier
+ ,Whitespace
+map,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+newMap,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+l,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+l,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+do,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+addToMap,Identifier
+(,Punctuation
+map,Identifier
+",",Punctuation
+ ,Whitespace
+readMapKey,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+read,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+eValue,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+mapNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+map,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #readMap} to read a
+   * key value.  The default implementation returns delegates to
+   * {@link #readString(Object, org.apache.avro.io.Decoder)}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readMapKey,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+readString,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called by the default implementation of {@link #readMap} to add a
+   * key/value pair.  The default implementation is for {@link Map}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addToMap,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+map,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+(,Punctuation
+(,Punctuation
+Map,Identifier
+),Punctuation
+ ,Whitespace
+map,Identifier
+),Punctuation
+.,Punctuation
+put,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Called to read a fixed value. May be overridden for alternate fixed
+   * representations.  By default, returns {@link GenericFixed}. */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readFixed,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericFixed,Identifier
+ ,Whitespace
+fixed,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+GenericFixed,Identifier
+),Punctuation
+data,Identifier
+.,Punctuation
+createFixed,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+in,Identifier
+.,Punctuation
+readFixed,Identifier
+(,Punctuation
+fixed,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+expected,Identifier
+.,Punctuation
+getFixedSize,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+fixed,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** 
+   * Called to create an fixed value. May be overridden for alternate fixed
+   * representations.  By default, returns {@link GenericFixed}.
+   * @deprecated As of Avro 1.6.0 this method has been moved to 
+   * {@link GenericData#createFixed(Object, Schema)}
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+createFixed,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+data,Identifier
+.,Punctuation
+createFixed,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** 
+   * Called to create an fixed value. May be overridden for alternate fixed
+   * representations.  By default, returns {@link GenericFixed}.
+   * @deprecated As of Avro 1.6.0 this method has been moved to 
+   * {@link GenericData#createFixed(Object, byte[], Schema)}
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+createFixed,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+data,Identifier
+.,Punctuation
+createFixed,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Called to create new record instances. Subclasses may override to use a
+   * different record implementation. The returned instance must conform to the
+   * schema provided. If the old object contains fields not present in the
+   * schema, they should either be removed from the old object, or it should
+   * create a new instance that conforms to the schema. By default, this returns
+   * a {@link GenericData.Record}.
+   * @deprecated As of Avro 1.6.0 this method has been moved to 
+   * {@link GenericData#newRecord(Object, Schema)}
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+newRecord,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+data,Identifier
+.,Punctuation
+newRecord,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to create new array instances.  Subclasses may override to use a
+   * different array implementation.  By default, this returns a {@link
+   * GenericData.Array}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+newArray,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+old,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Collection,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+(,Punctuation
+(,Punctuation
+Collection,Identifier
+),Punctuation
+ ,Whitespace
+old,Identifier
+),Punctuation
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+old,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+Array,Identifier
+(,Punctuation
+size,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to create new array instances.  Subclasses may override to use a
+   * different map implementation.  By default, this returns a {@link
+   * HashMap}.*/",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+newMap,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+old,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Map,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+(,Punctuation
+(,Punctuation
+Map,Identifier
+),Punctuation
+ ,Whitespace
+old,Identifier
+),Punctuation
+.,Punctuation
+clear,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+old,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Object,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+>,Operator
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to read strings.  Subclasses may override to use a different
+   * string representation.  By default, this calls {@link
+   * #readString(Object,Decoder)}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readString,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+"
+",Newline
+                              ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+ ,Whitespace
+stringClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getStringClass,Identifier
+(,Punctuation
+expected,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+stringClass,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+String,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+stringClass,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+CharSequence,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+readString,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+newInstanceFromString,Identifier
+(,Punctuation
+stringClass,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+                  ,Whitespace
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to read strings.  Subclasses may override to use a different
+   * string representation.  By default, this calls {@link
+   * Decoder#readString(Utf8)}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readString,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readString,Identifier
+(,Punctuation
+old,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Utf8,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+(,Punctuation
+Utf8,Identifier
+),Punctuation
+old,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to create a string from a default value.  Subclasses may override
+   * to use a different string representation.  By default, this calls {@link
+   * Utf8#Utf8(String)}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+createString,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Utf8,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Determines the class to used to represent a string Schema.  By default
+   * uses {@link GenericData#STRING_PROP} to determine whether {@link Utf8} or
+   * {@link String} is used.  Subclasses may override for alternate
+   * representations.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Class,Identifier
+ ,Whitespace
+findStringClass,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getProp,Identifier
+(,Punctuation
+GenericData,Identifier
+.,Punctuation
+STRING_PROP,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+name,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+CharSequence,Identifier
+.,Punctuation
+class,Keyword
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+GenericData,Identifier
+.,Punctuation
+StringType,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+case,Keyword
+ ,Whitespace
+String,Identifier
+:,Operator
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+String,Identifier
+.,Punctuation
+class,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+CharSequence,Identifier
+.,Punctuation
+class,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Class,Identifier
+>,Operator
+ ,Whitespace
+stringClassCache,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+IdentityHashMap,Identifier
+<,Operator
+Schema,Identifier
+",",Punctuation
+Class,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+ ,Whitespace
+getStringClass,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+stringClassCache,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+c,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+findStringClass,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+stringClassCache,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+s,Identifier
+",",Punctuation
+ ,Whitespace
+c,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+c,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+Class,Identifier
+",",Punctuation
+Constructor,Identifier
+>,Operator
+ ,Whitespace
+stringCtorCache,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Class,Identifier
+",",Punctuation
+Constructor,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+newInstanceFromString,Identifier
+(,Punctuation
+Class,Identifier
+ ,Whitespace
+c,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Constructor,Identifier
+ ,Whitespace
+ctor,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+stringCtorCache,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+ctor,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+ctor,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+c,Identifier
+.,Punctuation
+getDeclaredConstructor,Identifier
+(,Punctuation
+String,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+ctor,Identifier
+.,Punctuation
+setAccessible,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+stringCtorCache,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+c,Identifier
+",",Punctuation
+ ,Whitespace
+ctor,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+ctor,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+NoSuchMethodException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+InstantiationException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IllegalAccessException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+InvocationTargetException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to read byte arrays.  Subclasses may override to use a different
+   * byte array representation.  By default, this calls {@link
+   * Decoder#readBytes(ByteBuffer)}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readBytes,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+readBytes,Identifier
+(,Punctuation
+old,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to read byte arrays.  Subclasses may override to use a different
+   * byte array representation.  By default, this calls {@link
+   * Decoder#readBytes(ByteBuffer)}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readBytes,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readBytes,Identifier
+(,Punctuation
+old,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+(,Punctuation
+ByteBuffer,Identifier
+),Punctuation
+ ,Whitespace
+old,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to read integers.  Subclasses may override to use a different
+   * integer representation.  By default, this calls {@link
+   * Decoder#readInt()}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readInt,Identifier
+(,Punctuation
+Object,Identifier
+ ,Whitespace
+old,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+expected,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readInt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Called to create byte arrays from default values.  Subclasses may
+   * override to use a different byte array representation.  By default, this
+   * calls {@link ByteBuffer#wrap(byte[])}.*/",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+createBytes,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Skip an instance of a schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+skip,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+schema,Identifier
+.,Punctuation
+getType,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+RECORD,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Field,Identifier
+ ,Whitespace
+field,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getFields,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+skip,Identifier
+(,Punctuation
+field,Identifier
+.,Punctuation
+schema,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ENUM,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+readInt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ARRAY,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+elementType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getElementType,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+skipArray,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+skipArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+skip,Identifier
+(,Punctuation
+elementType,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+MAP,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+value,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+getValueType,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+skipMap,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+skipMap,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+long,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+l,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+in,Identifier
+.,Punctuation
+skipString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+skip,Identifier
+(,Punctuation
+value,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+UNION,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+skip,Identifier
+(,Punctuation
+schema,Identifier
+.,Punctuation
+getTypes,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+(,Punctuation
+int,Keyword
+),Punctuation
+in,Identifier
+.,Punctuation
+readIndex,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FIXED,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+skipFixed,Identifier
+(,Punctuation
+schema,Identifier
+.,Punctuation
+getFixedSize,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+STRING,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+skipString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BYTES,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+in,Identifier
+.,Punctuation
+skipBytes,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+INT,Identifier
+:,Operator
+     ,Whitespace
+in,Identifier
+.,Punctuation
+readInt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+           ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+LONG,Identifier
+:,Operator
+    ,Whitespace
+in,Identifier
+.,Punctuation
+readLong,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+          ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+FLOAT,Identifier
+:,Operator
+   ,Whitespace
+in,Identifier
+.,Punctuation
+readFloat,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+         ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+DOUBLE,Identifier
+:,Operator
+  ,Whitespace
+in,Identifier
+.,Punctuation
+readDouble,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BOOLEAN,Identifier
+:,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+readBoolean,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+       ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+NULL,Identifier
+:,Operator
+                            ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+ ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Unknown type: """,String
++,Operator
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

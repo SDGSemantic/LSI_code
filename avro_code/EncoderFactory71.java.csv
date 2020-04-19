@@ -1,0 +1,1439 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonGenerator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A factory for creating and configuring {@link Encoder} instances.
+ * <p/>
+ * Factory methods that create Encoder instances are thread-safe.
+ * Multiple instances with different configurations can be cached
+ * by an application.
+ * 
+ * @see Encoder
+ * @see BinaryEncoder
+ * @see JsonEncoder
+ * @see ValidatingEncoder
+ * @see BufferedBinaryEncoder
+ * @see BlockingBinaryEncoder
+ * @see DirectBinaryEncoder
+ */",Comment
+"
+",Newline
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+DEFAULT_BUFFER_SIZE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+2048,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+DEFAULT_BLOCK_BUFFER_SIZE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+64,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+MIN_BLOCK_BUFFER_SIZE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+64,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+MAX_BLOCK_BUFFER_SIZE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1024,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+DEFAULT_FACTORY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+DefaultEncoderFactory,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+binaryBufferSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT_BUFFER_SIZE,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+binaryBlockSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT_BLOCK_BUFFER_SIZE,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns an immutable static DecoderFactory with default configuration.
+   * All configuration methods throw AvroRuntimeExceptions if called.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+get,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+DEFAULT_FACTORY,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Configures this factory to use the specified buffer size when creating
+   * Encoder instances that buffer their output. The default buffer size is 2048
+   * bytes.
+   * 
+   * @param size
+   *          The buffer size to configure new instances with. Valid values are
+   *          in the range [32, 16*1024*1024]. Values outside this range are set
+   *          to the nearest value in the range. Values less than 256 will limit
+   *          performance but will consume less memory if the BinaryEncoder is
+   *          short-lived, values greater than 8*1024 are not likely to improve
+   *          performance but may be useful for the downstream OutputStream.
+   * @return This factory, to enable method chaining:
+   * <pre>
+   * EncoderFactory factory = new EncoderFactory().configureBufferSize(4096);
+   * </pre>
+   * @see #binaryEncoder(OutputStream, BinaryEncoder)
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+configureBufferSize,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+size,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+32,Literal
+),Punctuation
+"
+",Newline
+      ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+32,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+size,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+16,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+),Punctuation
+"
+",Newline
+      ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+16,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBufferSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns this factory's configured default buffer size.  Used when creating
+   * Encoder instances that buffer writes.
+   * @see #configureBufferSize(int)
+   * @see #binaryEncoder(OutputStream, BinaryEncoder)
+   * @return The preferred buffer size, in bytes.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getBufferSize,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBufferSize,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Configures this factory to construct blocking BinaryEncoders with the
+   * specified block buffer size. The default buffer size is 64 * 1024 bytes.
+   * 
+   * @param size
+   *          The preferred block size for array blocking. Arrays larger than
+   *          this size will be segmented into blocks according to the Avro
+   *          spec. Valid values are in the range [64, 1024*1024*1024] Values
+   *          outside this range are set to the nearest value in the range. The
+   *          encoder will require at least this amount of memory.
+   * @return This factory, to enable method chaining:
+   * <pre>
+   * EncoderFactory factory = new EncoderFactory().configureBlockSize(8000);
+   * </pre>
+   * @see #blockingBinaryEncoder(OutputStream, BinaryEncoder)
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+configureBlockSize,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+size,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+MIN_BLOCK_BUFFER_SIZE,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+MIN_BLOCK_BUFFER_SIZE,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+size,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+MAX_BLOCK_BUFFER_SIZE,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+MAX_BLOCK_BUFFER_SIZE,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBlockSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns this factory's configured default block buffer size.  
+   * {@link BinaryEncoder} instances created with
+   * #blockingBinaryEncoder(OutputStream, BinaryEncoder)
+   * will have block buffers of this size.
+   * <p/>
+   * @see #configureBlockSize(int)
+   * @see #blockingBinaryEncoder(OutputStream, BinaryEncoder)
+   * @return The preferred block size, in bytes.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getBlockSize,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBlockSize,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates or reinitializes a {@link BinaryEncoder} with the OutputStream
+   * provided as the destination for written data. If <i>reuse</i> is provided,
+   * an attempt will be made to reconfigure <i>reuse</i> rather than construct a
+   * new instance, but this is not guaranteed, a new instance may be returned.
+   * <p/>
+   * The {@link BinaryEncoder} implementation returned may buffer its output.
+   * Data may not appear on the underlying OutputStream until
+   * {@link Encoder#flush()} is called.  The buffer size is configured with
+   * {@link #configureBufferSize(int)}.
+   * </p>  If buffering is not desired, and lower performance is acceptable, use 
+   * {@link #directBinaryEncoder(OutputStream, BinaryEncoder)}
+   * <p/>
+   * {@link BinaryEncoder} instances returned by this method are not thread-safe
+   * 
+   * @param out
+   *          The OutputStream to write to.  Cannot be null.
+   * @param reuse
+   *          The BinaryEncoder to <i>attempt</i> to reuse given the factory
+   *          configuration. A BinaryEncoder implementation may not be
+   *          compatible with reuse, causing a new instance to be returned.
+   *          If null, a new instance is returned.
+   * @return A BinaryEncoder that uses <i>out</i> as its data output. If
+   *         <i>reuse</i> is null, this will be a new instance. If <i>reuse</i>
+   *         is not null, then the returned instance may be a new instance or
+   *         <i>reuse</i> reconfigured to use <i>out</i>.
+   * @throws IOException 
+   * @see BufferedBinaryEncoder
+   * @see Encoder
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+binaryEncoder,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+reuse,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+reuse,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+!,Operator
+reuse,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+equals,Identifier
+(,Punctuation
+BufferedBinaryEncoder,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BufferedBinaryEncoder,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBufferSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+  ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+BufferedBinaryEncoder,Identifier
+),Punctuation
+reuse,Identifier
+),Punctuation
+.,Punctuation
+configure,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBufferSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates or reinitializes a {@link BinaryEncoder} with the OutputStream
+   * provided as the destination for written data. If <i>reuse</i> is provided,
+   * an attempt will be made to reconfigure <i>reuse</i> rather than construct a
+   * new instance, but this is not guaranteed, a new instance may be returned.
+   * <p/>
+   * The {@link BinaryEncoder} implementation returned does not buffer its
+   * output, calling {@link Encoder#flush()} will simply cause the wrapped
+   * OutputStream to be flushed.
+   * <p/>
+   * Performance of unbuffered writes can be significantly slower than buffered
+   * writes.  {@link #binaryEncoder(OutputStream, BinaryEncoder)} returns
+   * BinaryEncoder instances that are tuned for performance but may buffer output.
+   * The unbuffered, 'direct' encoder may be desired when buffering semantics are
+   * problematic, or if the lifetime of the encoder is so short that the buffer
+   * would not be useful.
+   * <p/>
+   * {@link BinaryEncoder} instances returned by this method are not thread-safe.
+   * 
+   * @param out
+   *          The OutputStream to initialize to. Cannot be null.
+   * @param reuse
+   *          The BinaryEncoder to <i>attempt</i> to reuse given the factory
+   *          configuration. A BinaryEncoder implementation may not be
+   *          compatible with reuse, causing a new instance to be returned. If
+   *          null, a new instance is returned.
+   * @return A BinaryEncoder that uses <i>out</i> as its data output. If
+   *         <i>reuse</i> is null, this will be a new instance. If <i>reuse</i>
+   *         is not null, then the returned instance may be a new instance or
+   *         <i>reuse</i> reconfigured to use <i>out</i>.
+   * @see DirectBinaryEncoder
+   * @see Encoder
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+directBinaryEncoder,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+reuse,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+reuse,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+!,Operator
+reuse,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+equals,Identifier
+(,Punctuation
+DirectBinaryEncoder,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DirectBinaryEncoder,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+DirectBinaryEncoder,Identifier
+),Punctuation
+reuse,Identifier
+),Punctuation
+.,Punctuation
+configure,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates or reinitializes a {@link BinaryEncoder} with the OutputStream
+   * provided as the destination for written data. If <i>reuse</i> is provided,
+   * an attempt will be made to reconfigure <i>reuse</i> rather than construct a
+   * new instance, but this is not guaranteed, a new instance may be returned.
+   * <p/>
+   * The {@link BinaryEncoder} implementation returned buffers its output,
+   * calling {@link Encoder#flush()} is required for output to appear on the underlying
+   * OutputStream.
+   * <p/>
+   * The returned BinaryEncoder implements the Avro binary encoding using blocks
+   * delimited with byte sizes for Arrays and Maps.  This allows for some decoders
+   * to skip over large Arrays or Maps without decoding the contents, but adds
+   * some overhead.  The default block size is configured with
+   * {@link #configureBlockSize(int)} 
+   * <p/>
+   * {@link BinaryEncoder} instances returned by this method are not thread-safe.
+   * 
+   * @param out
+   *          The OutputStream to initialize to. Cannot be null.
+   * @param reuse
+   *          The BinaryEncoder to <i>attempt</i> to reuse given the factory
+   *          configuration. A BinaryEncoder implementation may not be
+   *          compatible with reuse, causing a new instance to be returned. If
+   *          null, a new instance is returned.
+   * @return A BinaryEncoder that uses <i>out</i> as its data output. If
+   *         <i>reuse</i> is null, this will be a new instance. If <i>reuse</i>
+   *         is not null, then the returned instance may be a new instance or
+   *         <i>reuse</i> reconfigured to use <i>out</i>.
+   * @throws IOException
+   * @see BlockingBinaryEncoder
+   * @see Encoder
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+blockingBinaryEncoder,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+reuse,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+blockSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBlockSize,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+bufferSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+blockSize,Identifier
+ ,Whitespace
+*,Operator
+ ,Whitespace
+2,Literal
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBufferSize,Identifier
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+32,Literal
+"
+",Newline
+        ,Whitespace
+:,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+binaryBufferSize,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+reuse,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+!,Operator
+reuse,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+equals,Identifier
+(,Punctuation
+BlockingBinaryEncoder,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BlockingBinaryEncoder,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+blockSize,Identifier
+",",Punctuation
+ ,Whitespace
+bufferSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+BlockingBinaryEncoder,Identifier
+),Punctuation
+ ,Whitespace
+reuse,Identifier
+),Punctuation
+.,Punctuation
+configure,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+blockSize,Identifier
+",",Punctuation
+ ,Whitespace
+bufferSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a {@link JsonEncoder} using the OutputStream provided for writing
+   * data conforming to the Schema provided.
+   * <p/>
+   * {@link JsonEncoder} buffers its output. Data may not appear on the
+   * underlying OutputStream until {@link Encoder#flush()} is called.
+   * <p/>
+   * {@link JsonEncoder} is not thread-safe.
+   * 
+   * @param schema
+   *          The Schema for data written to this JsonEncoder. Cannot be null.
+   * @param out
+   *          The OutputStream to write to. Cannot be null.
+   * @return A JsonEncoder configured with <i>out</i> and <i>schema</i>
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+JsonEncoder,Identifier
+ ,Whitespace
+jsonEncoder,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JsonEncoder,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a {@link JsonEncoder} using the OutputStream provided for writing
+   * data conforming to the Schema provided with optional pretty printing.
+   * <p/>
+   * {@link JsonEncoder} buffers its output. Data may not appear on the
+   * underlying OutputStream until {@link Encoder#flush()} is called.
+   * <p/>
+   * {@link JsonEncoder} is not thread-safe.
+   * 
+   * @param schema
+   *          The Schema for data written to this JsonEncoder. Cannot be null.
+   * @param out
+   *          The OutputStream to write to. Cannot be null.
+   * @param pretty
+   *          Pretty print encoding.
+   * @return A JsonEncoder configured with <i>out</i>, <i>schema</i> and <i>pretty</i>
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+JsonEncoder,Identifier
+ ,Whitespace
+jsonEncoder,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+pretty,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JsonEncoder,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+pretty,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a {@link JsonEncoder} using the {@link JsonGenerator} provided for
+   * output of data conforming to the Schema provided.
+   * <p/>
+   * {@link JsonEncoder} buffers its output. Data may not appear on the
+   * underlying output until {@link Encoder#flush()} is called.
+   * <p/>
+   * {@link JsonEncoder} is not thread-safe.
+   * 
+   * @param schema
+   *          The Schema for data written to this JsonEncoder. Cannot be null.
+   * @param gen
+   *          The JsonGenerator to write with. Cannot be null.
+   * @return A JsonEncoder configured with <i>gen</i> and <i>schema</i>
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+JsonEncoder,Identifier
+ ,Whitespace
+jsonEncoder,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+JsonGenerator,Identifier
+ ,Whitespace
+gen,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JsonEncoder,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+gen,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a {@link ValidatingEncoder} that wraps the Encoder provided.
+   * This ValidatingEncoder will ensure that operations against it conform
+   * to the schema provided.
+   * <p/>
+   * Many {@link Encoder}s buffer their output. Data may not appear on the
+   * underlying output until {@link Encoder#flush()} is called.
+   * <p/>
+   * {@link ValidatingEncoder} is not thread-safe.
+   * 
+   * @param schema
+   *          The Schema to validate operations against. Cannot be null.
+   * @param encoder
+   *          The Encoder to wrap.  Cannot be be null.
+   * @return A ValidatingEncoder configured to wrap <i>encoder</i> and validate
+   *  against <i>schema</i>
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+ValidatingEncoder,Identifier
+ ,Whitespace
+validatingEncoder,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+encoder,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ValidatingEncoder,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+encoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+// default encoder is not mutable,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+DefaultEncoderFactory,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+configureBlockSize,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Default EncoderFactory cannot be configured""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+configureBufferSize,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Default EncoderFactory cannot be configured""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,894 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+SocketAddress,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+channels,Identifier
+.,Punctuation
+SocketChannel,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+sasl,Identifier
+.,Punctuation
+Sasl,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+sasl,Identifier
+.,Punctuation
+SaslServer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+sasl,Identifier
+.,Punctuation
+SaslException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+javax,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+auth,Identifier
+.,Punctuation
+callback,Identifier
+.,Punctuation
+CallbackHandler,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** A {@link Server} that uses {@link javax.security.sasl} for authentication
+ * and encryption. */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SaslSocketServer,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+SocketServer,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+SaslServer,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SaslServerFactory,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+protected,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+SaslServer,Identifier
+ ,Whitespace
+getServer,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+SaslServerFactory,Identifier
+ ,Whitespace
+factory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Create using SASL's anonymous (<a
+   * href=""http://www.ietf.org/rfc/rfc2245.txt"">RFC 2245) mechanism. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslSocketServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+SocketAddress,Identifier
+ ,Whitespace
+addr,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+"
+",Newline
+         ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslServerFactory,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+           ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslServer,Identifier
+ ,Whitespace
+getServer,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AnonymousServer,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+         ,Whitespace
+},Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Create using the specified {@link SaslServer} parameters. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslSocketServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+SocketAddress,Identifier
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+"
+",Newline
+                          ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+mechanism,Identifier
+",",Punctuation
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+protocol,Identifier
+",",Punctuation
+"
+",Newline
+                          ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+serverName,Identifier
+",",Punctuation
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+?,Operator
+>,Operator
+ ,Whitespace
+props,Identifier
+",",Punctuation
+"
+",Newline
+                          ,Whitespace
+final,Keyword
+ ,Whitespace
+CallbackHandler,Identifier
+ ,Whitespace
+cbh,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+"
+",Newline
+         ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslServerFactory,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+           ,Whitespace
+public,Keyword
+ ,Whitespace
+SaslServer,Identifier
+ ,Whitespace
+getServer,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+             ,Whitespace
+return,Keyword
+ ,Whitespace
+Sasl,Identifier
+.,Punctuation
+createSaslServer,Identifier
+(,Punctuation
+mechanism,Identifier
+",",Punctuation
+ ,Whitespace
+protocol,Identifier
+",",Punctuation
+ ,Whitespace
+serverName,Identifier
+",",Punctuation
+"
+",Newline
+                                          ,Whitespace
+props,Identifier
+",",Punctuation
+ ,Whitespace
+cbh,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+           ,Whitespace
+},Punctuation
+"
+",Newline
+         ,Whitespace
+},Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+SaslSocketServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+SocketAddress,Identifier
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+"
+",Newline
+                           ,Whitespace
+SaslServerFactory,Identifier
+ ,Whitespace
+factory,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+addr,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+factory,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+factory,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+ ,Whitespace
+protected,Keyword
+ ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+getTransceiver,Identifier
+(,Punctuation
+SocketChannel,Identifier
+ ,Whitespace
+channel,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslSocketTransceiver,Identifier
+(,Punctuation
+channel,Identifier
+",",Punctuation
+ ,Whitespace
+factory,Identifier
+.,Punctuation
+getServer,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AnonymousServer,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+SaslServer,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+user,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getMechanismName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+"""ANONYMOUS""",String
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+evaluateResponse,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+response,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+SaslException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+user,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+response,Identifier
+",",Punctuation
+ ,Whitespace
+"""UTF-8""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SaslException,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isComplete,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+user,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getAuthorizationID,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+user,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+unwrap,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+incoming,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+offset,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+wrap,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+outgoing,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+offset,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+getNegotiatedProperty,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+propName,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+dispose,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

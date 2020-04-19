@@ -1,0 +1,558 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Comparator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Compares Avro string data (data with schema <i>""string""</i>).
+ *
+ * <p>The only case where comparing Avro objects does not work using their natural order
+ * is when the schema is <i>""string""</i>.  The Avro string schema maps to the Java
+ * <code>CharSequence</code> interface, which does not define <code>equals</code>,
+ * <code>hashCode</code>, or <code>compareTo</code>.</p>
+ *
+ * <p>Using this comparator enables comparisons between <code>String</code> and
+ * <code>Utf8</code> objects that are both valid when working with Avro strings.</p>
+ *
+ * @param <T> The type of object to compare.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroCharSequenceComparator,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Comparator,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** A singleton instance. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+AvroCharSequenceComparator,Identifier
+<,Operator
+CharSequence,Identifier
+>,Operator
+ ,Whitespace
+INSTANCE,Identifier
+"
+",Newline
+      ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroCharSequenceComparator,Identifier
+<,Operator
+CharSequence,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+compare,Identifier
+(,Punctuation
+T,Identifier
+ ,Whitespace
+o1,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+o2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+o1,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+CharSequence,Identifier
+),Punctuation
+ ,Whitespace
+||,Operator
+ ,Whitespace
+!,Operator
+(,Punctuation
+o2,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+CharSequence,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+"""Attempted use of AvroCharSequenceComparator on non-CharSequence objects: """,String
+"
+",Newline
+          ,Whitespace
++,Operator
+ ,Whitespace
+o1,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" and """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+o2,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+compareCharSequence,Identifier
+(,Punctuation
+(,Punctuation
+CharSequence,Identifier
+),Punctuation
+ ,Whitespace
+o1,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+CharSequence,Identifier
+),Punctuation
+ ,Whitespace
+o2,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Compares the CharSequences <code>o1</code> and <code>o2</code>.
+   *
+   * @param o1 The left charsequence.
+   * @param o2 The right charsequence.
+   * @return a negative integer, zero, or a positive integer if the first argument is
+   *     less than, equal to, or greater than the second, respectively.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+compareCharSequence,Identifier
+(,Punctuation
+CharSequence,Identifier
+ ,Whitespace
+o1,Identifier
+",",Punctuation
+ ,Whitespace
+CharSequence,Identifier
+ ,Whitespace
+o2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+Math,Identifier
+.,Punctuation
+max,Identifier
+(,Punctuation
+o1,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+o2,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+charComparison,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+compareCharacter,Identifier
+(,Punctuation
+o1,Identifier
+",",Punctuation
+ ,Whitespace
+o2,Identifier
+",",Punctuation
+ ,Whitespace
+i,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+0,Literal
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+charComparison,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+charComparison,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Compares the characters of <code>o1</code> and <code>o2</code> at index <code>index</code>.
+   *
+   * @param o1 The left charsequence.
+   * @param o2 The right charsequence.
+   * @param index The zero-based index into the charsequences to compare.
+   * @return a negative integer, zero, or a positive integer if the first argument is
+   *     less than, equal to, or greater than the second, respectively.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+compareCharacter,Identifier
+(,Punctuation
+CharSequence,Identifier
+ ,Whitespace
+o1,Identifier
+",",Punctuation
+ ,Whitespace
+CharSequence,Identifier
+ ,Whitespace
+o2,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+index,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+o1,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+o2,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Character,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+o1,Identifier
+.,Punctuation
+charAt,Identifier
+(,Punctuation
+index,Identifier
+),Punctuation
+),Punctuation
+.,Punctuation
+compareTo,Identifier
+(,Punctuation
+Character,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+o2,Identifier
+.,Punctuation
+charAt,Identifier
+(,Punctuation
+index,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+index,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+o1,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+index,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+o2,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+o1,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+o2,Identifier
+.,Punctuation
+length,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

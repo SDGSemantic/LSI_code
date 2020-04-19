@@ -1,0 +1,118 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A {@link SchemaValidationStrategy} that checks that the data written with the
+ * {@link Schema} to validate can be read by the existing schema according to
+ * the default Avro schema resolution rules.
+ * 
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+ValidateCanBeRead,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+SchemaValidationStrategy,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Validate that data written with first schema provided can be read using the
+   * second schema, according to the default Avro schema resolution rules.
+   * 
+   * @throws SchemaValidationException
+   *           if the second schema cannot read data written by the first.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+validate,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+toValidate,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+existing,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+SchemaValidationException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ValidateMutualRead,Identifier
+.,Punctuation
+canRead,Identifier
+(,Punctuation
+toValidate,Identifier
+",",Punctuation
+ ,Whitespace
+existing,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

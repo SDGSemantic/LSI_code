@@ -1,0 +1,2397 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collection,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+lang,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+Constructor,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+URLEncoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+UnsupportedEncodingException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+IdentityMapper,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+IdentityReducer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+ReflectData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificData,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Setters to configure jobs for Avro data. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroJob,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+AvroJob,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+                            ,Whitespace
+// no public ctor,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+MAPPER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.mapper""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+COMBINER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.combiner""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+REDUCER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.reducer""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The configuration key for a job's input schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+INPUT_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.input.schema""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The configuration key for a job's intermediate schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+MAP_OUTPUT_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.map.output.schema""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The configuration key for a job's output schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+OUTPUT_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.output.schema""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"/** The configuration key for a job's output compression codec.
+   *  This takes one of the strings registered in {@link org.apache.avro.file.CodecFactory} */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+OUTPUT_CODEC,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.output.codec""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The configuration key prefix for a text output metadata. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+TEXT_PREFIX,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.meta.text.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The configuration key prefix for a binary output metadata. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+BINARY_PREFIX,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.meta.binary.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The configuration key for reflection-based input representation. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+INPUT_IS_REFLECT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.input.is.reflect""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The configuration key for reflection-based map output representation. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+MAP_OUTPUT_IS_REFLECT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.map.output.is.reflect""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** The configuration key for the data model implementation class. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONF_DATA_MODEL,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.serialization.data.model""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Configure a job's map input schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setInputSchema,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+INPUT_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+configureAvroInput,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return a job's map input schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getInputSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+schemaString,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+INPUT_SCHEMA,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+schemaString,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+schemaString,Identifier
+),Punctuation
+ ,Whitespace
+:,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Configure a job's map output schema.  The map output schema defaults to
+   * the output schema and need only be specified when it differs.  Thus must
+   * be a {@link Pair} schema. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setMapOutputSchema,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+MAP_OUTPUT_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+configureAvroShuffle,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return a job's map output key schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getMapOutputSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+MAP_OUTPUT_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+OUTPUT_SCHEMA,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Configure a job's output schema.  Unless this is a map-only job, this
+   * must be a {@link Pair} schema. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setOutputSchema,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+OUTPUT_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+configureAvroOutput,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Configure a job's output compression codec. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setOutputCodec,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+codec,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+OUTPUT_CODEC,Identifier
+",",Punctuation
+ ,Whitespace
+codec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Add metadata to job output files.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setOutputMeta,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+TEXT_PREFIX,Identifier
++,Operator
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+/** Add metadata to job output files.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setOutputMeta,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+TEXT_PREFIX,Identifier
++,Operator
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+/** Add metadata to job output files.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setOutputMeta,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+BINARY_PREFIX,Identifier
++,Operator
+key,Identifier
+",",Punctuation
+"
+",Newline
+              ,Whitespace
+URLEncoder,Identifier
+.,Punctuation
+encode,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+value,Identifier
+",",Punctuation
+ ,Whitespace
+"""ISO-8859-1""",String
+),Punctuation
+",",Punctuation
+"
+",Newline
+                                ,Whitespace
+"""ISO-8859-1""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+UnsupportedEncodingException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Indicate that a job's input files are in SequenceFile format.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setInputSequenceFile,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setInputFormat,Identifier
+(,Punctuation
+SequenceFileInputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Indicate that all a job's data should use the reflect representation.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setReflect,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+setInputReflect,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setMapOutputReflect,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Indicate that a job's input data should use reflect representation.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setInputReflect,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setBoolean,Identifier
+(,Punctuation
+INPUT_IS_REFLECT,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Indicate that a job's map output data should use reflect representation.*/,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setMapOutputReflect,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setBoolean,Identifier
+(,Punctuation
+MAP_OUTPUT_IS_REFLECT,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return a job's output key schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getOutputSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+OUTPUT_SCHEMA,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configureAvroInput,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""mapred.input.format.class""",String
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+setInputFormat,Identifier
+(,Punctuation
+AvroInputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+job,Identifier
+.,Punctuation
+getMapperClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+IdentityMapper,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+setMapperClass,Identifier
+(,Punctuation
+HadoopMapper,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+configureAvroShuffle,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configureAvroOutput,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+job,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""mapred.output.format.class""",String
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+setOutputFormat,Identifier
+(,Punctuation
+AvroOutputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+job,Identifier
+.,Punctuation
+getReducerClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+IdentityReducer,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+setReducerClass,Identifier
+(,Punctuation
+HadoopReducer,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setOutputKeyClass,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+configureAvroShuffle,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configureAvroShuffle,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setOutputKeyComparatorClass,Identifier
+(,Punctuation
+AvroKeyComparator,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setMapOutputKeyClass,Identifier
+(,Punctuation
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setMapOutputValueClass,Identifier
+(,Punctuation
+AvroValue,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// add AvroSerialization to io.serializations,Comment
+"
+",Newline
+    ,Whitespace
+Collection,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+serializations,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+getStringCollection,Identifier
+(,Punctuation
+"""io.serializations""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+serializations,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+AvroSerialization,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+serializations,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+AvroSerialization,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+setStrings,Identifier
+(,Punctuation
+"""io.serializations""",String
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+serializations,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Configure a job's mapper implementation. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setMapperClass,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+"
+",Newline
+                                    ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+MAPPER,Identifier
+",",Punctuation
+ ,Whitespace
+c,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Configure a job's combiner implementation. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setCombinerClass,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+"
+",Newline
+                                      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroReducer,Identifier
+>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+COMBINER,Identifier
+",",Punctuation
+ ,Whitespace
+c,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setCombinerClass,Identifier
+(,Punctuation
+HadoopCombiner,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Configure a job's reducer implementation. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setReducerClass,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+"
+",Newline
+                                     ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroReducer,Identifier
+>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+REDUCER,Identifier
+",",Punctuation
+ ,Whitespace
+c,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Configure a job's data model implementation class. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setDataModelClass,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+modelClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+job,Identifier
+.,Punctuation
+setClass,Identifier
+(,Punctuation
+CONF_DATA_MODEL,Identifier
+",",Punctuation
+ ,Whitespace
+modelClass,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Return the job's data model implementation class. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+getDataModelClass,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+CONF_DATA_MODEL,Identifier
+",",Punctuation
+ ,Whitespace
+ReflectData,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+newDataModelInstance,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+modelClass,Identifier
+",",Punctuation
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Constructor,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+ctor,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+modelClass,Identifier
+.,Punctuation
+getDeclaredConstructor,Identifier
+(,Punctuation
+ClassLoader,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ctor,Identifier
+.,Punctuation
+setAccessible,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+dataModel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ctor,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+conf,Identifier
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+ReflectionUtils,Identifier
+.,Punctuation
+setConf,Identifier
+(,Punctuation
+dataModel,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+dataModel,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+createDataModel,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+newDataModelInstance,Identifier
+(,Punctuation
+getDataModelClass,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+createInputDataModel,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+className,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONF_DATA_MODEL,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+modelClass,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+className,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+modelClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getDataModelClass,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+conf,Identifier
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+INPUT_IS_REFLECT,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+modelClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ReflectData,Identifier
+.,Punctuation
+class,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+modelClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+class,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+newDataModelInstance,Identifier
+(,Punctuation
+modelClass,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+createMapOutputDataModel,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+className,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONF_DATA_MODEL,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+modelClass,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+className,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+modelClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getDataModelClass,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+conf,Identifier
+.,Punctuation
+getBoolean,Identifier
+(,Punctuation
+MAP_OUTPUT_IS_REFLECT,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+modelClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ReflectData,Identifier
+.,Punctuation
+class,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+modelClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+SpecificData,Identifier
+.,Punctuation
+class,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+newDataModelInstance,Identifier
+(,Punctuation
+modelClass,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

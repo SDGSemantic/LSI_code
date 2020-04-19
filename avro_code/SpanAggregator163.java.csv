@@ -1,0 +1,1472 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+.,Punctuation
+Util,Identifier
+.,Punctuation
+idsEqual,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+.,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+EnumSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Utility methods for aggregating spans together at various
+ * points of trace analysis.
+ * 
+ * The general workflow of trace analysis is:
+ * 
+ * Partial {@link Span}'s --> Complete {@link Span}'s -->
+ * {@link Trace}'s --> {@link TraceCollection}'s
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SpanAggregator,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * Class to store the results of span aggregation.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SpanAggregationResults,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+/** Spans which have data from client and server. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+completeSpans,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/** Spans which have data only from client or server, or in which
+     * an ID collision was detected.*/",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+incompleteSpans,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SpanAggregationResults,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+completeSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+incompleteSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Class to store the results of trace formation.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TraceFormationResults,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+/** Traces which were successfully created. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Trace,Identifier
+>,Operator
+ ,Whitespace
+traces,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** Spans which did not describe a complete trace. */,Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+rejectedSpans,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+TraceFormationResults,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+traces,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Trace,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+rejectedSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Merge a list of incomplete spans (data filled in from only client or 
+   * server) into complete spans (full client and server data). 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+SpanAggregationResults,Identifier
+ ,Whitespace
+getFullSpans,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+partials,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+SpanAggregationResults,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SpanAggregationResults,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+Span,Identifier
+>,Operator
+ ,Whitespace
+seenSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+SpanEvent,Identifier
+>,Operator
+ ,Whitespace
+allEvents,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+List,Identifier
+<,Operator
+SpanEvent,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+asList,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+partials,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+EnumSet,Identifier
+<,Operator
+SpanEvent,Identifier
+>,Operator
+ ,Whitespace
+foundEvents,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+getAllEvents,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+// Span has complete data already,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+foundEvents,Identifier
+.,Punctuation
+containsAll,Identifier
+(,Punctuation
+allEvents,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+completeSpans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+// We haven't seen other half yet,Comment
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+seenSpans,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+seenSpans,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+    ,Whitespace
+"
+",Newline
+      ,Whitespace
+// We have seen other half,Comment
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Span,Identifier
+ ,Whitespace
+other,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+seenSpans,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+spanID,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+  ,Whitespace
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+other,Identifier
+.,Punctuation
+messageName,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+messageName,Identifier
+),Punctuation
+ ,Whitespace
+||,Operator
+"
+",Newline
+            ,Whitespace
+!,Operator
+idsEqual,Identifier
+(,Punctuation
+other,Identifier
+.,Punctuation
+parentSpanID,Identifier
+",",Punctuation
+ ,Whitespace
+s,Identifier
+.,Punctuation
+parentSpanID,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+out,Identifier
+.,Punctuation
+incompleteSpans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+out,Identifier
+.,Punctuation
+incompleteSpans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+other,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+foundEvents,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+Util,Identifier
+.,Punctuation
+getAllEvents,Identifier
+(,Punctuation
+other,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+other,Identifier
+.,Punctuation
+requestorHostname,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+s,Identifier
+.,Punctuation
+requestorHostname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+requestorHostname,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+other,Identifier
+.,Punctuation
+responderHostname,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+s,Identifier
+.,Punctuation
+responderHostname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+responderHostname,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+          ,Whitespace
+"
+",Newline
+          ,Whitespace
+// We have a complete span between the two,Comment
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+foundEvents,Identifier
+.,Punctuation
+containsAll,Identifier
+(,Punctuation
+allEvents,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+TimestampedEvent,Identifier
+ ,Whitespace
+event,Identifier
+:,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+events,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+              ,Whitespace
+s,Identifier
+.,Punctuation
+events,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+event,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+},Punctuation
+"
+",Newline
+            ,Whitespace
+s,Identifier
+.,Punctuation
+requestPayloadSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Math,Identifier
+.,Punctuation
+max,Identifier
+(,Punctuation
+"
+",Newline
+                ,Whitespace
+s,Identifier
+.,Punctuation
+requestPayloadSize,Identifier
+",",Punctuation
+ ,Whitespace
+other,Identifier
+.,Punctuation
+requestPayloadSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+s,Identifier
+.,Punctuation
+responsePayloadSize,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Math,Identifier
+.,Punctuation
+max,Identifier
+(,Punctuation
+"
+",Newline
+                ,Whitespace
+s,Identifier
+.,Punctuation
+responsePayloadSize,Identifier
+",",Punctuation
+ ,Whitespace
+other,Identifier
+.,Punctuation
+responsePayloadSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+s,Identifier
+.,Punctuation
+complete,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+out,Identifier
+.,Punctuation
+completeSpans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// Flush unmatched spans,Comment
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+seenSpans,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+incompleteSpans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Given a list of Spans extract as many Trace objects as possible.
+   * A {@link Trace} is a tree-like data structure containing spans.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+TraceFormationResults,Identifier
+ ,Whitespace
+getTraces,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+spans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+/** Traces indexed by traceID. */,Comment
+"
+",Newline
+    ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>>,Operator
+ ,Whitespace
+traces,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+spans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+traces,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+traceID,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+         ,Whitespace
+traces,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+traceID,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+traces,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+longValue,Identifier
+(,Punctuation
+s,Identifier
+.,Punctuation
+traceID,Identifier
+),Punctuation
+),Punctuation
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+TraceFormationResults,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TraceFormationResults,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+spanSet,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+traces,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+Trace,Identifier
+ ,Whitespace
+trace,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Trace,Identifier
+.,Punctuation
+extractTrace,Identifier
+(,Punctuation
+spanSet,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+trace,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+         ,Whitespace
+out,Identifier
+.,Punctuation
+traces,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+trace,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+},Punctuation
+"
+",Newline
+       ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+         ,Whitespace
+out,Identifier
+.,Punctuation
+rejectedSpans,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+spanSet,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Given a list of Traces, group traces which share an execution pattern
+   * and return TraceCollection results for each one.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+TraceCollection,Identifier
+>,Operator
+ ,Whitespace
+getTraceCollections,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+Trace,Identifier
+>,Operator
+ ,Whitespace
+traces,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+HashMap,Identifier
+<,Operator
+Integer,Identifier
+",",Punctuation
+ ,Whitespace
+TraceCollection,Identifier
+>,Operator
+ ,Whitespace
+collections,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Integer,Identifier
+",",Punctuation
+ ,Whitespace
+TraceCollection,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Trace,Identifier
+ ,Whitespace
+t,Identifier
+:,Operator
+ ,Whitespace
+traces,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+collections,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+t,Identifier
+.,Punctuation
+executionPathHash,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+TraceCollection,Identifier
+ ,Whitespace
+collection,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TraceCollection,Identifier
+(,Punctuation
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+collections,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+t,Identifier
+.,Punctuation
+executionPathHash,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+collection,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+collections,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+t,Identifier
+.,Punctuation
+executionPathHash,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+addTrace,Identifier
+(,Punctuation
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+TraceCollection,Identifier
+>,Operator
+(,Punctuation
+collections,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

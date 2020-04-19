@@ -1,0 +1,4894 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+ConcurrentHashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+ConcurrentMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+CopyOnWriteArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+ExecutionException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+locks,Identifier
+.,Punctuation
+ReentrantLock,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRemoteException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+.,Punctuation
+Message,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DecoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BinaryDecoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Decoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Encoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BinaryEncoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EncoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ByteBufferInputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ByteBufferOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** Base class for the client side of a protocol interaction. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Requestor,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+Requestor,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+META,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+.,Punctuation
+createMap,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Type,Identifier
+.,Punctuation
+BYTES,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ByteBuffer,Identifier
+>>,Operator
+"
+",Newline
+    ,Whitespace
+META_READER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ByteBuffer,Identifier
+>>,Operator
+(,Punctuation
+META,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+<,Operator
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ByteBuffer,Identifier
+>>,Operator
+"
+",Newline
+    ,Whitespace
+META_WRITER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+<,Operator
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ByteBuffer,Identifier
+>>,Operator
+(,Punctuation
+META,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+local,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+volatile,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+remote,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+volatile,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+sendLocalText,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+transceiver,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ReentrantLock,Identifier
+ ,Whitespace
+handshakeLock,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ReentrantLock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+RPCPlugin,Identifier
+>,Operator
+ ,Whitespace
+rpcMetaPlugins,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+getLocal,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+local,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+transceiver,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Requestor,Identifier
+(,Punctuation
+Protocol,Identifier
+ ,Whitespace
+local,Identifier
+",",Punctuation
+ ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+transceiver,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+local,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+local,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+transceiver,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+transceiver,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+rpcMetaPlugins,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+CopyOnWriteArrayList,Identifier
+<,Operator
+RPCPlugin,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Adds a new plugin to manipulate RPC metadata.  Plugins
+   * are executed in the order that they are added.
+   * @param plugin a plugin that will manipulate RPC metadata
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addRPCPlugin,Identifier
+(,Punctuation
+RPCPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+rpcMetaPlugins,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+plugin,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+ENCODER_FACTORY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Writes a request message and reads a response or error message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// Initialize request,Comment
+"
+",Newline
+    ,Whitespace
+Request,Identifier
+ ,Whitespace
+rpcRequest,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Request,Identifier
+(,Punctuation
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RPCContext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+CallFuture,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+ ,Whitespace
+future,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+/* only need a Future for two-way messages */,Comment
+"
+",Newline
+      ,Whitespace
+rpcRequest,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+?,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+:,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+CallFuture,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+// Send request,Comment
+"
+",Newline
+    ,Whitespace
+request,Identifier
+(,Punctuation
+rpcRequest,Identifier
+",",Punctuation
+ ,Whitespace
+future,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+future,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+        ,Whitespace
+"// the message is one-way, so return immediately",Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+                      ,Whitespace
+"// the message is two-way, wait for the result",Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+future,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ExecutionException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+e,Identifier
+.,Punctuation
+getCause,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Exception,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+),Punctuation
+e,Identifier
+.,Punctuation
+getCause,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRemoteException,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getCause,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Writes a request message and returns the result through a Callback.
+   * Clients can also use a Future interface by creating a new CallFuture<T>,
+   * passing it in as the Callback parameter, and then waiting on that Future.
+   * @param <T> the return type of the message.
+   * @param messageName the name of the message to invoke.
+   * @param request the request data to send.
+   * @param callback the callback which will be invoked when the response is returned 
+   * or an error occurs.
+   * @throws Exception if an error occurs sending the message.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+request,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+Callback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+callback,Identifier
+),Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+request,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Request,Identifier
+(,Punctuation
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RPCContext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+callback,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Writes a request message and returns the result through a Callback. */,Comment
+"
+",Newline
+  ,Whitespace
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+request,Identifier
+(,Punctuation
+Request,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+Callback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+callback,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+t,Identifier
+.,Punctuation
+isConnected,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// Acquire handshake lock so that only one thread is performing the,Comment
+"
+",Newline
+      ,Whitespace
+// handshake and other threads block until the handshake is completed,Comment
+"
+",Newline
+      ,Whitespace
+handshakeLock,Identifier
+.,Punctuation
+lock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+t,Identifier
+.,Punctuation
+isConnected,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+// Another thread already completed the handshake; no need to hold,Comment
+"
+",Newline
+          ,Whitespace
+// the write lock,Comment
+"
+",Newline
+          ,Whitespace
+handshakeLock,Identifier
+.,Punctuation
+unlock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+CallFuture,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+callFuture,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+CallFuture,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+callback,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+t,Identifier
+.,Punctuation
+transceive,Identifier
+(,Punctuation
+request,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                       ,Whitespace
+new,Keyword
+ ,Whitespace
+TransceiverCallback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+request,Identifier
+",",Punctuation
+ ,Whitespace
+callFuture,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+// Block until handshake complete,Comment
+"
+",Newline
+          ,Whitespace
+callFuture,Identifier
+.,Punctuation
+await,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+request,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+Throwable,Identifier
+ ,Whitespace
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+callFuture,Identifier
+.,Punctuation
+getError,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+            ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+error,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+              ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+error,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Exception,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+                ,Whitespace
+throw,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+),Punctuation
+ ,Whitespace
+error,Identifier
+;,Punctuation
+"
+",Newline
+              ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+                ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRemoteException,Identifier
+(,Punctuation
+error,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+              ,Whitespace
+},Punctuation
+"
+",Newline
+            ,Whitespace
+},Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+handshakeLock,Identifier
+.,Punctuation
+isHeldByCurrentThread,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+handshakeLock,Identifier
+.,Punctuation
+unlock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+request,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+t,Identifier
+.,Punctuation
+lockChannel,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+t,Identifier
+.,Punctuation
+writeBuffers,Identifier
+(,Punctuation
+request,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+callback,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+callback,Identifier
+.,Punctuation
+handleResult,Identifier
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+t,Identifier
+.,Punctuation
+unlockChannel,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+t,Identifier
+.,Punctuation
+transceive,Identifier
+(,Punctuation
+request,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                   ,Whitespace
+new,Keyword
+ ,Whitespace
+TransceiverCallback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+request,Identifier
+",",Punctuation
+ ,Whitespace
+callback,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ConcurrentMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+MD5,Identifier
+>,Operator
+ ,Whitespace
+REMOTE_HASHES,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+ConcurrentHashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+MD5,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ConcurrentMap,Identifier
+<,Operator
+MD5,Identifier
+",",Punctuation
+Protocol,Identifier
+>,Operator
+ ,Whitespace
+REMOTE_PROTOCOLS,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+ConcurrentHashMap,Identifier
+<,Operator
+MD5,Identifier
+",",Punctuation
+Protocol,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+<,Operator
+HandshakeRequest,Identifier
+>,Operator
+ ,Whitespace
+HANDSHAKE_WRITER,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+<,Operator
+HandshakeRequest,Identifier
+>,Operator
+(,Punctuation
+HandshakeRequest,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+<,Operator
+HandshakeResponse,Identifier
+>,Operator
+ ,Whitespace
+HANDSHAKE_READER,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+<,Operator
+HandshakeResponse,Identifier
+>,Operator
+(,Punctuation
+HandshakeResponse,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeHandshake,Identifier
+(,Punctuation
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+isConnected,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+MD5,Identifier
+ ,Whitespace
+localHash,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+MD5,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+localHash,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+local,Identifier
+.,Punctuation
+getMD5,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+remoteName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+transceiver,Identifier
+.,Punctuation
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+MD5,Identifier
+ ,Whitespace
+remoteHash,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+REMOTE_HASHES,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+remoteName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+remoteHash,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                     ,Whitespace
+// guess remote is local,Comment
+"
+",Newline
+      ,Whitespace
+remoteHash,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+localHash,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+remote,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+local,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+remote,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+REMOTE_PROTOCOLS,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+remoteHash,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+HandshakeRequest,Identifier
+ ,Whitespace
+handshake,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HandshakeRequest,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+handshake,Identifier
+.,Punctuation
+clientHash,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+localHash,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+handshake,Identifier
+.,Punctuation
+serverHash,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+remoteHash,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+sendLocalText,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+handshake,Identifier
+.,Punctuation
+clientProtocol,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+local,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RPCContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+setHandshakeRequest,Identifier
+(,Punctuation
+handshake,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+RPCPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+rpcMetaPlugins,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+plugin,Identifier
+.,Punctuation
+clientStartConnect,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+handshake,Identifier
+.,Punctuation
+meta,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+requestHandshakeMeta,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+HANDSHAKE_WRITER,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+handshake,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+readHandshake,Identifier
+(,Punctuation
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+isConnected,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+established,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+HandshakeResponse,Identifier
+ ,Whitespace
+handshake,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+HANDSHAKE_READER,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+handshake,Identifier
+.,Punctuation
+match,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+BOTH,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+established,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+sendLocalText,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+CLIENT,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Handshake match = CLIENT""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+setRemote,Identifier
+(,Punctuation
+handshake,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+established,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+sendLocalText,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+NONE,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Handshake match = NONE""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+setRemote,Identifier
+(,Punctuation
+handshake,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+sendLocalText,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Unexpected match: """,String
++,Operator
+handshake,Identifier
+.,Punctuation
+match,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RPCContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+context,Identifier
+.,Punctuation
+setHandshakeResponse,Identifier
+(,Punctuation
+handshake,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+RPCPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+rpcMetaPlugins,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+plugin,Identifier
+.,Punctuation
+clientFinishConnect,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+established,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+setRemote,Identifier
+(,Punctuation
+remote,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+established,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setRemote,Identifier
+(,Punctuation
+HandshakeResponse,Identifier
+ ,Whitespace
+handshake,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+remote,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Protocol,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+handshake,Identifier
+.,Punctuation
+serverProtocol,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+MD5,Identifier
+ ,Whitespace
+remoteHash,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+MD5,Identifier
+),Punctuation
+handshake,Identifier
+.,Punctuation
+serverHash,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+REMOTE_HASHES,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+transceiver,Identifier
+.,Punctuation
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+remoteHash,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+REMOTE_PROTOCOLS,Identifier
+.,Punctuation
+putIfAbsent,Identifier
+(,Punctuation
+remoteHash,Identifier
+",",Punctuation
+ ,Whitespace
+remote,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Return the remote protocol.  Force a handshake if required. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+getRemote,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+remote,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+remote,Identifier
+;,Punctuation
+            ,Whitespace
+// already have it,Comment
+"
+",Newline
+    ,Whitespace
+MD5,Identifier
+ ,Whitespace
+remoteHash,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+REMOTE_HASHES,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+transceiver,Identifier
+.,Punctuation
+getRemoteName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+remoteHash,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+remote,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+REMOTE_PROTOCOLS,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+remoteHash,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+remote,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+remote,Identifier
+;,Punctuation
+            ,Whitespace
+// already cached,Comment
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+handshakeLock,Identifier
+.,Punctuation
+lock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// force handshake,Comment
+"
+",Newline
+      ,Whitespace
+ByteBufferOutputStream,Identifier
+ ,Whitespace
+bbo,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ByteBufferOutputStream,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+// direct because the payload is tiny.,Comment
+"
+",Newline
+      ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ENCODER_FACTORY,Identifier
+.,Punctuation
+directBinaryEncoder,Identifier
+(,Punctuation
+bbo,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writeHandshake,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeInt,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+;,Punctuation
+                              ,Whitespace
+// empty metadata,Comment
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+"""""",String
+),Punctuation
+;,Punctuation
+                          ,Whitespace
+// bogus message name,Comment
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+transceive,Identifier
+(,Punctuation
+bbo,Identifier
+.,Punctuation
+getBufferList,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBufferInputStream,Identifier
+ ,Whitespace
+bbi,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ByteBufferInputStream,Identifier
+(,Punctuation
+response,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+BinaryDecoder,Identifier
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+binaryDecoder,Identifier
+(,Punctuation
+bbi,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+readHandshake,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+remote,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+handshakeLock,Identifier
+.,Punctuation
+unlock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Writes a request message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeRequest,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+"
+",Newline
+                                    ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+                                     ,Whitespace
+// for compatibility in 1.5,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readResponse,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+readResponse,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Reads a response message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readResponse,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+                                     ,Whitespace
+// for compatibility in 1.5,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+readError,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+readError,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Reads an error message. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+readError,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+Decoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Handles callbacks from transceiver invocations.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TransceiverCallback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Callback,Identifier
+<,Operator
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Request,Identifier
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Callback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+callback,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a TransceiverCallback.
+     * @param request the request to set.
+     * @param callback the callback to set.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+TransceiverCallback,Identifier
+(,Punctuation
+Request,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+Callback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+callback,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+request,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+callback,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+callback,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+handleResult,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+responseBytes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBufferInputStream,Identifier
+ ,Whitespace
+bbi,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ByteBufferInputStream,Identifier
+(,Punctuation
+responseBytes,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+BinaryDecoder,Identifier
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+binaryDecoder,Identifier
+(,Punctuation
+bbi,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+readHandshake,Identifier
+(,Punctuation
+in,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+// Resend the handshake and return,Comment
+"
+",Newline
+          ,Whitespace
+Request,Identifier
+ ,Whitespace
+handshake,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Request,Identifier
+(,Punctuation
+request,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+transceive,Identifier
+"
+",Newline
+            ,Whitespace
+(,Punctuation
+handshake,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+             ,Whitespace
+new,Keyword
+ ,Whitespace
+TransceiverCallback,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+handshake,Identifier
+",",Punctuation
+ ,Whitespace
+callback,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+error,Identifier
+(,Punctuation
+"""Error handling transceiver callback: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+e,Identifier
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+// Read response; invoke callback,Comment
+"
+",Newline
+      ,Whitespace
+Response,Identifier
+ ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Response,Identifier
+(,Punctuation
+request,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Object,Identifier
+ ,Whitespace
+responseObject,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+responseObject,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+response,Identifier
+.,Punctuation
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+callback,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+callback,Identifier
+.,Punctuation
+handleError,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+callback,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+callback,Identifier
+.,Punctuation
+handleResult,Identifier
+(,Punctuation
+(,Punctuation
+T,Identifier
+),Punctuation
+responseObject,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Throwable,Identifier
+ ,Whitespace
+t,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+error,Identifier
+(,Punctuation
+"""Error in callback handler: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+t,Identifier
+",",Punctuation
+ ,Whitespace
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+handleError,Identifier
+(,Punctuation
+Throwable,Identifier
+ ,Whitespace
+error,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+callback,Identifier
+.,Punctuation
+handleError,Identifier
+(,Punctuation
+error,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Encapsulates/generates a request.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+class,Keyword
+ ,Whitespace
+Request,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+messageName,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+encoder,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+message,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+requestBytes,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a Request.
+     * @param messageName the name of the message to invoke.
+     * @param request the request data to send.
+     * @param context the RPC context to use.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Request,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+(,Punctuation
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+context,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a Request.
+     * @param messageName the name of the message to invoke.
+     * @param request the request data to send.
+     * @param context the RPC context to use.
+     * @param encoder the BinaryEncoder to use to serialize the request.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Request,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+",",Punctuation
+"
+",Newline
+                   ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+encoder,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+messageName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+messageName,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+request,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+encoder,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+ENCODER_FACTORY,Identifier
+.,Punctuation
+binaryEncoder,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ByteBufferOutputStream,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+encoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Copy constructor.
+     * @param other Request from which to copy fields.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Request,Identifier
+(,Punctuation
+Request,Identifier
+ ,Whitespace
+other,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+messageName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+messageName,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+request,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+request,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+context,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+encoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+other,Identifier
+.,Punctuation
+encoder,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Gets the message name.
+     * @return the message name.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getMessageName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+messageName,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Gets the RPC context.
+     * @return the RPC context.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+RPCContext,Identifier
+ ,Whitespace
+getContext,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+context,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Gets the Message associated with this request.
+     * @return this request's message.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+message,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+message,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getLocal,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getMessages,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+messageName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+message,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Not a local message: """,String
++,Operator
+messageName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+message,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Gets the request data, generating it first if necessary.
+     * @return the request data.
+     * @throws Exception if an error occurs generating the request data.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+requestBytes,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+ByteBufferOutputStream,Identifier
+ ,Whitespace
+bbo,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ByteBufferOutputStream,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ENCODER_FACTORY,Identifier
+.,Punctuation
+binaryEncoder,Identifier
+(,Punctuation
+bbo,Identifier
+",",Punctuation
+ ,Whitespace
+encoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+// use local protocol to write request,Comment
+"
+",Newline
+        ,Whitespace
+Message,Identifier
+ ,Whitespace
+m,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+context,Identifier
+.,Punctuation
+setMessage,Identifier
+(,Punctuation
+m,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+writeRequest,Identifier
+(,Punctuation
+m,Identifier
+.,Punctuation
+getRequest,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+// write request payload,Comment
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+payload,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bbo,Identifier
+.,Punctuation
+getBufferList,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+writeHandshake,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+                     ,Whitespace
+// prepend handshake if needed,Comment
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+context,Identifier
+.,Punctuation
+setRequestPayload,Identifier
+(,Punctuation
+payload,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+RPCPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+rpcMetaPlugins,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+plugin,Identifier
+.,Punctuation
+clientSendRequest,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+      ,Whitespace
+// get meta-data from plugins,Comment
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+META_WRITER,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+requestCallMeta,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+m,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+             ,Whitespace
+// write message name,Comment
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+bbo,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+payload,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+requestBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bbo,Identifier
+.,Punctuation
+getBufferList,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+requestBytes,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Encapsulates/parses a response.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+class,Keyword
+ ,Whitespace
+Response,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Request,Identifier
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+BinaryDecoder,Identifier
+ ,Whitespace
+in,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a Response.
+     * @param request the Request associated with this response.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Response,Identifier
+(,Punctuation
+Request,Identifier
+ ,Whitespace
+request,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+(,Punctuation
+request,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a Creates a Response.
+     * @param request the Request associated with this response.
+     * @param in the BinaryDecoder to use to deserialize the response.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Response,Identifier
+(,Punctuation
+Request,Identifier
+ ,Whitespace
+request,Identifier
+",",Punctuation
+ ,Whitespace
+BinaryDecoder,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+request,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+request,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Gets the RPC response, reading/deserializing it first if necessary.
+     * @return the RPC response.
+     * @throws Exception if an error occurs reading/deserializing the response.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Message,Identifier
+ ,Whitespace
+lm,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+request,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Message,Identifier
+ ,Whitespace
+rm,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+remote,Identifier
+.,Punctuation
+getMessages,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+request,Identifier
+.,Punctuation
+getMessageName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+rm,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+"
+",Newline
+          ,Whitespace
+(,Punctuation
+"""Not a remote message: """,String
++,Operator
+request,Identifier
+.,Punctuation
+getMessageName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+Transceiver,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getTransceiver,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+lm,Identifier
+.,Punctuation
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+rm,Identifier
+.,Punctuation
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+t,Identifier
+.,Punctuation
+isConnected,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+"
+",Newline
+          ,Whitespace
+(,Punctuation
+"""Not both one-way messages: """,String
++,Operator
+request,Identifier
+.,Punctuation
+getMessageName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+lm,Identifier
+.,Punctuation
+isOneWay,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+t,Identifier
+.,Punctuation
+isConnected,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+;,Punctuation
+ ,Whitespace
+// one-way w/ handshake,Comment
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+request,Identifier
+.,Punctuation
+getContext,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+context,Identifier
+.,Punctuation
+setResponseCallMeta,Identifier
+(,Punctuation
+META_READER,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+in,Identifier
+.,Punctuation
+readBoolean,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+                      ,Whitespace
+// no error,Comment
+"
+",Newline
+        ,Whitespace
+Object,Identifier
+ ,Whitespace
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readResponse,Identifier
+(,Punctuation
+rm,Identifier
+.,Punctuation
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+lm,Identifier
+.,Punctuation
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+context,Identifier
+.,Punctuation
+setResponse,Identifier
+(,Punctuation
+response,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+RPCPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+rpcMetaPlugins,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+plugin,Identifier
+.,Punctuation
+clientReceiveResponse,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+response,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Exception,Identifier
+ ,Whitespace
+error,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readError,Identifier
+(,Punctuation
+rm,Identifier
+.,Punctuation
+getErrors,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+lm,Identifier
+.,Punctuation
+getErrors,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+context,Identifier
+.,Punctuation
+setError,Identifier
+(,Punctuation
+error,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+RPCPlugin,Identifier
+ ,Whitespace
+plugin,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+rpcMetaPlugins,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+plugin,Identifier
+.,Punctuation
+clientReceiveResponse,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+error,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

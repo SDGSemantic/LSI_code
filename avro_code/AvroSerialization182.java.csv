@@ -1,0 +1,2021 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+lang,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+Constructor,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collection,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroKey,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroValue,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroWrapper,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+ReflectData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configured,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Deserializer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Serialization,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Serializer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * The {@link org.apache.hadoop.io.serializer.Serialization} used by jobs configured with
+ * {@link org.apache.avro.mapreduce.AvroJob}.
+ *
+ * @param <T> The Java type of the Avro data to serialize.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroSerialization,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Configured,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Serialization,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** Conf key for the writer schema of the AvroKey datum being serialized/deserialized. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONF_KEY_WRITER_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.serialization.key.writer.schema""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Conf key for the reader schema of the AvroKey datum being serialized/deserialized. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONF_KEY_READER_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.serialization.key.reader.schema""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Conf key for the writer schema of the AvroValue datum being serialized/deserialized. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONF_VALUE_WRITER_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.serialization.value.writer.schema""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Conf key for the reader schema of the AvroValue datum being serialized/deserialized. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONF_VALUE_READER_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.serialization.value.reader.schema""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Conf key for the data model implementation class. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+CONF_DATA_MODEL,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""avro.serialization.data.model""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+accept,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+ ,Whitespace
+||,Operator
+ ,Whitespace
+AvroValue,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets an object capable of deserializing the output from a Mapper.
+   *
+   * @param c The class to get a deserializer for.
+   * @return A deserializer for objects of class <code>c</code>.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Deserializer,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+getDeserializer,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getConf,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createDataModel,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getKeyWriterSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+readerSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getKeyReaderSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+DatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+readerSchema,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+?,Operator
+ ,Whitespace
+dataModel,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+readerSchema,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+:,Operator
+ ,Whitespace
+dataModel,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+writerSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKeyDeserializer,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+readerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+AvroValue,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getValueWriterSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+readerSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getValueReaderSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+DatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+readerSchema,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+        ,Whitespace
+?,Operator
+ ,Whitespace
+dataModel,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+readerSchema,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+:,Operator
+ ,Whitespace
+dataModel,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+writerSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroValueDeserializer,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+readerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalStateException,Identifier
+(,Punctuation
+"""Only AvroKey and AvroValue are supported.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets an object capable of serializing output from a Mapper.
+   *
+   * @param c The class to get a serializer for.
+   * @return A serializer for objects of class <code>c</code>.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Serializer,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+getSerializer,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getConf,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getKeyWriterSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+AvroValue,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getValueWriterSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalStateException,Identifier
+(,Punctuation
+"""Only AvroKey and AvroValue are supported.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createDataModel,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+DatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+datumWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+dataModel,Identifier
+.,Punctuation
+createDatumWriter,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroSerializer,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+datumWriter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Adds the AvroSerialization scheme to the configuration, so SerializationFactory
+   * instances constructed from the given configuration will be aware of it.
+   *
+   * @param conf The configuration to add AvroSerialization to.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addToConfiguration,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Collection,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+serializations,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getStringCollection,Identifier
+(,Punctuation
+"""io.serializations""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+serializations,Identifier
+.,Punctuation
+contains,Identifier
+(,Punctuation
+AvroSerialization,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+serializations,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+AvroSerialization,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+conf,Identifier
+.,Punctuation
+setStrings,Identifier
+(,Punctuation
+"""io.serializations""",String
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+serializations,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+serializations,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets the writer schema of the AvroKey datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @param schema The Avro key schema.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setKeyWriterSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Writer schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+CONF_KEY_WRITER_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets the reader schema of the AvroKey datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @param schema The Avro key schema.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setKeyReaderSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+CONF_KEY_READER_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets the writer schema of the AvroValue datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @param schema The Avro value schema.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setValueWriterSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Writer schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+CONF_VALUE_WRITER_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets the reader schema of the AvroValue datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @param schema The Avro value schema.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setValueReaderSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+CONF_VALUE_READER_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Sets the data model class for de/seralization.
+   *
+   * @param conf The configuration.
+   * @param modelClass The data model class.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setDataModelClass,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+modelClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+setClass,Identifier
+(,Punctuation
+CONF_DATA_MODEL,Identifier
+",",Punctuation
+ ,Whitespace
+modelClass,Identifier
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the writer schema of the AvroKey datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @return The Avro key writer schema, or null if none was set.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getKeyWriterSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONF_KEY_WRITER_SCHEMA,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+:,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the reader schema of the AvroKey datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @return The Avro key reader schema, or null if none was set.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getKeyReaderSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONF_KEY_READER_SCHEMA,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+:,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the writer schema of the AvroValue datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @return The Avro value writer schema, or null if none was set.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getValueWriterSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONF_VALUE_WRITER_SCHEMA,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+:,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the reader schema of the AvroValue datum that is being serialized/deserialized.
+   *
+   * @param conf The configuration.
+   * @return The Avro value reader schema, or null if none was set.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getValueReaderSchema,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+CONF_VALUE_READER_SCHEMA,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+json,Identifier
+ ,Whitespace
+?,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+:,Operator
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+json,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the data model class for de/seralization.
+   *
+   * @param conf The configuration.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+getDataModelClass,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+CONF_DATA_MODEL,Identifier
+",",Punctuation
+ ,Whitespace
+ReflectData,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+newDataModelInstance,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+modelClass,Identifier
+",",Punctuation
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Constructor,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+ctor,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+modelClass,Identifier
+.,Punctuation
+getDeclaredConstructor,Identifier
+(,Punctuation
+ClassLoader,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ctor,Identifier
+.,Punctuation
+setAccessible,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+dataModel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ctor,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+conf,Identifier
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+ReflectionUtils,Identifier
+.,Punctuation
+setConf,Identifier
+(,Punctuation
+dataModel,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+dataModel,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets an instance of data model implementation, defaulting to
+   * {@link ReflectData} if not explicitly specified.
+   *
+   * @param conf The job configuration.
+   * @return Instance of the job data model implementation.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+createDataModel,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericData,Identifier
+>,Operator
+ ,Whitespace
+modelClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getDataModelClass,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+newDataModelInstance,Identifier
+(,Punctuation
+modelClass,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

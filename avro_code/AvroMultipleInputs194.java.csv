@@ -1,0 +1,1278 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Collections,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+SchemaParseException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+commons,Identifier
+.,Punctuation
+codec,Identifier
+.,Punctuation
+binary,Identifier
+.,Punctuation
+Base64,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * This class supports Avro-MapReduce jobs that have multiple input paths with
+ * a different {@link Schema} and {@link AvroMapper} for each path.
+ *
+ * <p>
+ * Usage:
+ * </p>
+ * <p>
+ * <strong>Case 1: (ReflectData based inputs)</strong>
+ * </p>
+ * <pre>
+ * // Enable ReflectData usage across job.
+ * AvroJob.setReflect(job);
+ *
+ * Schema type1Schema = ReflectData.get().getSchema(Type1Record.class)
+ * AvroMultipleInputs.addInputPath(job, inputPath1, type1Schema, Type1AvroMapper.class);
+ * </pre>
+ *
+ * Where Type1AvroMapper would be implemented as
+ * <pre>
+ *  class Type1AvroMapper extends AvroMapper&lt;Type1Record, Pair&lt;ComparingKeyRecord, CommonValueRecord&gt;&gt;
+ * </pre>
+ *
+ * <pre>
+ * Schema type2Schema = ReflectData.get().getSchema(Type2Record.class)
+ * AvroMultipleInputs.addInputPath(job, inputPath2, type2Schema, Type2AvroMapper.class);
+ * </pre>
+ *
+ * Where Type2AvroMapper would be implemented as
+ * <pre>
+ *  class Type2AvroMapper extends AvroMapper&lt;Type2Record, Pair&lt;ComparingKeyRecord, CommonValueRecord&gt;&gt;
+ * </pre>
+ *
+ * <p>
+ * <strong>Case 2: (SpecificData based inputs)</strong>
+ * </p>
+ *
+ * <pre>
+ * Schema type1Schema = Type1Record.SCHEMA$;
+ * AvroMultipleInputs.addInputPath(job, inputPath1, type1Schema, Type1AvroMapper.class);
+ * </pre>
+ *
+ * Where Type1AvroMapper would be implemented as
+ * <pre>
+ *  class Type1AvroMapper extends AvroMapper&lt;Type1Record, Pair&lt;ComparingKeyRecord, CommonValueRecord&gt;&gt;
+ * </pre>
+ *
+ * <pre>
+ * Schema type2Schema = Type2Record.SCHEMA$;
+ * AvroMultipleInputs.addInputPath(job, inputPath2, type2Schema, Type2AvroMapper.class);
+ * </pre>
+ *
+ * Where Type2AvroMapper would be implemented as
+ * <pre>
+ *  class Type2AvroMapper extends AvroMapper&lt;Type2Record, Pair&lt;ComparingKeyRecord, CommonValueRecord&gt;&gt;
+ * </pre>
+ *
+ * <p>
+ * <strong>Note on InputFormat:</strong>
+ *   The InputFormat used will always be {@link AvroInputFormat} when using this class.
+ * </p>
+ * <p>
+ * <strong>Note on collector outputs:</strong>
+ *   When using this class, you will need to ensure that the mapper implementations
+ *   involved must all emit the same Key type and Value
+ *   record types, as set by {@link AvroJob#setOutputSchema(JobConf, Schema)}
+ *   or {@link AvroJob#setMapOutputSchema(JobConf, Schema)}.
+ * </p>
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroMultipleInputs,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+schemaKey,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+"""avro.mapreduce.input.multipleinputs.dir.schemas""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+mappersKey,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+"""avro.mapreduce.input.multipleinputs.dir.mappers""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * Add a {@link Path} with a custom {@link Schema} to the list of
+   * inputs for the map-reduce job.
+   *
+   * @param conf The configuration of the job
+   * @param path {@link Path} to be added to the list of inputs for the job
+   * @param inputSchema {@link Schema} class to use for this path
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addInputPath,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+inputSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+schemaMapping,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+""";""",String
+"
+",Newline
+       ,Whitespace
++,Operator
+ ,Whitespace
+toBase64,Identifier
+(,Punctuation
+inputSchema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+schemas,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+schemaKey,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+schemaKey,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+schemas,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+schemaMapping,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+schemas,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""",""",String
+"
+",Newline
+            ,Whitespace
++,Operator
+ ,Whitespace
+schemaMapping,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+setInputFormat,Identifier
+(,Punctuation
+DelegatingInputFormat,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Add a {@link Path} with a custom {@link Schema} and
+   * {@link AvroMapper} to the list of inputs for the map-reduce job.
+   *
+   * @param conf The configuration of the job
+   * @param path {@link Path} to be added to the list of inputs for the job
+   * @param inputSchema {@link Schema} to use for this path
+   * @param mapperClass {@link AvroMapper} class to use for this path
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addInputPath,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+mapperClass,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+inputSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+addInputPath,Identifier
+(,Punctuation
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+path,Identifier
+",",Punctuation
+ ,Whitespace
+inputSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+mapperMapping,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+path,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+""";""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+mapperClass,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+mapperMapping,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+mappers,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+mappersKey,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+mappersKey,Identifier
+",",Punctuation
+ ,Whitespace
+mappers,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+mapperMapping,Identifier
+"
+",Newline
+       ,Whitespace
+:,Operator
+ ,Whitespace
+mappers,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""",""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+mapperMapping,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+conf,Identifier
+.,Punctuation
+setMapperClass,Identifier
+(,Punctuation
+DelegatingMapper,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Retrieves a map of {@link Path}s to the {@link AvroMapper} class that
+   * should be used for them.
+   *
+   * @param conf The configuration of the job
+   * @see #addInputPath(JobConf, Path, Class, Schema)
+   * @return A map of paths-to-mappers for the job
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>>,Operator
+ ,Whitespace
+getMapperTypeMap,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+mappersKey,Identifier
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Collections,Identifier
+.,Punctuation
+emptyMap,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>>,Operator
+ ,Whitespace
+m,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+pathMappings,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+mappersKey,Identifier
+),Punctuation
+.,Punctuation
+split,Identifier
+(,Punctuation
+""",""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+pathMapping,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+pathMappings,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+split,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pathMapping,Identifier
+.,Punctuation
+split,Identifier
+(,Punctuation
+""";""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+mapClass,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+mapClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+),Punctuation
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getClassByName,Identifier
+(,Punctuation
+split,Identifier
+[,Punctuation
+1,Literal
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ClassNotFoundException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+m,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+split,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+mapClass,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+m,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Retrieves a map of {@link Path}s to the {@link Schema} that
+   * should be used for them.
+   *
+   * @param conf The configuration of the job
+   * @see #addInputPath(JobConf, Path, Class, Schema)
+   * @return A map of paths to schemas for the job
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+>,Operator
+ ,Whitespace
+getInputSchemaMap,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+schemaKey,Identifier
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Collections,Identifier
+.,Punctuation
+emptyMap,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+Map,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+>,Operator
+ ,Whitespace
+m,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Path,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+schemaMappings,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+conf,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+schemaKey,Identifier
+),Punctuation
+.,Punctuation
+split,Identifier
+(,Punctuation
+""",""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+ ,Whitespace
+schemaParser,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Parser,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+schemaMapping,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+schemaMappings,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+split,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schemaMapping,Identifier
+.,Punctuation
+split,Identifier
+(,Punctuation
+""";""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+schemaString,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fromBase64,Identifier
+(,Punctuation
+split,Identifier
+[,Punctuation
+1,Literal
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Schema,Identifier
+ ,Whitespace
+inputSchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+inputSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schemaParser,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+schemaString,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+SchemaParseException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+       ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+m,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+split,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+inputSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+m,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toBase64,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+rawString,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Base64,Identifier
+ ,Whitespace
+base64decoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Base64,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+base64decoder,Identifier
+.,Punctuation
+encode,Identifier
+(,Punctuation
+rawString,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+fromBase64,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+base64String,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Base64,Identifier
+ ,Whitespace
+base64decoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Base64,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+base64decoder,Identifier
+.,Punctuation
+decode,Identifier
+(,Punctuation
+base64String,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,320 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+stats,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Specific implementation of histogram for floats,
+ * which also keeps track of basic summary statistics.
+ * @param <B>
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+FloatHistogram,Identifier
+<,Operator
+B,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Histogram,Identifier
+<,Operator
+B,Identifier
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+runningSum,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+runningSumOfSquares,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+FloatHistogram,Identifier
+(,Punctuation
+Segmenter,Identifier
+<,Operator
+B,Identifier
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+>,Operator
+ ,Whitespace
+segmenter,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+(,Punctuation
+segmenter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+add,Identifier
+(,Punctuation
+Float,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+super,Keyword
+.,Punctuation
+add,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+runningSum,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+value,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+runningSumOfSquares,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+value,Identifier
+*,Operator
+value,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+getMean,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+totalCount,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+NaN,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+runningSum,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+totalCount,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+getUnbiasedStdDev,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+totalCount,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Float,Identifier
+.,Punctuation
+NaN,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+float,Keyword
+ ,Whitespace
+mean,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getMean,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+float,Keyword
+),Punctuation
+Math,Identifier
+.,Punctuation
+sqrt,Identifier
+(,Punctuation
+(,Punctuation
+runningSumOfSquares,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+totalCount,Identifier
+*,Operator
+mean,Identifier
+*,Operator
+mean,Identifier
+),Punctuation
+/,Operator
+(,Punctuation
+totalCount,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

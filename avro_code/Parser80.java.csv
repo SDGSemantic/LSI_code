@@ -1,0 +1,1239 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+parsing,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroTypeException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Parser is the class that maintains the stack for parsing. This class
+ * is used by encoders, which are not required to skip.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Parser,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * The parser knows how to handle the terminal and non-terminal
+   * symbols. But it needs help from outside to handle implicit
+   * and explicit actions. The clients implement this interface to
+   * provide this help.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+interface,Keyword
+ ,Whitespace
+ActionHandler,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"/**
+     * Handle the action symbol <tt>top</tt> when the <tt>input</tt> is
+     * sought to be taken off the stack.
+     * @param input The input symbol from the caller of advance
+     * @param top The symbol at the top the stack.
+     * @return  <tt>null</tt> if advance() is to continue processing the
+     * stack. If not <tt>null</tt> the return value will be returned
+     * by advance().
+     * @throws IOException
+     */",Comment
+"
+",Newline
+    ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+doAction,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+input,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+top,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ActionHandler,Identifier
+ ,Whitespace
+symbolHandler,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+stack,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Parser,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+root,Identifier
+",",Punctuation
+ ,Whitespace
+ActionHandler,Identifier
+ ,Whitespace
+symbolHandler,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+symbolHandler,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symbolHandler,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+stack,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+5,Literal
+],Punctuation
+;,Punctuation
+ ,Whitespace
+// Start small to make sure expansion code works,Comment
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+stack,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+root,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * If there is no sufficient room in the stack, use this expand it.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+expandStack,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+stack,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+copyOf,Identifier
+(,Punctuation
+stack,Identifier
+",",Punctuation
+ ,Whitespace
+stack,Identifier
+.,Punctuation
+length,Identifier
++,Operator
+Math,Identifier
+.,Punctuation
+max,Identifier
+(,Punctuation
+stack,Identifier
+.,Punctuation
+length,Identifier
+",",Punctuation
+1024,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Recursively replaces the symbol at the top of the stack with its
+   * production, until the top is a terminal. Then checks if the
+   * top symbol matches the terminal symbol suppled <tt>terminal</tt>.
+   * @param input The symbol to match against the terminal at the
+   * top of the stack.
+   * @return The terminal symbol at the top of the stack unless an
+   * implicit action resulted in another symbol, in which case that
+   * symbol is returned.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+advance,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+;,Punctuation
+ ,Whitespace
+;,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+top,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+stack,Identifier
+[,Punctuation
+--,Operator
+pos,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+input,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+top,Identifier
+;,Punctuation
+ ,Whitespace
+// A common case,Comment
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Kind,Identifier
+ ,Whitespace
+k,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+top,Identifier
+.,Punctuation
+kind,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+k,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Kind,Identifier
+.,Punctuation
+IMPLICIT_ACTION,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symbolHandler,Identifier
+.,Punctuation
+doAction,Identifier
+(,Punctuation
+input,Identifier
+",",Punctuation
+ ,Whitespace
+top,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+result,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+k,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Kind,Identifier
+.,Punctuation
+TERMINAL,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroTypeException,Identifier
+(,Punctuation
+"""Attempt to process a """,String
+"
+",Newline
+                ,Whitespace
++,Operator
+ ,Whitespace
+input,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" when a """,String
+"
+",Newline
+                ,Whitespace
++,Operator
+ ,Whitespace
+top,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" was expected.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+k,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Kind,Identifier
+.,Punctuation
+REPEATER,Identifier
+"
+",Newline
+          ,Whitespace
+&&,Operator
+ ,Whitespace
+input,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Symbol,Identifier
+.,Punctuation
+Repeater,Identifier
+),Punctuation
+ ,Whitespace
+top,Identifier
+),Punctuation
+.,Punctuation
+end,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+input,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+pushProduction,Identifier
+(,Punctuation
+top,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Performs any implicit actions at the top the stack, expanding any
+   * production (other than the root) that may be encountered.
+   * This method will fail if there are any repeaters on the stack.
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+processImplicitActions,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+     ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+top,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+stack,Identifier
+[,Punctuation
+pos,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+.,Punctuation
+kind,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Kind,Identifier
+.,Punctuation
+IMPLICIT_ACTION,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+pos,Identifier
+--,Operator
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+symbolHandler,Identifier
+.,Punctuation
+doAction,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+top,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+.,Punctuation
+kind,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Kind,Identifier
+.,Punctuation
+TERMINAL,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+pos,Identifier
+--,Operator
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+pushProduction,Identifier
+(,Punctuation
+top,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Performs any ""trailing"" implicit actions at the top the stack. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+processTrailingImplicitActions,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+top,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+stack,Identifier
+[,Punctuation
+pos,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+top,Identifier
+.,Punctuation
+kind,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Kind,Identifier
+.,Punctuation
+IMPLICIT_ACTION,Identifier
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Symbol,Identifier
+.,Punctuation
+ImplicitAction,Identifier
+),Punctuation
+ ,Whitespace
+top,Identifier
+),Punctuation
+.,Punctuation
+isTrailing,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+pos,Identifier
+--,Operator
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+symbolHandler,Identifier
+.,Punctuation
+doAction,Identifier
+(,Punctuation
+null,Keyword
+",",Punctuation
+ ,Whitespace
+top,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+break,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Pushes the production for the given symbol <tt>sym</tt>.
+   * If <tt>sym</tt> is a repeater and <tt>input</tt> is either
+   * {@link Symbol#ARRAY_END} or {@link Symbol#MAP_END} pushes nothing.
+   * @param sym
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+pushProduction,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+sym,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sym,Identifier
+.,Punctuation
+production,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+stack,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+expandStack,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+p,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+stack,Identifier
+",",Punctuation
+ ,Whitespace
+pos,Identifier
+",",Punctuation
+ ,Whitespace
+p,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Pops and returns the top symbol from the stack.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+popSymbol,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+stack,Identifier
+[,Punctuation
+--,Operator
+pos,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns the top symbol from the stack.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+topSymbol,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+stack,Identifier
+[,Punctuation
+pos,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Pushes <tt>sym</tt> on to the stack.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+pushSymbol,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+sym,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+pos,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+stack,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+expandStack,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+stack,Identifier
+[,Punctuation
+pos,Identifier
+++,Operator
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sym,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns the depth of the stack.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+depth,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+reset,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

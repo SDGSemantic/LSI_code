@@ -1,0 +1,878 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A node of of an RPC {@link Trace}. Each node stores a {@link Span} object
+ * and a list of zero or more child nodes.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TraceNode,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * The {@link Span} to which corresponds to this node in the call tree.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Span,Identifier
+ ,Whitespace
+span,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * A list of this TraceNode's children.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+ ,Whitespace
+children,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TraceNode,Identifier
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+span,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+ ,Whitespace
+children,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+span,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+span,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+children,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+children,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** 
+   * Return the time stamp associated with a particular SpanEvent in this
+   * Trace Node. Return -1 if the TraceNode's Span did not contain that event.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+extractEventTime,Identifier
+(,Punctuation
+TraceNode,Identifier
+ ,Whitespace
+tn,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+TimestampedEvent,Identifier
+ ,Whitespace
+te,Identifier
+:,Operator
+ ,Whitespace
+tn,Identifier
+.,Punctuation
+span,Identifier
+.,Punctuation
+events,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+te,Identifier
+.,Punctuation
+event,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+"
+",Newline
+          ,Whitespace
+(,Punctuation
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+te,Identifier
+.,Punctuation
+event,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+te,Identifier
+.,Punctuation
+timeStamp,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return time delta between { @link SpanEvent.CLIENT_SEND } and 
+   * { @link SpanEvent.SERVER_RECV }. This may be negative or zero in the 
+   * case of clock skew.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getPreLinkTime,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+clientSend,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+extractEventTime,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_SEND,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+serverReceive,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+extractEventTime,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+SERVER_RECV,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+serverReceive,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+clientSend,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return pre-link time as a string.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getPreLinkTimeString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+printableTime,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+getPreLinkTime,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return time delta between { @link SpanEvent.SERVER_SEND } and 
+   * { @link SpanEvent.CLIENT_RECV }. This may be negative or zero in the 
+   * case of clock skew.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getPostLinkTime,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+serverSend,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+extractEventTime,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+SERVER_SEND,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+clientReceive,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+extractEventTime,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+CLIENT_RECV,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+clientReceive,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+serverSend,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return post-link time as a string.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getPostLinkTimeString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+printableTime,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+getPreLinkTime,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return time delta between { @link SpanEvent.SERVER_RECV } and 
+   * { @link SpanEvent.SERVER_SEND}.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getProcessTime,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+serverReceive,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+extractEventTime,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+SERVER_RECV,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+serverSend,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+extractEventTime,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+.,Punctuation
+SERVER_SEND,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+serverSend,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+serverReceive,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return cpu time as a string.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getProcessTimeString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+printableTime,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+getProcessTime,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return the children of this node.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+TraceNode,Identifier
+>,Operator
+ ,Whitespace
+getChildren,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+children,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+// Span data getters for Velicty,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getRequestPayloadSize,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+printableBytes,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+span,Identifier
+.,Punctuation
+requestPayloadSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getResponsePayloadSize,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+printableBytes,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+span,Identifier
+.,Punctuation
+responsePayloadSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getRequestorHostname,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+span,Identifier
+.,Punctuation
+requestorHostname,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getResponderHostname,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+span,Identifier
+.,Punctuation
+responderHostname,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getMessageName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+span,Identifier
+.,Punctuation
+messageName,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getLatencyTimeString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+printableTime,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+getPreLinkTime,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+getProcessTime,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+getPostLinkTime,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

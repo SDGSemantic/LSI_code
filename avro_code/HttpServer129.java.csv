@@ -1,0 +1,876 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+Connector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+SelectChannelConnector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+Context,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+servlet,Identifier
+.,Punctuation
+ServletHolder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** An HTTP-based RPC {@link Server}. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+HttpServer,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Server,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+Server,Identifier
+ ,Whitespace
+server,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Constructs a server to run on the named port. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+port,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ResponderServlet,Identifier
+(,Punctuation
+responder,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+port,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Constructs a server to run on the named port. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+ResponderServlet,Identifier
+ ,Whitespace
+servlet,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+port,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+servlet,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+",",Punctuation
+ ,Whitespace
+port,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Constructs a server to run on the named port on the specified address. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+bindAddress,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+port,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ResponderServlet,Identifier
+(,Punctuation
+responder,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+bindAddress,Identifier
+",",Punctuation
+ ,Whitespace
+port,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Constructs a server to run on the named port on the specified address. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+ResponderServlet,Identifier
+ ,Whitespace
+servlet,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+bindAddress,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+port,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+server,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+Server,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+SelectChannelConnector,Identifier
+ ,Whitespace
+connector,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SelectChannelConnector,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connector,Identifier
+.,Punctuation
+setLowResourceMaxIdleTime,Identifier
+(,Punctuation
+10000,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connector,Identifier
+.,Punctuation
+setAcceptQueueSize,Identifier
+(,Punctuation
+128,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connector,Identifier
+.,Punctuation
+setResolveNames,Identifier
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+connector,Identifier
+.,Punctuation
+setUseDirectBuffers,Identifier
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bindAddress,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+connector,Identifier
+.,Punctuation
+setHost,Identifier
+(,Punctuation
+bindAddress,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+connector,Identifier
+.,Punctuation
+setPort,Identifier
+(,Punctuation
+port,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+server,Identifier
+.,Punctuation
+addConnector,Identifier
+(,Punctuation
+connector,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+Context,Identifier
+(,Punctuation
+server,Identifier
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+.,Punctuation
+addServlet,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ServletHolder,Identifier
+(,Punctuation
+servlet,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""/*""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Constructs a server to run with the given connector. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+Connector,Identifier
+ ,Whitespace
+connector,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ResponderServlet,Identifier
+(,Punctuation
+responder,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+connector,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Constructs a server to run with the given connector. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+HttpServer,Identifier
+(,Punctuation
+ResponderServlet,Identifier
+ ,Whitespace
+servlet,Identifier
+",",Punctuation
+ ,Whitespace
+Connector,Identifier
+ ,Whitespace
+connector,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+server,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+mortbay,Identifier
+.,Punctuation
+jetty,Identifier
+.,Punctuation
+Server,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+server,Identifier
+.,Punctuation
+addConnector,Identifier
+(,Punctuation
+connector,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+Context,Identifier
+(,Punctuation
+server,Identifier
+",",Punctuation
+ ,Whitespace
+"""/""",String
+),Punctuation
+.,Punctuation
+addServlet,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ServletHolder,Identifier
+(,Punctuation
+servlet,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"""/*""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addConnector,Identifier
+(,Punctuation
+Connector,Identifier
+ ,Whitespace
+connector,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+server,Identifier
+.,Punctuation
+addConnector,Identifier
+(,Punctuation
+connector,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getPort,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+server,Identifier
+.,Punctuation
+getConnectors,Identifier
+(,Punctuation
+),Punctuation
+[,Punctuation
+0,Literal
+],Punctuation
+.,Punctuation
+getLocalPort,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+server,Identifier
+.,Punctuation
+stop,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Start the server.
+   * @throws AvroRuntimeException if the underlying Jetty server
+   * throws any exception while starting.
+  */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+start,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+server,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+join,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+server,Identifier
+.,Punctuation
+join,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

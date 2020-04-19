@@ -1,0 +1,1275 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Serialization,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Deserializer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Serializer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configured,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BinaryEncoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BinaryDecoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DecoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EncoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+/** The {@link Serialization} used by jobs configured with {@link AvroJob}. */,Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroSerialization,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Configured,Identifier
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+implements,Keyword
+ ,Whitespace
+Serialization,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+accept,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Returns the specified map output deserializer.  Defaults to the final
+   * output deserializer if no map output schema was specified. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Deserializer,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+getDeserializer,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getConf,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isKey,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isKey,Identifier
+"
+",Newline
+      ,Whitespace
+?,Operator
+ ,Whitespace
+Pair,Identifier
+.,Punctuation
+getKeySchema,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+getMapOutputSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+:,Operator
+ ,Whitespace
+Pair,Identifier
+.,Punctuation
+getValueSchema,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+getMapOutputSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+createMapOutputDataModel,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+DatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+dataModel,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroWrapperDeserializer,Identifier
+(,Punctuation
+datumReader,Identifier
+",",Punctuation
+ ,Whitespace
+isKey,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+DecoderFactory,Identifier
+ ,Whitespace
+FACTORY,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DecoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroWrapperDeserializer,Identifier
+"
+",Newline
+    ,Whitespace
+implements,Keyword
+ ,Whitespace
+Deserializer,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+BinaryDecoder,Identifier
+ ,Whitespace
+decoder,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isKey,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroWrapperDeserializer,Identifier
+(,Punctuation
+DatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isKey,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+isKey,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isKey,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+open,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+decoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+FACTORY,Identifier
+.,Punctuation
+directBinaryDecoder,Identifier
+(,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+decoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+deserialize,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+wrapper,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+T,Identifier
+ ,Whitespace
+datum,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+read,Identifier
+(,Punctuation
+wrapper,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+?,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+:,Operator
+ ,Whitespace
+wrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+decoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+wrapper,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+wrapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isKey,Identifier
+?,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroKey,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+datum,Identifier
+),Punctuation
+ ,Whitespace
+:,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroValue,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+wrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+wrapper,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+decoder,Identifier
+.,Punctuation
+inputStream,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Returns the specified output serializer. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Serializer,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+getSerializer,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"// AvroWrapper used for final output, AvroKey or AvroValue for map output",Comment
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isFinalOutput,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+c,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getConf,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isFinalOutput,Identifier
+"
+",Newline
+      ,Whitespace
+?,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+getOutputSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+:,Operator
+ ,Whitespace
+(,Punctuation
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+isAssignableFrom,Identifier
+(,Punctuation
+c,Identifier
+),Punctuation
+"
+",Newline
+         ,Whitespace
+?,Operator
+ ,Whitespace
+Pair,Identifier
+.,Punctuation
+getKeySchema,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+getMapOutputSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+         ,Whitespace
+:,Operator
+ ,Whitespace
+Pair,Identifier
+.,Punctuation
+getValueSchema,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+getMapOutputSchema,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroJob,Identifier
+.,Punctuation
+createDataModel,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroWrapperSerializer,Identifier
+(,Punctuation
+dataModel,Identifier
+.,Punctuation
+createDatumWriter,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroWrapperSerializer,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Serializer,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+DatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+encoder,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroWrapperSerializer,Identifier
+(,Punctuation
+DatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+writer,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+open,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+encoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+configureBlockSize,Identifier
+(,Punctuation
+512,Literal
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+binaryEncoder,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+serialize,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+wrapper,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+wrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+encoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+// would be a lot faster if the Serializer interface had a flush(),Comment
+"
+",Newline
+      ,Whitespace
+// method and the Hadoop framework called it when needed rather,Comment
+"
+",Newline
+      ,Whitespace
+// than for every record.,Comment
+"
+",Newline
+      ,Whitespace
+encoder,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

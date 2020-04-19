@@ -1,0 +1,3656 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BufferedOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+ByteArrayOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Closeable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+FilterOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Flushable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+UnsupportedEncodingException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+MessageDigest,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+security,Identifier
+.,Punctuation
+NoSuchAlgorithmException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+UUID,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileStream,Identifier
+.,Punctuation
+DataBlock,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BinaryEncoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EncoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/** Stores in a file a sequence of data conforming to a schema.  The schema is
+ * stored in the file with the data.  Each datum in a file is of the same
+ * schema.  Data is written with a {@link DatumWriter}.  Data is grouped into
+ * <i>blocks</i>.  A synchronization marker is written between blocks, so that
+ * files may be split.  Blocks may be compressed.  Extensible metadata is
+ * stored at the end of the file.  Files may be appended to.
+ * @see DataFileReader
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Closeable,Identifier
+",",Punctuation
+ ,Whitespace
+Flushable,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+DatumWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+dout,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+underlyingStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+BufferedFileOutputStream,Identifier
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+vout,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+>,Operator
+ ,Whitespace
+meta,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+blockCount,Identifier
+;,Punctuation
+                       ,Whitespace
+// # entries in current block,Comment
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+NonCopyingByteArrayOutputStream,Identifier
+ ,Whitespace
+buffer,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+bufOut,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+sync,Identifier
+;,Punctuation
+                          ,Whitespace
+// 16 random bytes,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+syncInterval,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DataFileConstants,Identifier
+.,Punctuation
+DEFAULT_SYNC_INTERVAL,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isOpen,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Codec,Identifier
+ ,Whitespace
+codec,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+flushOnEveryBlock,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Construct a writer, not yet open. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+(,Punctuation
+DatumWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+dout,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+dout,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+dout,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+assertOpen,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+isOpen,Identifier
+),Punctuation
+ ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""not open""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+assertNotOpen,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isOpen,Identifier
+),Punctuation
+ ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""already open""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** 
+   * Configures this writer to use the given codec. 
+   * May not be reset after writes have begun.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+setCodec,Identifier
+(,Punctuation
+CodecFactory,Identifier
+ ,Whitespace
+c,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertNotOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+c,Identifier
+.,Punctuation
+createInstance,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setMetaInternal,Identifier
+(,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+CODEC,Identifier
+",",Punctuation
+ ,Whitespace
+codec,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Set the synchronization interval for this file, in bytes. 
+   * Valid values range from 32 to 2^30
+   * Suggested values are between 2K and 2M
+   *
+   * The stream is flushed by default at the end of each synchronization
+   * interval.
+   *
+   * If {@linkplain #setFlushOnEveryBlock(boolean)} is
+   * called with param set to false, then the block may not be flushed to the
+   * stream after the sync marker is written. In this case,
+   * the {@linkplain #flush()} must be called to flush the stream.
+   * 
+   * Invalid values throw IllegalArgumentException
+   * 
+   * @param syncInterval 
+   *   the approximate number of uncompressed bytes to write in each block
+   * @return 
+   *   this DataFileWriter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+setSyncInterval,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+syncInterval,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+syncInterval,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+32,Literal
+ ,Whitespace
+||,Operator
+ ,Whitespace
+syncInterval,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+(,Punctuation
+1,Literal
+ ,Whitespace
+<<,Operator
+ ,Whitespace
+30,Literal
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Invalid syncInterval value: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+syncInterval,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+syncInterval,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+syncInterval,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Open a new file for data matching a schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+create,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+file,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+create,Identifier
+(,Punctuation
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SyncableFileOutputStream,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Open a new file for data matching a schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+create,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+schema,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+outs,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertNotOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+schema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+setMetaInternal,Identifier
+(,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+schema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+sync,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+generateSync,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+init,Identifier
+(,Punctuation
+outs,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+vout,Identifier
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+MAGIC,Identifier
+),Punctuation
+;,Punctuation
+           ,Whitespace
+// write magic,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+vout,Identifier
+.,Punctuation
+writeMapStart,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+                         ,Whitespace
+// write metadata,Comment
+"
+",Newline
+    ,Whitespace
+vout,Identifier
+.,Punctuation
+setItemCount,Identifier
+(,Punctuation
+meta,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Map,Identifier
+.,Punctuation
+Entry,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+>,Operator
+ ,Whitespace
+entry,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+meta,Identifier
+.,Punctuation
+entrySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+vout,Identifier
+.,Punctuation
+startItem,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+vout,Identifier
+.,Punctuation
+writeString,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getKey,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+vout,Identifier
+.,Punctuation
+writeBytes,Identifier
+(,Punctuation
+entry,Identifier
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+vout,Identifier
+.,Punctuation
+writeMapEnd,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+vout,Identifier
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+sync,Identifier
+),Punctuation
+;,Punctuation
+                       ,Whitespace
+// write initial sync,Comment
+"
+",Newline
+    ,Whitespace
+vout,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+"//vout may be buffered, flush before writing to out",Comment
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Set whether this writer should flush the block to the stream every time
+   * a sync marker is written. By default, the writer will flush the buffer
+   * each time a sync marker is written (if the block size limit is reached
+   * or the {@linkplain #sync()} is called.
+   * @param flushOnEveryBlock - If set to false, this writer will not flush
+   *                          the block to the stream until {@linkplain
+   *                          #flush()} is explicitly called.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setFlushOnEveryBlock,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+flushOnEveryBlock,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+flushOnEveryBlock,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+flushOnEveryBlock,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * @return - true if this writer flushes the block to the stream every time
+   * a sync marker is written. Else returns false.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isFlushOnEveryBlock,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+.,Punctuation
+flushOnEveryBlock,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Open a writer appending to an existing file. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+appendTo,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+file,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+appendTo,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+SeekableFileInput,Identifier
+(,Punctuation
+file,Identifier
+),Punctuation
+",",Punctuation
+"
+",Newline
+                    ,Whitespace
+new,Keyword
+ ,Whitespace
+SyncableFileOutputStream,Identifier
+(,Punctuation
+file,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Open a writer appending to an existing file.
+   * @param in reading the existing file.
+   * @param out positioned at the end of the existing file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+appendTo,Identifier
+(,Punctuation
+SeekableInput,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertNotOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+DataFileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+(,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericDatumReader,Identifier
+<,Operator
+D,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+schema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+sync,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+getHeader,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+sync,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+meta,Identifier
+.,Punctuation
+putAll,Identifier
+(,Punctuation
+reader,Identifier
+.,Punctuation
+getHeader,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+meta,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+codecBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+meta,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+CODEC,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+codecBytes,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+strCodec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+(,Punctuation
+codecBytes,Identifier
+",",Punctuation
+ ,Whitespace
+"""UTF-8""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+fromString,Identifier
+(,Punctuation
+strCodec,Identifier
+),Punctuation
+.,Punctuation
+createInstance,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+nullCodec,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+createInstance,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+reader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+init,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+init,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+outs,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+underlyingStream,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+outs,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+BufferedFileOutputStream,Identifier
+(,Punctuation
+outs,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+efactory,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+vout,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+efactory,Identifier
+.,Punctuation
+binaryEncoder,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+dout,Identifier
+.,Punctuation
+setSchema,Identifier
+(,Punctuation
+schema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+buffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NonCopyingByteArrayOutputStream,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+Math,Identifier
+.,Punctuation
+min,Identifier
+(,Punctuation
+(,Punctuation
+int,Keyword
+),Punctuation
+(,Punctuation
+syncInterval,Identifier
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1.25,Literal
+),Punctuation
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+.,Punctuation
+MAX_VALUE,Identifier
+/,Operator
+2,Literal
+ ,Whitespace
+-,Operator
+1,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+bufOut,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+efactory,Identifier
+.,Punctuation
+binaryEncoder,Identifier
+(,Punctuation
+buffer,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+codec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+nullCodec,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+createInstance,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+isOpen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+generateSync,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+MessageDigest,Identifier
+ ,Whitespace
+digester,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+MessageDigest,Identifier
+.,Punctuation
+getInstance,Identifier
+(,Punctuation
+"""MD5""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+time,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+System,Identifier
+.,Punctuation
+currentTimeMillis,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+digester,Identifier
+.,Punctuation
+update,Identifier
+(,Punctuation
+(,Punctuation
+UUID,Identifier
+.,Punctuation
+randomUUID,Identifier
+(,Punctuation
+),Punctuation
++,Operator
+"""@""",String
++,Operator
+time,Identifier
+),Punctuation
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+digester,Identifier
+.,Punctuation
+digest,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+NoSuchAlgorithmException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+setMetaInternal,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertNotOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+meta,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+setMetaInternal,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+setMetaInternal,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+UnsupportedEncodingException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set a metadata property. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+setMeta,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isReservedMeta,Identifier
+(,Punctuation
+key,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Cannot set reserved meta key: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+key,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+setMetaInternal,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isReservedMeta,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+key,Identifier
+.,Punctuation
+startsWith,Identifier
+(,Punctuation
+"""avro.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Set a metadata property. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+setMeta,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+setMeta,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+value,Identifier
+.,Punctuation
+getBytes,Identifier
+(,Punctuation
+"""UTF-8""",String
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+UnsupportedEncodingException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+/** Set a metadata property. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+setMeta,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+key,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+value,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+setMeta,Identifier
+(,Punctuation
+key,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+value,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Thrown by {@link #append(Object)} when an exception occurs while writing a
+   * datum to the buffer.  When this is thrown, the file is unaltered and may
+   * continue to be appended to. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AppendWriteException,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+AppendWriteException,Identifier
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+super,Keyword
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Append a datum to the file.
+   * @see AppendWriteException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+append,Identifier
+(,Punctuation
+D,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+usedBuffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bufferInUse,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+dout,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+datum,Identifier
+",",Punctuation
+ ,Whitespace
+bufOut,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+resetBufferTo,Identifier
+(,Punctuation
+usedBuffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AppendWriteException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+RuntimeException,Identifier
+ ,Whitespace
+re,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+resetBufferTo,Identifier
+(,Punctuation
+usedBuffer,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AppendWriteException,Identifier
+(,Punctuation
+re,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+blockCount,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeIfBlockFull,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"// if there is an error encoding, flush the encoder and then",Comment
+"
+",Newline
+  ,Whitespace
+"// reset the buffer position to contain size bytes, discarding the rest.",Comment
+"
+",Newline
+  ,Whitespace
+// Otherwise the file will be corrupt with a partial record.,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+resetBufferTo,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+bufOut,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+data,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+toByteArray,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+buffer,Identifier
+.,Punctuation
+reset,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+buffer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+data,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Expert: Append a pre-encoded datum to the file.  No validation is
+   * performed to check that the encoding conforms to the file's schema.
+   * Appending non-conforming data may result in an unreadable file. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+appendEncoded,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+datum,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bufOut,Identifier
+.,Punctuation
+writeFixed,Identifier
+(,Punctuation
+datum,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+blockCount,Identifier
+++,Operator
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeIfBlockFull,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+bufferInUse,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+buffer,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+bufOut,Identifier
+.,Punctuation
+bytesBuffered,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeIfBlockFull,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bufferInUse,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+syncInterval,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+writeBlock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Appends data from another file.  otherFile must have the same schema.
+   * Data blocks will be copied without de-serializing data.  If the codecs
+   * of the two files are compatible, data blocks are copied directly without
+   * decompression.  If the codecs are not compatible, blocks from otherFile
+   * are uncompressed and then compressed using this file's codec.
+   * <p/>
+   * If the recompress flag is set all blocks are decompressed and then compressed
+   * using this file's codec.  This is useful when the two files have compatible
+   * compression codecs but different codec options.  For example, one might
+   * append a file compressed with deflate at compression level 1 to a file with
+   * deflate at compression level 7.  If <i>recompress</i> is false, blocks
+   * will be copied without changing the compression level.  If true, they will
+   * be converted to the new compression level.
+   * @param otherFile
+   * @param recompress
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+appendAllFrom,Identifier
+(,Punctuation
+DataFileStream,Identifier
+<,Operator
+D,Identifier
+>,Operator
+ ,Whitespace
+otherFile,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+recompress,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// make sure other file has same schema,Comment
+"
+",Newline
+    ,Whitespace
+Schema,Identifier
+ ,Whitespace
+otherSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+otherFile,Identifier
+.,Punctuation
+getSchema,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+this,Keyword
+.,Punctuation
+schema,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+otherSchema,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IOException,Identifier
+(,Punctuation
+"""Schema from file """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+otherFile,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" does not match""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+// flush anything written so far,Comment
+"
+",Newline
+    ,Whitespace
+writeBlock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Codec,Identifier
+ ,Whitespace
+otherCodec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+otherFile,Identifier
+.,Punctuation
+resolveCodec,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+DataBlock,Identifier
+ ,Whitespace
+nextBlockRaw,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+codec,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+otherCodec,Identifier
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+recompress,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// copy raw bytes,Comment
+"
+",Newline
+      ,Whitespace
+while,Keyword
+(,Punctuation
+otherFile,Identifier
+.,Punctuation
+hasNextBlock,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+nextBlockRaw,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+otherFile,Identifier
+.,Punctuation
+nextRawBlock,Identifier
+(,Punctuation
+nextBlockRaw,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+nextBlockRaw,Identifier
+.,Punctuation
+writeBlockTo,Identifier
+(,Punctuation
+vout,Identifier
+",",Punctuation
+ ,Whitespace
+sync,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+(,Punctuation
+otherFile,Identifier
+.,Punctuation
+hasNextBlock,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+nextBlockRaw,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+otherFile,Identifier
+.,Punctuation
+nextRawBlock,Identifier
+(,Punctuation
+nextBlockRaw,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+nextBlockRaw,Identifier
+.,Punctuation
+decompressUsing,Identifier
+(,Punctuation
+otherCodec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+nextBlockRaw,Identifier
+.,Punctuation
+compressUsing,Identifier
+(,Punctuation
+codec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+nextBlockRaw,Identifier
+.,Punctuation
+writeBlockTo,Identifier
+(,Punctuation
+vout,Identifier
+",",Punctuation
+ ,Whitespace
+sync,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBlock,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+blockCount,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+bufOut,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+uncompressed,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buffer,Identifier
+.,Punctuation
+getByteArrayAsByteBuffer,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+DataBlock,Identifier
+ ,Whitespace
+block,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataBlock,Identifier
+(,Punctuation
+uncompressed,Identifier
+",",Punctuation
+ ,Whitespace
+blockCount,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+block,Identifier
+.,Punctuation
+setFlushOnWrite,Identifier
+(,Punctuation
+flushOnEveryBlock,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+block,Identifier
+.,Punctuation
+compressUsing,Identifier
+(,Punctuation
+codec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+block,Identifier
+.,Punctuation
+writeBlockTo,Identifier
+(,Punctuation
+vout,Identifier
+",",Punctuation
+ ,Whitespace
+sync,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+buffer,Identifier
+.,Punctuation
+reset,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+blockCount,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Return the current position as a value that may be passed to {@link
+   * DataFileReader#seek(long)}.  Forces the end of the current block,
+   * emitting a synchronization marker. By default, this will also flush the
+   * block to the stream.
+   *
+   * If {@linkplain #setFlushOnEveryBlock(boolean)} is
+   * called with param set to false, then this method may not flush
+   * the block. In this case, the {@linkplain #flush()} must be called to
+   * flush the stream.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+sync,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assertOpen,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+writeBlock,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+.,Punctuation
+tell,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Calls {@linkplain #sync()} and then flushes the current state of the
+   * file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+sync,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+vout,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * If this writer was instantiated using a File or using an
+   * {@linkplain Syncable} instance, this method flushes all buffers for this
+   * writer to disk. In other cases, this method behaves exactly
+   * like {@linkplain #flush()}.
+   *
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+fSync,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+underlyingStream,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Syncable,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+(,Punctuation
+(,Punctuation
+Syncable,Identifier
+),Punctuation
+ ,Whitespace
+underlyingStream,Identifier
+),Punctuation
+.,Punctuation
+sync,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Flush and close the file. */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+isOpen,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+isOpen,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+BufferedFileOutputStream,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+BufferedOutputStream,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+position,Identifier
+;,Punctuation
+                         ,Whitespace
+// start of buffer,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+PositionFilter,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+FilterOutputStream,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+PositionFilter,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+super,Keyword
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+write,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+b,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+off,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+position,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+len,Identifier
+;,Punctuation
+                           ,Whitespace
+// update on write,Comment
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+BufferedFileOutputStream,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+out,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+PositionFilter,Identifier
+(,Punctuation
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+tell,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+position,Identifier
++,Operator
+count,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+NonCopyingByteArrayOutputStream,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ByteArrayOutputStream,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+NonCopyingByteArrayOutputStream,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+initialSize,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+initialSize,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+getByteArrayAsByteBuffer,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+buf,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+count,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

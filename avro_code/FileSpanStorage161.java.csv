@@ -1,0 +1,2957 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+LinkedList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+TreeMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+BlockingQueue,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+LinkedBlockingQueue,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+CodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificDatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A file-based { @link SpanStorage } implementation for Avro's 
+ * { @link TracePlugin }. This class has two modes, one in which writes are 
+ * buffered and one in which they are not. Even without buffering, there will be
+ * some delay between reporting of a Span and the actual disk write.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+FileSpanStorage,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+SpanStorage,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/*
+   * We use rolling Avro data files that store Span data associated with ten 
+   * minute chunks (this provides a simple way to index on time). Because we 
+   * enforce an upper limit on the number of spans stored, we simply drop 
+   * oldest file if and when the next write causes us to exceed that limit. This
+   * approximates a FIFO queue of spans, which is basically what we want to 
+   * maintain.
+   * 
+   * Focus is on efficiency since most logic occurs every
+   * time a span is recorded (that is, every RPC call).
+   * 
+   * We never want to block on span adding operations, which occur in the same
+   * thread as the Requestor. We are okay to block on span retrieving 
+   * operations, since they typically run the RPCPlugin's own servlet. To
+   * avoid blocking on span addition we use a separate WriterThread which reads
+   * a BlockingQueue of Spans and writes span data to disk.  
+   */",Comment
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+DiskWriterThread,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Runnable,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+/** Shared Span queue. Read-only for this thread. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+BlockingQueue,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+outstanding,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** Shared queue of files currently in view. Read/write for this thread. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+>,Operator
+ ,Whitespace
+files,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** How many Spans already written to each file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+File,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+ ,Whitespace
+spansPerFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+File,Identifier
+",",Punctuation
+ ,Whitespace
+Long,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+  ,Whitespace
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** Total spans already written so far. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+spansSoFar,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** DiskWriter for current file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+currentWriter,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** Timestamp of the current file. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+currentTimestamp,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+long,Keyword
+),Punctuation
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** Whether to buffer file writes.*/,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+doBuffer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+/** Compression level for files. */,Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+compressionLevel,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Thread that runs continuously and writes outstanding requests to
+     * Avro files. This thread also deals with rolling files over and dropping
+     * old files when the span limit is reached.
+     * @param compressionLevel 
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+DiskWriterThread,Identifier
+(,Punctuation
+BlockingQueue,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+outstanding,Identifier
+",",Punctuation
+  ,Whitespace
+"
+",Newline
+        ,Whitespace
+TreeMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+>,Operator
+ ,Whitespace
+files,Identifier
+",",Punctuation
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+buffer,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+int,Keyword
+ ,Whitespace
+compressionLevel,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+outstanding,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+outstanding,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+files,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+files,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+doBuffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+buffer,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+compressionLevel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+compressionLevel,Identifier
+;,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+"/* TODO(pwendell) load existing files here.
+       * 
+       * If we decide to re-factor TracePlugin such that only one exists, we 
+       * can safely load old span files and include them here.*/",Comment
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+true,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Span,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+outstanding,Identifier
+.,Punctuation
+take,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+InterruptedException,Identifier
+ ,Whitespace
+e1,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Thread interrupted""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+interrupt,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+assureCurrentWriter,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+currentWriter,Identifier
+.,Punctuation
+append,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+this,Keyword
+.,Punctuation
+doBuffer,Identifier
+),Punctuation
+ ,Whitespace
+this,Keyword
+.,Punctuation
+currentWriter,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+spansSoFar,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+File,Identifier
+ ,Whitespace
+latest,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+files,Identifier
+.,Punctuation
+lastEntry,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getValue,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+long,Keyword
+ ,Whitespace
+fileSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+spansPerFile,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+latest,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+spansPerFile,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+latest,Identifier
+",",Punctuation
+ ,Whitespace
+fileSpans,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Error setting span file: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"/**
+     * Assure that currentWriter is populated and refers to the correct
+     * data file. This may roll-over the existing data file. Also assures
+     * that writing one more span will not violate limits on Span storage.
+     * @throws IOException 
+     */",Comment
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+assureCurrentWriter,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+boolean,Keyword
+ ,Whitespace
+createNewFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+// Will we overshoot policy?,Comment
+"
+",Newline
+      ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+spansSoFar,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+maxSpans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+File,Identifier
+ ,Whitespace
+oldest,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+"// If spansSoFar is positive, there must be at least one file",Comment
+"
+",Newline
+        ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+files,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+oldest,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+files,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+files,Identifier
+.,Punctuation
+firstKey,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+spansSoFar,Identifier
+ ,Whitespace
+-=,Operator
+ ,Whitespace
+spansPerFile,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+oldest,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+spansPerFile,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+oldest,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+oldest,Identifier
+.,Punctuation
+delete,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+files,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+"// In corner case we have removed the current file,",Comment
+"
+",Newline
+        ,Whitespace
+// if that happened we need to clear current variables.,Comment
+"
+",Newline
+        ,Whitespace
+currentTimestamp,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+long,Keyword
+),Punctuation
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+currentWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+rightNow,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+System,Identifier
+.,Punctuation
+currentTimeMillis,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+/,Operator
+ ,Whitespace
+1000L,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+// What file should we be in,Comment
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+cutOff,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+floorSecond,Identifier
+(,Punctuation
+rightNow,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+currentWriter,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+createNewFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+// Test for roll-over.,Comment
+"
+",Newline
+      ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+cutOff,Identifier
+ ,Whitespace
+>=,Operator
+ ,Whitespace
+(,Punctuation
+currentTimestamp,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+secondsPerFile,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+currentWriter,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+createNewFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+createNewFile,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+File,Identifier
+ ,Whitespace
+newFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+traceFileDir,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""/""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+"
+",Newline
+            ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getId,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""_""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+cutOff,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+FILE_SUFFIX,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+files,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+this,Keyword
+.,Punctuation
+files,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+cutOff,Identifier
+",",Punctuation
+ ,Whitespace
+newFile,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+spansPerFile,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+newFile,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+long,Keyword
+),Punctuation
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+currentWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileWriter,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+SPAN_WRITER,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+currentWriter,Identifier
+.,Punctuation
+setCodec,Identifier
+(,Punctuation
+CodecFactory,Identifier
+.,Punctuation
+deflateCodec,Identifier
+(,Punctuation
+compressionLevel,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+currentWriter,Identifier
+.,Punctuation
+create,Identifier
+(,Punctuation
+Span,Identifier
+.,Punctuation
+SCHEMA$,Identifier
+",",Punctuation
+ ,Whitespace
+newFile,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+this,Keyword
+.,Punctuation
+currentTimestamp,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+cutOff,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+/** Directory of data files */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+FILE_SUFFIX,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+""".av""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+SPAN_WRITER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificDatumWriter,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+Span,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+SPAN_READER,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificDatumReader,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+Span,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+FileSpanStorage,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+maxSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT_MAX_SPANS,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Granularity of file chunks. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+secondsPerFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+60,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+10,Literal
+;,Punctuation
+ ,Whitespace
+// default: ten minute chunks,Comment
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+traceFileDir,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""/tmp""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Shared queue of files currently in view. This thread only reads.*/,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+>,Operator
+ ,Whitespace
+files,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TreeMap,Identifier
+<,Operator
+Long,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Shared Span queue. This thread only writes. */,Comment
+"
+",Newline
+  ,Whitespace
+LinkedBlockingQueue,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+outstanding,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedBlockingQueue,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** DiskWriter thread */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Thread,Identifier
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Given a path to a data file of Spans, extract all spans and add them
+   * to the provided list.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+readFileSpans,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+f,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+list,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+DataFileReader,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+f,Identifier
+",",Punctuation
+ ,Whitespace
+SPAN_READER,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Iterator,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+it,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+iterator,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+spans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+it,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+spans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+it,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+list,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+spans,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Given a path to a data file of Spans, extract spans within a time period
+   * bounded by start and end.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+readFileSpans,Identifier
+(,Punctuation
+File,Identifier
+ ,Whitespace
+f,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+list,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+long,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+end,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+DataFileReader,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+f,Identifier
+",",Punctuation
+ ,Whitespace
+SPAN_READER,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Iterator,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+it,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+.,Punctuation
+iterator,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+spans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+while,Keyword
+ ,Whitespace
+(,Punctuation
+it,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Span,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+it,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+Util,Identifier
+.,Punctuation
+spanInRange,Identifier
+(,Punctuation
+s,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+spans,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+list,Identifier
+.,Punctuation
+addAll,Identifier
+(,Punctuation
+spans,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+FileSpanStorage,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+buffer,Identifier
+",",Punctuation
+ ,Whitespace
+TracePluginConfiguration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Thread,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+DiskWriterThread,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+outstanding,Identifier
+",",Punctuation
+ ,Whitespace
+files,Identifier
+",",Punctuation
+ ,Whitespace
+buffer,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+compressionLevel,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+secondsPerFile,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+fileGranularitySeconds,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+traceFileDir,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+spanStorageDir,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+writer,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return the head of the time bucket associated with this specific time.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+floorSecond,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+currentSecond,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+currentSecond,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+(,Punctuation
+currentSecond,Identifier
+ ,Whitespace
+%,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+secondsPerFile,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addSpan,Identifier
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+outstanding,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+getAllSpans,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+files,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+File,Identifier
+ ,Whitespace
+f,Identifier
+:,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+files,Identifier
+.,Punctuation
+values,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+readFileSpans,Identifier
+(,Punctuation
+f,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Error reading file: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+"
+",Newline
+              ,Whitespace
+f,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Clear all Span data stored by this plugin.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+clear,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+files,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Long,Identifier
+ ,Whitespace
+l,Identifier
+:,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Long,Identifier
+>,Operator
+(,Punctuation
+this,Keyword
+.,Punctuation
+files,Identifier
+.,Punctuation
+keySet,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+File,Identifier
+ ,Whitespace
+f,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+files,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+l,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+f,Identifier
+.,Punctuation
+delete,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setMaxSpans,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+maxSpans,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+maxSpans,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+maxSpans,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+getSpansInRange,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+end,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"/*
+     * We first find the book-end files (first and last) whose Spans may 
+     * or may not fit in the the range. Intermediary files can be directly 
+     * passed, since they are completely within the time range.
+     * 
+     *       [                            ]   <-- Time range
+     *       
+     * |-----++|+++++++|+++++++|+++++++|+++----|-------|--->
+     *  \     /                         \     /
+     *   start                            end
+     *   file                             file
+     * 
+     */",Comment
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Span,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+List,Identifier
+<,Operator
+Long,Identifier
+>,Operator
+ ,Whitespace
+middleFiles,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+LinkedList,Identifier
+<,Operator
+Long,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+startSecond,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+SpanStorage,Identifier
+.,Punctuation
+NANOS_PER_SECOND,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+endSecond,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+end,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+SpanStorage,Identifier
+.,Punctuation
+NANOS_PER_SECOND,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+numFiles,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+(,Punctuation
+endSecond,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+startSecond,Identifier
+),Punctuation
+ ,Whitespace
+/,Operator
+ ,Whitespace
+secondsPerFile,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+(,Punctuation
+numFiles,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+middleFiles,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+startSecond,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+*,Operator
+ ,Whitespace
+secondsPerFile,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+ ,Whitespace
+(,Punctuation
+this,Keyword
+.,Punctuation
+files,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Long,Identifier
+ ,Whitespace
+l,Identifier
+:,Operator
+ ,Whitespace
+middleFiles,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+files,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+l,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+readFileSpans,Identifier
+(,Punctuation
+files,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+l,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Error reading file: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+files,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+l,Identifier
+),Punctuation
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+// Start file,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+files,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+startSecond,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+readFileSpans,Identifier
+(,Punctuation
+files,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+startSecond,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Error reading file: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+"
+",Newline
+              ,Whitespace
+files,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+startSecond,Identifier
+),Punctuation
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+// End file,Comment
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+files,Identifier
+.,Punctuation
+containsKey,Identifier
+(,Punctuation
+endSecond,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+readFileSpans,Identifier
+(,Punctuation
+files,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+endSecond,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+end,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Error reading file: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+"
+",Newline
+              ,Whitespace
+files,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+endSecond,Identifier
+),Punctuation
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,787 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+output,Identifier
+.,Punctuation
+FileOutputCommitter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+CodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileConstants,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+HadoopCodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+output,Identifier
+.,Punctuation
+FileOutputFormat,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Abstract base class for output formats that write Avro container files.
+ *
+ * @param <K> The type of key to write.
+ * @param <V> The type of value to write.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroOutputFormatBase,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+FileOutputFormat,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the configured compression codec from the task context.
+   *
+   * @param context The task attempt context.
+   * @return The compression codec to use for the output Avro container file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+getCompressionCodec,Identifier
+(,Punctuation
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+FileOutputFormat,Identifier
+.,Punctuation
+getCompressOutput,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// Default to deflate compression.,Comment
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+deflateLevel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getInt,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroOutputFormat,Identifier
+.,Punctuation
+DEFLATE_LEVEL_KEY,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+DEFAULT_DEFLATE_LEVEL,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+int,Keyword
+ ,Whitespace
+xzLevel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getInt,Identifier
+(,Punctuation
+"
+",Newline
+              ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroOutputFormat,Identifier
+.,Punctuation
+XZ_LEVEL_KEY,Identifier
+",",Punctuation
+"
+",Newline
+              ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+DEFAULT_XZ_LEVEL,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+outputCodec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+get,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+CONF_OUTPUT_CODEC,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+outputCodec,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+String,Identifier
+ ,Whitespace
+compressionCodec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""mapred.output.compression.codec""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+String,Identifier
+ ,Whitespace
+avroCodecName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+HadoopCodecFactory,Identifier
+.,Punctuation
+getAvroCodecName,Identifier
+(,Punctuation
+compressionCodec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+ ,Whitespace
+avroCodecName,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+set,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+CONF_OUTPUT_CODEC,Identifier
+",",Punctuation
+ ,Whitespace
+avroCodecName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+HadoopCodecFactory,Identifier
+.,Punctuation
+fromHadoopString,Identifier
+(,Punctuation
+compressionCodec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+deflateCodec,Identifier
+(,Punctuation
+deflateLevel,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+DEFLATE_CODEC,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+outputCodec,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+deflateCodec,Identifier
+(,Punctuation
+deflateLevel,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+DataFileConstants,Identifier
+.,Punctuation
+XZ_CODEC,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+outputCodec,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+xzCodec,Identifier
+(,Punctuation
+xzLevel,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+fromString,Identifier
+(,Punctuation
+outputCodec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// No compression.,Comment
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+nullCodec,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the target output stream where the Avro container file should be written.
+   *
+   * @param context The task attempt context.
+   * @return The target output stream.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+getAvroFileOutputStream,Identifier
+(,Punctuation
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Path,Identifier
+(,Punctuation
+(,Punctuation
+(,Punctuation
+FileOutputCommitter,Identifier
+),Punctuation
+getOutputCommitter,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+),Punctuation
+.,Punctuation
+getWorkPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+getUniqueFile,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+"""avro.mo.config.namedOutput""",String
+",",Punctuation
+"""part""",String
+),Punctuation
+",",Punctuation
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroOutputFormat,Identifier
+.,Punctuation
+EXT,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+path,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+create,Identifier
+(,Punctuation
+path,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the configured sync interval from the task context.
+   *
+   * @param context The task attempt context.
+   * @return The sync interval to use for the output Avro container file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getSyncInterval,Identifier
+(,Punctuation
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getInt,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroOutputFormat,Identifier
+.,Punctuation
+SYNC_INTERVAL_KEY,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+DataFileConstants,Identifier
+.,Punctuation
+DEFAULT_SYNC_INTERVAL,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

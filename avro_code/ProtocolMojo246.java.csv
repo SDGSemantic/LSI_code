@@ -1,0 +1,419 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mojo,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+.,Punctuation
+StringType,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+compiler,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificCompiler,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Generate Java classes and interfaces from Avro protocol files (.avpr)
+ * 
+ * @goal protocol
+ * @phase generate-sources
+ * @threadSafe
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ProtocolMojo,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AbstractAvroMojo,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * A set of Ant-like inclusion patterns used to select files from the source
+   * directory for processing. By default, the pattern
+   * <code>**&#47;*.avpr</code> is used to select grammar files.
+   * 
+   * @parameter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+includes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"""**/*.avpr""",String
+ ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A set of Ant-like inclusion patterns used to select files from the source
+   * directory for processing. By default, the pattern
+   * <code>**&#47;*.avpr</code> is used to select grammar files.
+   * 
+   * @parameter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+testIncludes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"""**/*.avpr""",String
+ ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+doCompile,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+sourceDirectory,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+File,Identifier
+ ,Whitespace
+src,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+sourceDirectory,Identifier
+",",Punctuation
+ ,Whitespace
+filename,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+protocol,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Protocol,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+src,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+SpecificCompiler,Identifier
+ ,Whitespace
+compiler,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SpecificCompiler,Identifier
+(,Punctuation
+protocol,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setTemplateDir,Identifier
+(,Punctuation
+templateDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setStringType,Identifier
+(,Punctuation
+StringType,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+stringType,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setFieldVisibility,Identifier
+(,Punctuation
+getFieldVisibility,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+setCreateSetters,Identifier
+(,Punctuation
+createSetters,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+compiler,Identifier
+.,Punctuation
+compileToDestination,Identifier
+(,Punctuation
+src,Identifier
+",",Punctuation
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getIncludes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+includes,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getTestIncludes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+testIncludes,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

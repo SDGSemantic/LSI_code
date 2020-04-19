@@ -1,0 +1,697 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+OutputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EncoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+BinaryEncoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroWrapper,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+.,Punctuation
+ReflectDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+serializer,Identifier
+.,Punctuation
+Serializer,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Serializes AvroWrapper objects within Hadoop.
+ *
+ * <p>Keys and values containing Avro types are more efficiently serialized outside of the
+ * WritableSerialization model, so they are wrapped in {@link
+ * org.apache.avro.mapred.AvroWrapper} objects and serialization is handled by this
+ * class.</p>
+ *
+ * <p>MapReduce jobs that use AvroWrapper objects as keys or values need to be configured
+ * with {@link AvroSerialization}.  Use {@link
+ * org.apache.avro.mapreduce.AvroJob} to help with Job configuration.</p>
+ *
+ * @param <T> The Java type of the Avro data.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroSerializer,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Serializer,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * The block size for the Avro encoder.
+   *
+   * This number was copied from the AvroSerialization of org.apache.avro.mapred in Avro 1.5.1.
+   *
+   * TODO(gwu): Do some benchmarking with different numbers here to see if it is important.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+AVRO_ENCODER_BLOCK_SIZE_BYTES,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+512,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** An factory for creating Avro datum encoders. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+ ,Whitespace
+mEncoderFactory,Identifier
+"
+",Newline
+      ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EncoderFactory,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+configureBlockSize,Identifier
+(,Punctuation
+AVRO_ENCODER_BLOCK_SIZE_BYTES,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The writer schema for the data to serialize. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The Avro datum writer for serializing. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+DatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+mAvroDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The Avro encoder for serializing. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+BinaryEncoder,Identifier
+ ,Whitespace
+mAvroEncoder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The output stream for serializing. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+OutputStream,Identifier
+ ,Whitespace
+mOutputStream,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructor.
+   *
+   * @param writerSchema The writer schema for the Avro data being serialized.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroSerializer,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+writerSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Writer schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+mWriterSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writerSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroDatumWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ReflectDatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+writerSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructor.
+   *
+   * @param writerSchema The writer schema for the Avro data being serialized.
+   * @param datumWriter The datum writer to use for serialization.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+AvroSerializer,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+writerSchema,Identifier
+",",Punctuation
+ ,Whitespace
+DatumWriter,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+datumWriter,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+writerSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Writer schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+mWriterSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writerSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroDatumWriter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+datumWriter,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the writer schema being used for serialization.
+   *
+   * @return The writer schema.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+getWriterSchema,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+mWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+open,Identifier
+(,Punctuation
+OutputStream,Identifier
+ ,Whitespace
+outputStream,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mOutputStream,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+outputStream,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroEncoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mEncoderFactory,Identifier
+.,Punctuation
+binaryEncoder,Identifier
+(,Punctuation
+outputStream,Identifier
+",",Punctuation
+ ,Whitespace
+mAvroEncoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+serialize,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+avroWrapper,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroDatumWriter,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+avroWrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+mAvroEncoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+// This would be a lot faster if the Serializer interface had a flush() method and the,Comment
+"
+",Newline
+    ,Whitespace
+"// Hadoop framework called it when needed.  For now, we'll have to flush on every record.",Comment
+"
+",Newline
+    ,Whitespace
+mAvroEncoder,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mOutputStream,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

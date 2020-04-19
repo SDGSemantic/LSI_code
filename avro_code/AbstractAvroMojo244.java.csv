@@ -1,0 +1,1609 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mojo,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+compiler,Identifier
+.,Punctuation
+specific,Identifier
+.,Punctuation
+SpecificCompiler,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+maven,Identifier
+.,Punctuation
+plugin,Identifier
+.,Punctuation
+AbstractMojo,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+maven,Identifier
+.,Punctuation
+plugin,Identifier
+.,Punctuation
+MojoExecutionException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+maven,Identifier
+.,Punctuation
+project,Identifier
+.,Punctuation
+MavenProject,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+maven,Identifier
+.,Punctuation
+shared,Identifier
+.,Punctuation
+model,Identifier
+.,Punctuation
+fileset,Identifier
+.,Punctuation
+FileSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+maven,Identifier
+.,Punctuation
+shared,Identifier
+.,Punctuation
+model,Identifier
+.,Punctuation
+fileset,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+FileSetManager,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Base for Avro Compiler Mojos.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AbstractAvroMojo,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AbstractMojo,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * The source directory of avro files. This directory is added to the
+   * classpath at schema compiling time. All files can therefore be referenced
+   * as classpath resources following the directory structure under the
+   * source directory.
+   *
+   * @parameter expression=""${sourceDirectory}""
+   *            default-value=""${basedir}/src/main/avro""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+sourceDirectory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * @parameter expression=""${outputDirectory}""
+   *            default-value=""${project.build.directory}/generated-sources/avro""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+outputDirectory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * @parameter expression=""${sourceDirectory}""
+   *            default-value=""${basedir}/src/test/avro""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+testSourceDirectory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * @parameter expression=""${outputDirectory}""
+   *            default-value=""${project.build.directory}/generated-test-sources/avro""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+testOutputDirectory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * The field visibility indicator for the fields of the generated class, as
+   * string values of SpecificCompiler.FieldVisibility.  The text is case
+   * insensitive.
+   *
+   * @parameter default-value=""PUBLIC_DEPRECATED""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+fieldVisibility,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A list of files or directories that should be compiled first thus making
+   * them importable by subsequently compiled schemas. Note that imported files
+   * should not reference each other.
+   * @parameter 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+imports,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * A set of Ant-like exclusion patterns used to prevent certain files from
+   * being processed. By default, this set is empty such that no files are
+   * excluded.
+   * 
+   * @parameter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+excludes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A set of Ant-like exclusion patterns used to prevent certain files from
+   * being processed. By default, this set is empty such that no files are
+   * excluded.
+   * 
+   * @parameter
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+testExcludes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**  The Java type to use for Avro strings.  May be one of CharSequence,
+   * String or Utf8.  CharSequence by default.
+   *
+   * @parameter expression=""${stringType}""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+stringType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""CharSequence""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * The directory (within the java classpath) that contains the velocity templates
+   * to use for code generation. The default value points to the templates included
+   * with the avro-maven-plugin.
+   *
+   * @parameter expression=""${templateDirectory}""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+templateDirectory,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""/org/apache/avro/compiler/specific/templates/java/classic/""",String
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Determines whether or not to create setters for the fields of the record.
+   * The default is to create setters.
+   *
+   * @parameter default-value=""true""
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+createSetters,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * The current Maven project.
+   * 
+   * @parameter default-value=""${project}""
+   * @readonly
+   * @required
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+MavenProject,Identifier
+ ,Whitespace
+project,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+execute,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+MojoExecutionException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasSourceDir,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+sourceDirectory,Identifier
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+sourceDirectory,Identifier
+.,Punctuation
+isDirectory,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasImports,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+imports,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasTestDir,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+testSourceDirectory,Identifier
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+testSourceDirectory,Identifier
+.,Punctuation
+isDirectory,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+hasSourceDir,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+hasTestDir,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+MojoExecutionException,Identifier
+(,Punctuation
+"""neither sourceDirectory: """,String
+"
+",Newline
+          ,Whitespace
++,Operator
+ ,Whitespace
+sourceDirectory,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" or testSourceDirectory: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+testSourceDirectory,Identifier
+"
+",Newline
+          ,Whitespace
++,Operator
+ ,Whitespace
+""" are directories""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+hasImports,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+importedFile,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+imports,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+File,Identifier
+ ,Whitespace
+file,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+importedFile,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+file,Identifier
+.,Punctuation
+isDirectory,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+includedFiles,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getIncludedFiles,Identifier
+(,Punctuation
+file,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+excludes,Identifier
+",",Punctuation
+ ,Whitespace
+getIncludes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+getLog,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""Importing Directory: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+file,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+getLog,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Importing Directory Files: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+includedFiles,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+compileFiles,Identifier
+(,Punctuation
+includedFiles,Identifier
+",",Punctuation
+ ,Whitespace
+file,Identifier
+",",Punctuation
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+file,Identifier
+.,Punctuation
+isFile,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+getLog,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""Importing File: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+file,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+compileFiles,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+{,Punctuation
+file,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+},Punctuation
+",",Punctuation
+ ,Whitespace
+file,Identifier
+.,Punctuation
+getParentFile,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+hasSourceDir,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+includedFiles,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getIncludedFiles,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+sourceDirectory,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+excludes,Identifier
+",",Punctuation
+ ,Whitespace
+getIncludes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+compileFiles,Identifier
+(,Punctuation
+includedFiles,Identifier
+",",Punctuation
+ ,Whitespace
+sourceDirectory,Identifier
+",",Punctuation
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+hasImports,Identifier
+ ,Whitespace
+||,Operator
+ ,Whitespace
+hasSourceDir,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+project,Identifier
+.,Punctuation
+addCompileSourceRoot,Identifier
+(,Punctuation
+outputDirectory,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+hasTestDir,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+includedFiles,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getIncludedFiles,Identifier
+(,Punctuation
+"
+",Newline
+          ,Whitespace
+testSourceDirectory,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+testExcludes,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+getTestIncludes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+compileFiles,Identifier
+(,Punctuation
+includedFiles,Identifier
+",",Punctuation
+ ,Whitespace
+testSourceDirectory,Identifier
+",",Punctuation
+ ,Whitespace
+testOutputDirectory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+project,Identifier
+.,Punctuation
+addTestCompileSourceRoot,Identifier
+(,Punctuation
+testOutputDirectory,Identifier
+.,Punctuation
+getAbsolutePath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getIncludedFiles,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+absPath,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+excludes,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+includes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+FileSetManager,Identifier
+ ,Whitespace
+fileSetManager,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FileSetManager,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+FileSet,Identifier
+ ,Whitespace
+fs,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FileSet,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+fs,Identifier
+.,Punctuation
+setDirectory,Identifier
+(,Punctuation
+absPath,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+fs,Identifier
+.,Punctuation
+setFollowSymlinks,Identifier
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+//exclude imports directory since it has already been compiled.,Comment
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+imports,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+importExclude,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+importFile,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+imports,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+File,Identifier
+ ,Whitespace
+file,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+importFile,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+file,Identifier
+.,Punctuation
+isDirectory,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+importExclude,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+file,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""/**""",String
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+file,Identifier
+.,Punctuation
+isFile,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+importExclude,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""**/""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+file,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+fs,Identifier
+.,Punctuation
+addExclude,Identifier
+(,Punctuation
+importExclude,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+include,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+includes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+fs,Identifier
+.,Punctuation
+addInclude,Identifier
+(,Punctuation
+include,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+exclude,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+excludes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+fs,Identifier
+.,Punctuation
+addExclude,Identifier
+(,Punctuation
+exclude,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+fileSetManager,Identifier
+.,Punctuation
+getIncludedFiles,Identifier
+(,Punctuation
+fs,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+compileFiles,Identifier
+(,Punctuation
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+files,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+sourceDir,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+outDir,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+MojoExecutionException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+files,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+doCompile,Identifier
+(,Punctuation
+filename,Identifier
+",",Punctuation
+ ,Whitespace
+sourceDir,Identifier
+",",Punctuation
+ ,Whitespace
+outDir,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+MojoExecutionException,Identifier
+(,Punctuation
+"""Error compiling protocol file """,String
+"
+",Newline
+            ,Whitespace
++,Operator
+ ,Whitespace
+filename,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""" to """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+outDir,Identifier
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+SpecificCompiler,Identifier
+.,Punctuation
+FieldVisibility,Identifier
+ ,Whitespace
+getFieldVisibility,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+upper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+String,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+fieldVisibility,Identifier
+),Punctuation
+.,Punctuation
+trim,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+toUpperCase,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+SpecificCompiler,Identifier
+.,Punctuation
+FieldVisibility,Identifier
+.,Punctuation
+valueOf,Identifier
+(,Punctuation
+upper,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IllegalArgumentException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+SpecificCompiler,Identifier
+.,Punctuation
+FieldVisibility,Identifier
+.,Punctuation
+PUBLIC_DEPRECATED,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+doCompile,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+filename,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+sourceDirectory,Identifier
+",",Punctuation
+ ,Whitespace
+File,Identifier
+ ,Whitespace
+outputDirectory,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getIncludes,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+getTestIncludes,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

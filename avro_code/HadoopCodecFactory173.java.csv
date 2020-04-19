@@ -1,0 +1,399 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+file,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+CodecFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**  
+ * Encapsulates the ability to specify and configure an avro compression codec
+ * from a given hadoop codec defined with the configuration parameter:
+ * mapred.output.compression.codec
+ *
+ * Currently there are three codecs registered by default:
+ * <ul>
+ *   <li>{@code org.apache.hadoop.io.compress.DeflateCodec} will map to  {@code deflate}</li>
+ *   <li>{@code org.apache.hadoop.io.compress.SnappyCodec} will map to {@code snappy}</li>
+ *   <li>{@code org.apache.hadoop.io.compress.BZip2Codec} will map to {@code zbip2}</li>
+ *   <li>{@code org.apache.hadoop.io.compress.GZipCodec} will map to {@code deflate}</li>
+ * </ul>
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+HadoopCodecFactory,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Map,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+ ,Whitespace
+HADOOP_AVRO_NAME_MAP,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+ ,Whitespace
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+HADOOP_AVRO_NAME_MAP,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""org.apache.hadoop.io.compress.DeflateCodec""",String
+",",Punctuation
+ ,Whitespace
+"""deflate""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+HADOOP_AVRO_NAME_MAP,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""org.apache.hadoop.io.compress.SnappyCodec""",String
+",",Punctuation
+ ,Whitespace
+"""snappy""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+HADOOP_AVRO_NAME_MAP,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""org.apache.hadoop.io.compress.BZip2Codec""",String
+",",Punctuation
+ ,Whitespace
+"""bzip2""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+HADOOP_AVRO_NAME_MAP,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+"""org.apache.hadoop.io.compress.GZipCodec""",String
+",",Punctuation
+ ,Whitespace
+"""deflate""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Maps a hadoop codec name into a CodecFactory.
+  *
+  * Currently there are four hadoop codecs registered:
+  * <ul>
+  *   <li>{@code org.apache.hadoop.io.compress.DeflateCodec} will map to  {@code deflate}</li>
+  *   <li>{@code org.apache.hadoop.io.compress.SnappyCodec} will map to {@code snappy}</li>
+  *   <li>{@code org.apache.hadoop.io.compress.BZip2Codec} will map to {@code zbip2}</li>
+  *   <li>{@code org.apache.hadoop.io.compress.GZipCodec} will map to {@code deflate}</li>
+  * </ul>
+  */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+fromHadoopString,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+hadoopCodecClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+CodecFactory,Identifier
+ ,Whitespace
+o,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+String,Identifier
+ ,Whitespace
+avroCodec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+HADOOP_AVRO_NAME_MAP,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+hadoopCodecClass,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+avroCodec,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+o,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CodecFactory,Identifier
+.,Punctuation
+fromString,Identifier
+(,Punctuation
+avroCodec,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"""Unrecognized hadoop codec: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+hadoopCodecClass,Identifier
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+o,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getAvroCodecName,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+hadoopCodecClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+HADOOP_AVRO_NAME_MAP,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+hadoopCodecClass,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

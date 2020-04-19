@@ -1,0 +1,1240 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapreduce,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+DataFileReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+file,Identifier
+.,Punctuation
+SeekableInput,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+AvroSerialization,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+DatumReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FsInput,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+InputSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+RecordReader,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+TaskAttemptContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapreduce,Identifier
+.,Punctuation
+lib,Identifier
+.,Punctuation
+input,Identifier
+.,Punctuation
+FileSplit,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Abstract base class for <code>RecordReader</code>s that read Avro container files.
+ *
+ * @param <K> The type of key the record reader should generate.
+ * @param <V> The type of value the record reader should generate.
+ * @param <T> The type of the entries within the Avro container file being read.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroRecordReaderBase,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+",",Punctuation
+ ,Whitespace
+T,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RecordReader,Identifier
+<,Operator
+K,Identifier
+",",Punctuation
+ ,Whitespace
+V,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+AvroRecordReaderBase,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The reader schema for the records within the input Avro container file. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mReaderSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The current record from the Avro container file being read. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+mCurrentRecord,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** A reader for the Avro container file containing the current input split. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+mAvroFileReader,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * The byte offset into the Avro container file where the first block that fits
+   * completely within the current input split begins.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+mStartPosition,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The byte offset into the Avro container file where the current input split ends. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+mEndPosition,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructor.
+   *
+   * @param readerSchema The reader schema for the records of the Avro container file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+AvroRecordReaderBase,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+readerSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+mReaderSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+readerSchema,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mCurrentRecord,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+initialize,Identifier
+(,Punctuation
+InputSplit,Identifier
+ ,Whitespace
+inputSplit,Identifier
+",",Punctuation
+ ,Whitespace
+TaskAttemptContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+(,Punctuation
+inputSplit,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+FileSplit,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Only compatible with FileSplits.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+FileSplit,Identifier
+ ,Whitespace
+fileSplit,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+FileSplit,Identifier
+),Punctuation
+ ,Whitespace
+inputSplit,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Open a seekable input stream to the Avro container file.,Comment
+"
+",Newline
+    ,Whitespace
+SeekableInput,Identifier
+ ,Whitespace
+seekableFileInput,Identifier
+"
+",Newline
+        ,Whitespace
+=,Operator
+ ,Whitespace
+createSeekableInput,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+fileSplit,Identifier
+.,Punctuation
+getPath,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Wrap the seekable input stream in an Avro DataFileReader.,Comment
+"
+",Newline
+    ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+GenericData,Identifier
+ ,Whitespace
+dataModel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+createDataModel,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+DatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+dataModel,Identifier
+.,Punctuation
+createDatumReader,Identifier
+(,Punctuation
+mReaderSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mAvroFileReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createAvroFileReader,Identifier
+(,Punctuation
+seekableFileInput,Identifier
+",",Punctuation
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Initialize the start and end offsets into the file based on the boundaries of the,Comment
+"
+",Newline
+    ,Whitespace
+// input split we're responsible for.  We will read the first block that begins,Comment
+"
+",Newline
+    ,Whitespace
+// after the input split start boundary.  We will read up to but not including the,Comment
+"
+",Newline
+    ,Whitespace
+// first block that starts after input split end boundary.,Comment
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Sync to the closest block/record boundary just after beginning of our input split.,Comment
+"
+",Newline
+    ,Whitespace
+mAvroFileReader,Identifier
+.,Punctuation
+sync,Identifier
+(,Punctuation
+fileSplit,Identifier
+.,Punctuation
+getStart,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Initialize the start position to the beginning of the first block of the input split.,Comment
+"
+",Newline
+    ,Whitespace
+mStartPosition,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mAvroFileReader,Identifier
+.,Punctuation
+previousSync,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+// Initialize the end position to the end of the input split (this isn't necessarily,Comment
+"
+",Newline
+    ,Whitespace
+// on a block boundary so using this for reporting progress will be approximate.,Comment
+"
+",Newline
+    ,Whitespace
+mEndPosition,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileSplit,Identifier
+.,Punctuation
+getStart,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+fileSplit,Identifier
+.,Punctuation
+getLength,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+nextKeyValue,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mAvroFileReader,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+mAvroFileReader,Identifier
+.,Punctuation
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+!,Operator
+mAvroFileReader,Identifier
+.,Punctuation
+pastSync,Identifier
+(,Punctuation
+mEndPosition,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+mCurrentRecord,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mAvroFileReader,Identifier
+.,Punctuation
+next,Identifier
+(,Punctuation
+mCurrentRecord,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+getProgress,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+",",Punctuation
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+assert,Identifier
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mAvroFileReader,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+mEndPosition,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mStartPosition,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+// Trivial empty input split.,Comment
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+0.0f,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+bytesRead,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mAvroFileReader,Identifier
+.,Punctuation
+previousSync,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+mStartPosition,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+bytesTotal,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+mEndPosition,Identifier
+ ,Whitespace
+-,Operator
+ ,Whitespace
+mStartPosition,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Progress: bytesRead=""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+bytesRead,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+""", bytesTotal=""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+bytesTotal,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Math,Identifier
+.,Punctuation
+min,Identifier
+(,Punctuation
+1.0f,Literal
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+float,Keyword
+),Punctuation
+ ,Whitespace
+bytesRead,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+(,Punctuation
+float,Keyword
+),Punctuation
+ ,Whitespace
+bytesTotal,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** {@inheritDoc} */,Comment
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mAvroFileReader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mAvroFileReader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mAvroFileReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Gets the current record read from the Avro container file.
+   *
+   * <p>Calling <code>nextKeyValue()</code> moves this to the next record.</p>
+   *
+   * @return The current Avro record (may be null if no record has been read).
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+getCurrentRecord,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+mCurrentRecord,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a seekable input stream to an Avro container file.
+   *
+   * @param conf The hadoop configuration.
+   * @param path The path to the avro container file.
+   * @throws IOException If there is an error reading from the path.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+SeekableInput,Identifier
+ ,Whitespace
+createSeekableInput,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+",",Punctuation
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FsInput,Identifier
+(,Punctuation
+path,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates an Avro container file reader from a seekable input stream.
+   *
+   * @param input The input containing the Avro container file.
+   * @param datumReader The reader to use for the individual records in the Avro container file.
+   * @throws IOException If there is an error reading from the input stream.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+createAvroFileReader,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+SeekableInput,Identifier
+ ,Whitespace
+input,Identifier
+",",Punctuation
+ ,Whitespace
+DatumReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DataFileReader,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+input,Identifier
+",",Punctuation
+ ,Whitespace
+datumReader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

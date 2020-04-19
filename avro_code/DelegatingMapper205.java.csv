@@ -1,0 +1,496 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+NullWritable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+MapReduceBase,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Mapper,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+OutputCollector,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+Reporter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ReflectionUtils,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * An {@link Mapper} that delegates behaviour of paths to multiple other
+ * mappers. Similar to {@link HadoopMapper}, but instantiates map classes
+ * in the map() call instead of during configure(), as we rely on the split
+ * object to provide us that information.
+ *
+ * @see {@link AvroMultipleInputs#addInputPath(JobConf, Path, Class, Schema)}
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+DelegatingMapper,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+OUT,Identifier
+",",Punctuation
+K,Identifier
+",",Punctuation
+V,Identifier
+",",Punctuation
+KO,Identifier
+",",Punctuation
+VO,Identifier
+>,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+MapReduceBase,Identifier
+"
+",Newline
+implements,Keyword
+ ,Whitespace
+Mapper,Identifier
+<,Operator
+AvroWrapper,Identifier
+<,Operator
+IN,Identifier
+>,Operator
+",",Punctuation
+NullWritable,Identifier
+",",Punctuation
+KO,Identifier
+",",Punctuation
+VO,Identifier
+>,Operator
+"
+",Newline
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+AvroMapper,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+ ,Whitespace
+OUT,Identifier
+>,Operator
+ ,Whitespace
+mapper,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isMapOnly,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+AvroCollector,Identifier
+<,Operator
+OUT,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+configure,Identifier
+(,Punctuation
+JobConf,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+isMapOnly,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+.,Punctuation
+getNumReduceTasks,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+map,Identifier
+(,Punctuation
+AvroWrapper,Identifier
+<,Operator
+IN,Identifier
+>,Operator
+ ,Whitespace
+wrapper,Identifier
+",",Punctuation
+ ,Whitespace
+NullWritable,Identifier
+ ,Whitespace
+value,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+OutputCollector,Identifier
+<,Operator
+KO,Identifier
+",",Punctuation
+ ,Whitespace
+VO,Identifier
+>,Operator
+ ,Whitespace
+collector,Identifier
+",",Punctuation
+ ,Whitespace
+Reporter,Identifier
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+"
+",Newline
+          ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+mapper,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+TaggedInputSplit,Identifier
+ ,Whitespace
+is,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+TaggedInputSplit,Identifier
+),Punctuation
+ ,Whitespace
+reporter,Identifier
+.,Punctuation
+getInputSplit,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+AvroMapper,Identifier
+>,Operator
+ ,Whitespace
+mapperClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+is,Identifier
+.,Punctuation
+getMapperClass,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+mapper,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+AvroMapper,Identifier
+<,Operator
+IN,Identifier
+",",Punctuation
+OUT,Identifier
+>,Operator
+),Punctuation
+"
+",Newline
+          ,Whitespace
+ReflectionUtils,Identifier
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+mapperClass,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+out,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+MapCollector,Identifier
+<,Operator
+OUT,Identifier
+",",Punctuation
+K,Identifier
+",",Punctuation
+V,Identifier
+",",Punctuation
+KO,Identifier
+",",Punctuation
+VO,Identifier
+>,Operator
+(,Punctuation
+collector,Identifier
+",",Punctuation
+ ,Whitespace
+isMapOnly,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+mapper,Identifier
+.,Punctuation
+map,Identifier
+(,Punctuation
+wrapper,Identifier
+.,Punctuation
+datum,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+reporter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

@@ -1,0 +1,1905 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+stats,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Date,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+TreeSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+ConcurrentHashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+ConcurrentMap,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+.,Punctuation
+Message,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+RPCContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+RPCPlugin,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+stats,Identifier
+.,Punctuation
+Histogram,Identifier
+.,Punctuation
+Segmenter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+stats,Identifier
+.,Punctuation
+Stopwatch,Identifier
+.,Punctuation
+Ticks,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Collects count and latency statistics about RPC calls.  Keeps
+ * data for every method. Can be added to a Requestor (client)
+ * or Responder (server). 
+ *
+ * This uses milliseconds as the standard unit of measure
+ * throughout the class, stored in floats.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+StatsPlugin,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+RPCPlugin,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+/** Static declaration of histogram buckets. */,Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+>,Operator
+ ,Whitespace
+LATENCY_SEGMENTER,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+Histogram,Identifier
+.,Punctuation
+TreeMapSegmenter,Identifier
+<,Operator
+Float,Identifier
+>,Operator
+(,Punctuation
+new,Keyword
+ ,Whitespace
+TreeSet,Identifier
+<,Operator
+Float,Identifier
+>,Operator
+(,Punctuation
+Arrays,Identifier
+.,Punctuation
+asList,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+0,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+25,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+50,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+75,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+100,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+200,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+300,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+500,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+750,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+         ,Whitespace
+1000,Literal
+f,Identifier
+",",Punctuation
+ ,Whitespace
+// 1 second,Comment
+"
+",Newline
+         ,Whitespace
+2000,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+         ,Whitespace
+5000,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+10000,Literal
+f,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+60000,Literal
+f,Identifier
+",",Punctuation
+ ,Whitespace
+// 1 minute,Comment
+"
+",Newline
+       ,Whitespace
+600000,Literal
+f,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+String,Identifier
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+>,Operator
+ ,Whitespace
+PAYLOAD_SEGMENTER,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+Histogram,Identifier
+.,Punctuation
+TreeMapSegmenter,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+(,Punctuation
+new,Keyword
+ ,Whitespace
+TreeSet,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+(,Punctuation
+Arrays,Identifier
+.,Punctuation
+asList,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+0,Literal
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+25,Literal
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+50,Literal
+",",Punctuation
+"
+",Newline
+           ,Whitespace
+75,Literal
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+100,Literal
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+200,Literal
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+300,Literal
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+500,Literal
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+750,Literal
+",",Punctuation
+"
+",Newline
+         ,Whitespace
+1000,Literal
+",",Punctuation
+ ,Whitespace
+// 1 k,Comment
+"
+",Newline
+         ,Whitespace
+2000,Literal
+",",Punctuation
+"
+",Newline
+         ,Whitespace
+5000,Literal
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+10000,Literal
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+50000,Literal
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+       ,Whitespace
+100000,Literal
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Per-method histograms.
+   * Must be accessed while holding a lock. */",Comment
+"
+",Newline
+  ,Whitespace
+Map,Identifier
+<,Operator
+Message,Identifier
+",",Punctuation
+ ,Whitespace
+FloatHistogram,Identifier
+<,Operator
+?,Operator
+>>,Operator
+ ,Whitespace
+methodTimings,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Message,Identifier
+",",Punctuation
+ ,Whitespace
+FloatHistogram,Identifier
+<,Operator
+?,Operator
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+Map,Identifier
+<,Operator
+Message,Identifier
+",",Punctuation
+ ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>>,Operator
+ ,Whitespace
+sendPayloads,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Message,Identifier
+",",Punctuation
+ ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+Map,Identifier
+<,Operator
+Message,Identifier
+",",Punctuation
+ ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>>,Operator
+ ,Whitespace
+receivePayloads,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Message,Identifier
+",",Punctuation
+ ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** RPCs in flight. */,Comment
+"
+",Newline
+  ,Whitespace
+ConcurrentMap,Identifier
+<,Operator
+RPCContext,Identifier
+",",Punctuation
+ ,Whitespace
+Stopwatch,Identifier
+>,Operator
+ ,Whitespace
+activeRpcs,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+ConcurrentHashMap,Identifier
+<,Operator
+RPCContext,Identifier
+",",Punctuation
+ ,Whitespace
+Stopwatch,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Ticks,Identifier
+ ,Whitespace
+ticks,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** How long I've been alive */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Date,Identifier
+ ,Whitespace
+startupTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Date,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+>,Operator
+ ,Whitespace
+floatSegmenter,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+>,Operator
+ ,Whitespace
+integerSegmenter,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Construct a plugin with custom Ticks and Segmenter implementations. */,Comment
+"
+",Newline
+  ,Whitespace
+StatsPlugin,Identifier
+(,Punctuation
+Ticks,Identifier
+ ,Whitespace
+ticks,Identifier
+",",Punctuation
+ ,Whitespace
+Segmenter,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+Float,Identifier
+>,Operator
+ ,Whitespace
+floatSegmenter,Identifier
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+Segmenter,Identifier
+<,Operator
+?,Operator
+",",Punctuation
+ ,Whitespace
+Integer,Identifier
+>,Operator
+ ,Whitespace
+integerSegmenter,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+floatSegmenter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+floatSegmenter,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+integerSegmenter,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+integerSegmenter,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+ticks,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ticks,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Construct a plugin with default (system) ticks, and default
+   * histogram segmentation. */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+StatsPlugin,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+Stopwatch,Identifier
+.,Punctuation
+SYSTEM_TICKS,Identifier
+",",Punctuation
+ ,Whitespace
+LATENCY_SEGMENTER,Identifier
+",",Punctuation
+ ,Whitespace
+PAYLOAD_SEGMENTER,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Helper to get the size of an RPC payload.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getPayloadSize,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+payload,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+payload,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+bb,Identifier
+:,Operator
+ ,Whitespace
+payload,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+size,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+bb,Identifier
+.,Punctuation
+limit,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+size,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+serverReceiveRequest,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Stopwatch,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Stopwatch,Identifier
+(,Punctuation
+ticks,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+activeRpcs,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+receivePayloads,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+receivePayloads,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+h,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createNewIntegerHistogram,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+receivePayloads,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+h,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+h,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getRequestPayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+serverSendResponse,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Stopwatch,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+activeRpcs,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+stop,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+publish,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+sendPayloads,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sendPayloads,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+h,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createNewIntegerHistogram,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+sendPayloads,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+h,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+h,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getResponsePayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+clientSendRequest,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Stopwatch,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Stopwatch,Identifier
+(,Punctuation
+ticks,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+activeRpcs,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+sendPayloads,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+sendPayloads,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+h,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createNewIntegerHistogram,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+       ,Whitespace
+sendPayloads,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+h,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+h,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getRequestPayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+clientReceiveResponse,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Stopwatch,Identifier
+ ,Whitespace
+t,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+.,Punctuation
+activeRpcs,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+context,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+t,Identifier
+.,Punctuation
+stop,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+publish,Identifier
+(,Punctuation
+context,Identifier
+",",Punctuation
+ ,Whitespace
+t,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+receivePayloads,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+receivePayloads,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+h,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createNewIntegerHistogram,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+receivePayloads,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+h,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+h,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+getPayloadSize,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getRequestPayload,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Adds timing to the histograms. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+publish,Identifier
+(,Punctuation
+RPCContext,Identifier
+ ,Whitespace
+context,Identifier
+",",Punctuation
+ ,Whitespace
+Stopwatch,Identifier
+ ,Whitespace
+t,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Message,Identifier
+ ,Whitespace
+message,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+message,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+synchronized,Keyword
+(,Punctuation
+methodTimings,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+FloatHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+methodTimings,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+h,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+h,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+createNewFloatHistogram,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+methodTimings,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+context,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+h,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+h,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+nanosToMillis,Identifier
+(,Punctuation
+t,Identifier
+.,Punctuation
+elapsedNanos,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+FloatHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+createNewFloatHistogram,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FloatHistogram,Identifier
+(,Punctuation
+floatSegmenter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""unchecked""",String
+),Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+IntegerHistogram,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+createNewIntegerHistogram,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IntegerHistogram,Identifier
+(,Punctuation
+integerSegmenter,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Converts nanoseconds to milliseconds. */,Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+float,Keyword
+ ,Whitespace
+nanosToMillis,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+elapsedNanos,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+elapsedNanos,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+1000000.0f,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

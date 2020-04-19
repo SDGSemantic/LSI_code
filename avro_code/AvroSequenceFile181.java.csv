@@ -1,0 +1,4062 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroKey,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroValue,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+conf,Identifier
+.,Punctuation
+Configuration,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+FileSystem,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Text,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+SequenceFile,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+SequenceFile,Identifier
+.,Punctuation
+CompressionType,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+SequenceFile,Identifier
+.,Punctuation
+Metadata,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+compress,Identifier
+.,Punctuation
+CompressionCodec,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Progressable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A wrapper around a Hadoop {@link org.apache.hadoop.io.SequenceFile} that
+ * also supports reading and writing Avro data.
+ *
+ * <p>The vanilla Hadoop <code>SequenceFile</code> contains a <i>header</i>
+ * followed by a sequence of <i>records</i>.  A <i>record</i> consists of a
+ * <i>key</i> and a <i>value</i>.  The <i>key</i> and <i>value</i> must
+ * either:</p>
+ *
+ * <ul>
+ *   <li>implement the <code>Writable</code> interface, or</li>
+ *   <li>be accepted by a <code>Serialization</code> registered with the
+ *       <code>SerializationFactory</code>.</li>
+ * </ul>
+ *
+ * <p>Since Avro data are Plain Old Java Objects (e.g., <code>Integer</code>
+ * for data with schema <i>""int""</i>), they do not implement <i>Writable</i>.
+ * Furthermore, a {@link org.apache.hadoop.io.Serialization} implementation
+ * cannot determine whether an object instance of type
+ * <code>CharSequence</code> that also implements <code>Writable</code> should
+ * be serialized using Avro or WritableSerialization.</p>
+ *
+ * <p>The solution implemented in <code>AvroSequenceFile</code> is to:</p>
+ *
+ * <ul>
+ *   <li>wrap Avro key data in an <code>AvroKey</code> object,</li>
+ *   <li>wrap Avro value data in an <code>AvroValue</code> object,</li>
+ *   <li>configure and register <code>AvroSerialization</code> with the
+ *       <code>SerializationFactory</code>, which will accept only objects that are instances
+ *       of either <code>AvroKey</code> or <code>AvroValue</code>, and</li>
+ *   <li>store the Avro key and value schemas in the SequenceFile <i>header</i>.</li>
+ * </ul>
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AvroSequenceFile,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+AvroSequenceFile,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The SequencFile.Metadata field for the Avro key writer schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Text,Identifier
+ ,Whitespace
+METADATA_FIELD_KEY_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Text,Identifier
+(,Punctuation
+"""avro.key.schema""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** The SequencFile.Metadata field for the Avro value writer schema. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Text,Identifier
+ ,Whitespace
+METADATA_FIELD_VALUE_SCHEMA,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Text,Identifier
+(,Punctuation
+"""avro.value.schema""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** Constructor disabled for this container class. */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+AvroSequenceFile,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Creates a writer from a set of options.
+   *
+   * <p>Since there are different implementations of <code>Writer</code> depending on the
+   * compression type, this method constructs the appropriate subclass depending on the
+   * compression type given in the <code>options</code>.</p>
+   *
+   * @param options The options for the writer.
+   * @return A new writer instance.
+   * @throws IOException If the writer cannot be created.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+Writer,Identifier
+ ,Whitespace
+createWriter,Identifier
+(,Punctuation
+Writer,Identifier
+.,Punctuation
+Options,Identifier
+ ,Whitespace
+options,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+createWriter,Identifier
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getConfigurationWithAvroSerialization,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+getOutputPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getKeyClass,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getValueClass,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+getBufferSizeBytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getReplicationFactor,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+getBlockSizeBytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+getCompressionType,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getCompressionCodec,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+options,Identifier
+.,Punctuation
+getProgressable,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getMetadataWithAvroSchemas,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A writer for an uncompressed SequenceFile that supports Avro data.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Writer,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+Writer,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"/**
+     * A helper class to encapsulate the options that can be used to construct a Writer.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+/** The default write buffer size in bytes. */,Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+DEFAULT_BUFFER_SIZE_BYTES,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+4096,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * A magic value representing the default for buffer size, block size, and
+       * replication factor.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+short,Keyword
+ ,Whitespace
+DEFAULT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+mFileSystem,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+mOutputPath,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+mKeyClass,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mKeyWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+mValueClass,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mValueWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+mBufferSizeBytes,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+short,Keyword
+ ,Whitespace
+mReplicationFactor,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+mBlockSizeBytes,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Progressable,Identifier
+ ,Whitespace
+mProgressable,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+CompressionType,Identifier
+ ,Whitespace
+mCompressionType,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+CompressionCodec,Identifier
+ ,Whitespace
+mCompressionCodec,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Metadata,Identifier
+ ,Whitespace
+mMetadata,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Creates a new <code>Options</code> instance with default values.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mBufferSizeBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mReplicationFactor,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mBlockSizeBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+DEFAULT,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mCompressionType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+CompressionType,Identifier
+.,Punctuation
+NONE,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mMetadata,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Metadata,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the filesystem the SequenceFile should be written to.
+       *
+       * @param fileSystem The filesystem.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withFileSystem,Identifier
+(,Punctuation
+FileSystem,Identifier
+ ,Whitespace
+fileSystem,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+fileSystem,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Filesystem may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mFileSystem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileSystem,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the Hadoop configuration.
+       *
+       * @param conf The configuration.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withConfiguration,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Configuration may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mConf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the output path for the SequenceFile.
+       *
+       * @param outputPath The output path.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withOutputPath,Identifier
+(,Punctuation
+Path,Identifier
+ ,Whitespace
+outputPath,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+outputPath,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Output path may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mOutputPath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+outputPath,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the class of the key records to be written.
+       *
+       * <p>If the keys will be Avro data, use {@link
+       * #withKeySchema(org.apache.avro.Schema)} to specify the writer schema.  The key
+       * class will be automatically set to {@link org.apache.avro.mapred.AvroKey}.</p>
+       *
+       * @param keyClass The key class.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withKeyClass,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+keyClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+keyClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Key class may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mKeyClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+keyClass,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the writer schema of the key records when using Avro data.
+       *
+       * <p>The key class will automatically be set to {@link
+       * org.apache.avro.mapred.AvroKey}, so there is no need to call {@link
+       * #withKeyClass(Class)} when using this method.</p>
+       *
+       * @param keyWriterSchema The writer schema for the keys.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withKeySchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+keyWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+keyWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Key schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+withKeyClass,Identifier
+(,Punctuation
+AvroKey,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mKeyWriterSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+keyWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the class of the value records to be written.
+       *
+       * <p>If the values will be Avro data, use {@link
+       * #withValueSchema(org.apache.avro.Schema)} to specify the writer schema.  The value
+       * class will be automatically set to {@link org.apache.avro.mapred.AvroValue}.</p>
+       *
+       * @param valueClass The value class.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withValueClass,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+valueClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+valueClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Value class may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mValueClass,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+valueClass,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the writer schema of the value records when using Avro data.
+       *
+       * <p>The value class will automatically be set to {@link
+       * org.apache.avro.mapred.AvroValue}, so there is no need to call {@link
+       * #withValueClass(Class)} when using this method.</p>
+       *
+       * @param valueWriterSchema The writer schema for the values.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withValueSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+valueWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+valueWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Value schema may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+withValueClass,Identifier
+(,Punctuation
+AvroValue,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+mValueWriterSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+valueWriterSchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the write buffer size in bytes.
+       *
+       * @param bytes The desired buffer size.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withBufferSizeBytes,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+bytes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bytes,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Buffer size may not be negative""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mBufferSizeBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bytes,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the desired replication factor for the file.
+       *
+       * @param replicationFactor The replication factor.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withReplicationFactor,Identifier
+(,Punctuation
+short,Keyword
+ ,Whitespace
+replicationFactor,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+replicationFactor,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Replication factor must be positive""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mReplicationFactor,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+replicationFactor,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the desired size of the file blocks.
+       *
+       * @param bytes The desired block size in bytes.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withBlockSizeBytes,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+bytes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bytes,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Block size must be positive""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mBlockSizeBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bytes,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets an object to report progress to.
+       *
+       * @param progressable A progressable object to track progress.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withProgressable,Identifier
+(,Punctuation
+Progressable,Identifier
+ ,Whitespace
+progressable,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mProgressable,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+progressable,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the type of compression.
+       *
+       * @param compressionType The type of compression for the output file.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withCompressionType,Identifier
+(,Punctuation
+CompressionType,Identifier
+ ,Whitespace
+compressionType,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mCompressionType,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+compressionType,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the compression codec to use if it is enabled.
+       *
+       * @param compressionCodec The compression codec.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withCompressionCodec,Identifier
+(,Punctuation
+CompressionCodec,Identifier
+ ,Whitespace
+compressionCodec,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mCompressionCodec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+compressionCodec,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the metadata that should be stored in the file <i>header</i>.
+       *
+       * @param metadata The file metadata.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withMetadata,Identifier
+(,Punctuation
+Metadata,Identifier
+ ,Whitespace
+metadata,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+metadata,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Metadata may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mMetadata,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+metadata,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the filesystem the SequenceFile should be written to.
+       *
+       * @return The file system to write to.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mFileSystem,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Must call Options.withFileSystem()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mFileSystem,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the Hadoop configuration.
+       *
+       * @return The Hadoop configuration.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the Hadoop configuration with Avro serialization registered.
+       *
+       * @return The Hadoop configuration.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+getConfigurationWithAvroSerialization,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Must call Options.withConfiguration()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+confWithAvro,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Configuration,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mKeyWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+setKeyWriterSchema,Identifier
+(,Punctuation
+confWithAvro,Identifier
+",",Punctuation
+ ,Whitespace
+mKeyWriterSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mValueWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+setValueWriterSchema,Identifier
+(,Punctuation
+confWithAvro,Identifier
+",",Punctuation
+ ,Whitespace
+mValueWriterSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+addToConfiguration,Identifier
+(,Punctuation
+confWithAvro,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+confWithAvro,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the output path for the sequence file.
+       *
+       * @return The output path.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+getOutputPath,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mOutputPath,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Must call Options.withOutputPath()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mOutputPath,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the class of the key records.
+       *
+       * @return The key class.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+getKeyClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mKeyClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"
+",Newline
+              ,Whitespace
+"""Must call Options.withKeyClass() or Options.withKeySchema()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mKeyClass,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the class of the value records.
+       *
+       * @return The value class.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+getValueClass,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mValueClass,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"
+",Newline
+              ,Whitespace
+"""Must call Options.withValueClass() or Options.withValueSchema()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mValueClass,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the desired size of the buffer used when flushing records to disk.
+       *
+       * @return The buffer size in bytes.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getBufferSizeBytes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+DEFAULT,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mBufferSizeBytes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getInt,Identifier
+(,Punctuation
+"""io.file.buffer.size""",String
+",",Punctuation
+ ,Whitespace
+DEFAULT_BUFFER_SIZE_BYTES,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mBufferSizeBytes,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the desired number of replicas to store for each block of the file.
+       *
+       * @return The replciation factor for the blocks of the file.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+short,Keyword
+ ,Whitespace
+getReplicationFactor,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+DEFAULT,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mReplicationFactor,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getDefaultReplication,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mReplicationFactor,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the desired size of the file blocks.
+       *
+       * @return The size of a file block in bytes.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+getBlockSizeBytes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+DEFAULT,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mBlockSizeBytes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getDefaultBlockSize,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mBlockSizeBytes,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the object to report progress to.
+       *
+       * @return A progressable object to track progress.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Progressable,Identifier
+ ,Whitespace
+getProgressable,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mProgressable,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the type of compression.
+       *
+       * @return The compression type.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+CompressionType,Identifier
+ ,Whitespace
+getCompressionType,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mCompressionType,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the compression codec.
+       *
+       * @return The compression codec.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+CompressionCodec,Identifier
+ ,Whitespace
+getCompressionCodec,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mCompressionCodec,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the SequenceFile metadata to store in the <i>header</i>.
+       *
+       * @return The metadata header.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Metadata,Identifier
+ ,Whitespace
+getMetadata,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mMetadata,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the metadata to store in the file header, which includes
+       * any necessary Avro writer schemas.
+       *
+       * @return The metadata header with Avro writer schemas if Avro data is being written.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Metadata,Identifier
+ ,Whitespace
+getMetadataWithAvroSchemas,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+"// mMetadata was intialized in the constructor, and cannot be set to null.",Comment
+"
+",Newline
+        ,Whitespace
+assert,Identifier
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mMetadata,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mKeyWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+mMetadata,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+METADATA_FIELD_KEY_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Text,Identifier
+(,Punctuation
+mKeyWriterSchema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mValueWriterSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+mMetadata,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+METADATA_FIELD_VALUE_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Text,Identifier
+(,Punctuation
+mValueWriterSchema,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mMetadata,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a new <code>Writer</code> to a SequenceFile that supports Avro data.
+     *
+     * @param options The writer options.
+     * @throws IOException If the writer cannot be initialized.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Writer,Identifier
+(,Punctuation
+Options,Identifier
+ ,Whitespace
+options,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+options,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getConfigurationWithAvroSerialization,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+options,Identifier
+.,Punctuation
+getOutputPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getKeyClass,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getValueClass,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+options,Identifier
+.,Punctuation
+getBufferSizeBytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getReplicationFactor,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+options,Identifier
+.,Punctuation
+getBlockSizeBytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getProgressable,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+options,Identifier
+.,Punctuation
+getMetadataWithAvroSchemas,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A reader for SequenceFiles that may contain Avro data.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Reader,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+Reader,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"/**
+     * A helper class to encapsulate the options that can be used to construct a Reader.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+mFileSystem,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+mInputPath,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mKeyReaderSchema,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+private,Keyword
+ ,Whitespace
+Schema,Identifier
+ ,Whitespace
+mValueReaderSchema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the filesystem the SequenceFile should be read from.
+       *
+       * @param fileSystem The filesystem.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withFileSystem,Identifier
+(,Punctuation
+FileSystem,Identifier
+ ,Whitespace
+fileSystem,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+fileSystem,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Filesystem may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mFileSystem,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fileSystem,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the input path for the SequenceFile.
+       *
+       * @param inputPath The input path.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withInputPath,Identifier
+(,Punctuation
+Path,Identifier
+ ,Whitespace
+inputPath,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+inputPath,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Input path may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mInputPath,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+inputPath,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the Hadoop configuration.
+       *
+       * @param conf The configuration.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withConfiguration,Identifier
+(,Punctuation
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Configuration may not be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+mConf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+conf,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the reader schema of the key records when using Avro data.
+       *
+       * <p>If not set, the writer schema will be used as the reader schema.</p>
+       *
+       * @param keyReaderSchema The reader schema for the keys.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withKeySchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+keyReaderSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mKeyReaderSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+keyReaderSchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Sets the reader schema of the value records when using Avro data.
+       *
+       * <p>If not set, the writer schema will be used as the reader schema.</p>
+       *
+       * @param valueReaderSchema The reader schema for the values.
+       * @return This options instance.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Options,Identifier
+ ,Whitespace
+withValueSchema,Identifier
+(,Punctuation
+Schema,Identifier
+ ,Whitespace
+valueReaderSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+mValueReaderSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+valueReaderSchema,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the filesystem the SequenceFile should be read rom.
+       *
+       * @return The file system to read from.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+FileSystem,Identifier
+ ,Whitespace
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mFileSystem,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Must call Options.withFileSystem()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mFileSystem,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the input path for the sequence file.
+       *
+       * @return The input path.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+getInputPath,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+mInputPath,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Must call Options.withInputPath()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mInputPath,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the Hadoop configuration.
+       *
+       * @return The Hadoop configuration.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+mConf,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+      ,Whitespace
+"/**
+       * Gets the Hadoop configuration with Avro serialization registered.
+       *
+       * @return The Hadoop configuration.
+       * @throws IOException If there is an error configuring Avro serialization.
+       */",Comment
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+getConfigurationWithAvroSerialization,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+getConfiguration,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+conf,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""Must call Options.withConfiguration()""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+// Configure schemas and add Avro serialization to the configuration.,Comment
+"
+",Newline
+        ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+confWithAvro,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Configuration,Identifier
+(,Punctuation
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+addToConfiguration,Identifier
+(,Punctuation
+confWithAvro,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+// Read the metadata header from the SequenceFile to get the writer schemas.,Comment
+"
+",Newline
+        ,Whitespace
+Metadata,Identifier
+ ,Whitespace
+metadata,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+AvroSequenceFile,Identifier
+.,Punctuation
+getMetadata,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+getInputPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+confWithAvro,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+// Set the key schema if present in the metadata.,Comment
+"
+",Newline
+        ,Whitespace
+Text,Identifier
+ ,Whitespace
+keySchemaText,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+metadata,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+METADATA_FIELD_KEY_SCHEMA,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+keySchemaText,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Using key writer schema from SequenceFile metadata: """,String
+"
+",Newline
+              ,Whitespace
++,Operator
+ ,Whitespace
+keySchemaText,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+setKeyWriterSchema,Identifier
+(,Punctuation
+"
+",Newline
+              ,Whitespace
+confWithAvro,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+keySchemaText,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mKeyReaderSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+setKeyReaderSchema,Identifier
+(,Punctuation
+confWithAvro,Identifier
+",",Punctuation
+ ,Whitespace
+mKeyReaderSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+// Set the value schema if present in the metadata.,Comment
+"
+",Newline
+        ,Whitespace
+Text,Identifier
+ ,Whitespace
+valueSchemaText,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+metadata,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+METADATA_FIELD_VALUE_SCHEMA,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+valueSchemaText,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+LOG,Identifier
+.,Punctuation
+debug,Identifier
+(,Punctuation
+"""Using value writer schema from SequenceFile metadata: """,String
+"
+",Newline
+              ,Whitespace
++,Operator
+ ,Whitespace
+valueSchemaText,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+setValueWriterSchema,Identifier
+(,Punctuation
+"
+",Newline
+              ,Whitespace
+confWithAvro,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+valueSchemaText,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+mValueReaderSchema,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+AvroSerialization,Identifier
+.,Punctuation
+setValueReaderSchema,Identifier
+(,Punctuation
+confWithAvro,Identifier
+",",Punctuation
+ ,Whitespace
+mValueReaderSchema,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+confWithAvro,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+"/**
+     * Creates a new <code>Reader</code> from a SequenceFile that supports Avro data.
+     *
+     * @param options The reader options.
+     * @throws IOException If the reader cannot be initialized.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Reader,Identifier
+(,Punctuation
+Options,Identifier
+ ,Whitespace
+options,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+options,Identifier
+.,Punctuation
+getFileSystem,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+options,Identifier
+.,Punctuation
+getInputPath,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+options,Identifier
+.,Punctuation
+getConfigurationWithAvroSerialization,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Open and read just the metadata header from a SequenceFile.
+   *
+   * @param fs The FileSystem the SequenceFile is on.
+   * @param path The path to the file.
+   * @param conf The Hadoop configuration.
+   * @return The metadata header.
+   * @throws IOException If the metadata cannot be read from the file.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Metadata,Identifier
+ ,Whitespace
+getMetadata,Identifier
+(,Punctuation
+FileSystem,Identifier
+ ,Whitespace
+fs,Identifier
+",",Punctuation
+ ,Whitespace
+Path,Identifier
+ ,Whitespace
+path,Identifier
+",",Punctuation
+ ,Whitespace
+Configuration,Identifier
+ ,Whitespace
+conf,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+Reader,Identifier
+ ,Whitespace
+metadataReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+metadataReader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SequenceFile,Identifier
+.,Punctuation
+Reader,Identifier
+(,Punctuation
+fs,Identifier
+",",Punctuation
+ ,Whitespace
+path,Identifier
+",",Punctuation
+ ,Whitespace
+conf,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+metadataReader,Identifier
+.,Punctuation
+getMetadata,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+finally,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+metadataReader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+metadataReader,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

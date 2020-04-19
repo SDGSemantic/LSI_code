@@ -1,0 +1,1833 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+InetSocketAddress,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+CountDownLatch,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+Executors,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+NettyTransportCodec,Identifier
+.,Punctuation
+NettyDataPack,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+NettyTransportCodec,Identifier
+.,Punctuation
+NettyFrameDecoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+NettyTransportCodec,Identifier
+.,Punctuation
+NettyFrameEncoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+bootstrap,Identifier
+.,Punctuation
+ServerBootstrap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+Channel,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+ChannelEvent,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+ChannelFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+ChannelHandlerContext,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+ChannelPipeline,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+ChannelPipelineFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+ChannelStateEvent,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+Channels,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+ExceptionEvent,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+MessageEvent,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+SimpleChannelUpstreamHandler,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+group,Identifier
+.,Punctuation
+ChannelGroup,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+group,Identifier
+.,Punctuation
+ChannelGroupFuture,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+group,Identifier
+.,Punctuation
+DefaultChannelGroup,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+channel,Identifier
+.,Punctuation
+socket,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+NioServerSocketChannelFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+jboss,Identifier
+.,Punctuation
+netty,Identifier
+.,Punctuation
+handler,Identifier
+.,Punctuation
+execution,Identifier
+.,Punctuation
+ExecutionHandler,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+Logger,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+slf4j,Identifier
+.,Punctuation
+LoggerFactory,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A Netty-based RPC {@link Server} implementation.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+NettyServer,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Server,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Logger,Identifier
+ ,Whitespace
+LOG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+LoggerFactory,Identifier
+.,Punctuation
+getLogger,Identifier
+(,Punctuation
+NettyServer,Identifier
+.,Punctuation
+class,Keyword
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Channel,Identifier
+ ,Whitespace
+serverChannel,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ChannelGroup,Identifier
+ ,Whitespace
+allChannels,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DefaultChannelGroup,Identifier
+(,Punctuation
+"
+",Newline
+      ,Whitespace
+"""avro-netty-server""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ChannelFactory,Identifier
+ ,Whitespace
+channelFactory,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+CountDownLatch,Identifier
+ ,Whitespace
+closed,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+CountDownLatch,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+ExecutionHandler,Identifier
+ ,Whitespace
+executionHandler,Identifier
+;,Punctuation
+            ,Whitespace
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+NettyServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+InetSocketAddress,Identifier
+ ,Whitespace
+addr,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NioServerSocketChannelFactory,Identifier
+"
+",Newline
+         ,Whitespace
+(,Punctuation
+Executors,Identifier
+ ,Whitespace
+.,Punctuation
+newCachedThreadPool,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+Executors,Identifier
+.,Punctuation
+newCachedThreadPool,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+NettyServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+InetSocketAddress,Identifier
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+ChannelFactory,Identifier
+ ,Whitespace
+channelFactory,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+ ,Whitespace
+channelFactory,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * @param executionHandler if not null, will be inserted into the Netty
+   *                         pipeline. Use this when your responder does
+   *                         long, non-cpu bound processing (see Netty's
+   *                         ExecutionHandler javadoc).
+   * @param pipelineFactory  Avro-related handlers will be added on top of
+   *                         what this factory creates
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+NettyServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+InetSocketAddress,Identifier
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+ChannelFactory,Identifier
+ ,Whitespace
+channelFactory,Identifier
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+final,Keyword
+ ,Whitespace
+ChannelPipelineFactory,Identifier
+ ,Whitespace
+pipelineFactory,Identifier
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+final,Keyword
+ ,Whitespace
+ExecutionHandler,Identifier
+ ,Whitespace
+executionHandler,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+responder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+responder,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+channelFactory,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+channelFactory,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+executionHandler,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+executionHandler,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ServerBootstrap,Identifier
+ ,Whitespace
+bootstrap,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ServerBootstrap,Identifier
+(,Punctuation
+channelFactory,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+bootstrap,Identifier
+.,Punctuation
+setPipelineFactory,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+ChannelPipelineFactory,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+ChannelPipeline,Identifier
+ ,Whitespace
+getPipeline,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+ChannelPipeline,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pipelineFactory,Identifier
+.,Punctuation
+getPipeline,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+p,Identifier
+.,Punctuation
+addLast,Identifier
+(,Punctuation
+"""frameDecoder""",String
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NettyFrameDecoder,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+p,Identifier
+.,Punctuation
+addLast,Identifier
+(,Punctuation
+"""frameEncoder""",String
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NettyFrameEncoder,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+executionHandler,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+p,Identifier
+.,Punctuation
+addLast,Identifier
+(,Punctuation
+"""executionHandler""",String
+",",Punctuation
+ ,Whitespace
+executionHandler,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+p,Identifier
+.,Punctuation
+addLast,Identifier
+(,Punctuation
+"""handler""",String
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NettyServerAvroHandler,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+p,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+serverChannel,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bootstrap,Identifier
+.,Punctuation
+bind,Identifier
+(,Punctuation
+addr,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+allChannels,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+serverChannel,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * @param executionHandler if not null, will be inserted into the Netty
+   *                         pipeline. Use this when your responder does
+   *                         long, non-cpu bound processing (see Netty's
+   *                         ExecutionHandler javadoc).
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+NettyServer,Identifier
+(,Punctuation
+Responder,Identifier
+ ,Whitespace
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+InetSocketAddress,Identifier
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+ChannelFactory,Identifier
+ ,Whitespace
+channelFactory,Identifier
+",",Punctuation
+"
+",Newline
+                     ,Whitespace
+final,Keyword
+ ,Whitespace
+ExecutionHandler,Identifier
+ ,Whitespace
+executionHandler,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+responder,Identifier
+",",Punctuation
+ ,Whitespace
+addr,Identifier
+",",Punctuation
+ ,Whitespace
+channelFactory,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ChannelPipelineFactory,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+      ,Whitespace
+public,Keyword
+ ,Whitespace
+ChannelPipeline,Identifier
+ ,Whitespace
+getPipeline,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+return,Keyword
+ ,Whitespace
+Channels,Identifier
+.,Punctuation
+pipeline,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+",",Punctuation
+ ,Whitespace
+executionHandler,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+start,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// No-op.,Comment
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+close,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+ChannelGroupFuture,Identifier
+ ,Whitespace
+future,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+allChannels,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+future,Identifier
+.,Punctuation
+awaitUninterruptibly,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+channelFactory,Identifier
+.,Punctuation
+releaseExternalResources,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+closed,Identifier
+.,Punctuation
+countDown,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getPort,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+InetSocketAddress,Identifier
+),Punctuation
+ ,Whitespace
+serverChannel,Identifier
+.,Punctuation
+getLocalAddress,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+.,Punctuation
+getPort,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+join,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+closed,Identifier
+.,Punctuation
+await,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   *
+   * @return The number of clients currently connected to this server.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getNumActiveConnections,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"//allChannels also contains the server channel, so exclude that from the",Comment
+"
+",Newline
+    ,Whitespace
+//count.,Comment
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+allChannels,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Avro server handler for the Netty transport 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+class,Keyword
+ ,Whitespace
+NettyServerAvroHandler,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+SimpleChannelUpstreamHandler,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+NettyTransceiver,Identifier
+ ,Whitespace
+connectionMetadata,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NettyTransceiver,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+handleUpstream,Identifier
+(,Punctuation
+ChannelHandlerContext,Identifier
+ ,Whitespace
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+ChannelEvent,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+e,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+ChannelStateEvent,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+handleUpstream,Identifier
+(,Punctuation
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+channelOpen,Identifier
+(,Punctuation
+ChannelHandlerContext,Identifier
+ ,Whitespace
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+ChannelStateEvent,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+allChannels,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getChannel,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+channelOpen,Identifier
+(,Punctuation
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+messageReceived,Identifier
+(,Punctuation
+ChannelHandlerContext,Identifier
+ ,Whitespace
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+MessageEvent,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+NettyDataPack,Identifier
+ ,Whitespace
+dataPack,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+NettyDataPack,Identifier
+),Punctuation
+ ,Whitespace
+e,Identifier
+.,Punctuation
+getMessage,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+req,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+dataPack,Identifier
+.,Punctuation
+getDatas,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+res,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+responder,Identifier
+.,Punctuation
+respond,Identifier
+(,Punctuation
+req,Identifier
+",",Punctuation
+ ,Whitespace
+connectionMetadata,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+// response will be null for oneway messages.,Comment
+"
+",Newline
+        ,Whitespace
+if,Keyword
+(,Punctuation
+res,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+dataPack,Identifier
+.,Punctuation
+setDatas,Identifier
+(,Punctuation
+res,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+e,Identifier
+.,Punctuation
+getChannel,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+write,Identifier
+(,Punctuation
+dataPack,Identifier
+),Punctuation
+;,Punctuation
+          ,Whitespace
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+ex,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""unexpect error""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+exceptionCaught,Identifier
+(,Punctuation
+ChannelHandlerContext,Identifier
+ ,Whitespace
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+ExceptionEvent,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+warn,Identifier
+(,Punctuation
+"""Unexpected exception from downstream.""",String
+",",Punctuation
+ ,Whitespace
+e,Identifier
+.,Punctuation
+getCause,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+e,Identifier
+.,Punctuation
+getChannel,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+allChannels,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getChannel,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+channelClosed,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+ChannelHandlerContext,Identifier
+ ,Whitespace
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+ChannelStateEvent,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+LOG,Identifier
+.,Punctuation
+info,Identifier
+(,Punctuation
+"""Connection to {} disconnected.""",String
+",",Punctuation
+"
+",Newline
+              ,Whitespace
+e,Identifier
+.,Punctuation
+getChannel,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getRemoteAddress,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+.,Punctuation
+channelClosed,Identifier
+(,Punctuation
+ctx,Identifier
+",",Punctuation
+ ,Whitespace
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+e,Identifier
+.,Punctuation
+getChannel,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+allChannels,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+e,Identifier
+.,Punctuation
+getChannel,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

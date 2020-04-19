@@ -1,0 +1,663 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ClassUtils,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ClassUtils,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Loads a class using the class loader.
+   * 1. The class loader of the current class is being used.
+   * 2. The thread context class loader is being used.
+   * If both approaches fail, returns null.
+   *
+   * @param className The name of the class to load.
+   * @return The class or null if no class loader could load the class.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+className,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+ClassNotFoundException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+ClassUtils,Identifier
+.,Punctuation
+forName,Identifier
+(,Punctuation
+ClassUtils,Identifier
+.,Punctuation
+class,Keyword
+",",Punctuation
+ ,Whitespace
+className,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Loads a class using the class loader.
+   * 1. The class loader of the context class is being used.
+   * 2. The thread context class loader is being used.
+   * If both approaches fail, returns null.
+   *
+   * @param contextClass The name of a context class to use.
+   * @param className    The name of the class to load
+   * @return The class or null if no class loader could load the class.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+contextClass,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+className,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+ClassNotFoundException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+contextClass,Identifier
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+className,Identifier
+",",Punctuation
+ ,Whitespace
+contextClass,Identifier
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+c,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+"
+",Newline
+        ,Whitespace
+&&,Operator
+ ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getContextClassLoader,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+className,Identifier
+",",Punctuation
+ ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getContextClassLoader,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+c,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ClassNotFoundException,Identifier
+(,Punctuation
+"""Failed to load class""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+className,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+c,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Loads a class using the class loader.
+   * 1. The class loader of the context class is being used.
+   * 2. The thread context class loader is being used.
+   * If both approaches fail, returns null.
+   *
+   * @param classLoader The classloader to use.
+   * @param className    The name of the class to load
+   * @return The class or null if no class loader could load the class.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+ClassLoader,Identifier
+ ,Whitespace
+classLoader,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+className,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+ClassNotFoundException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+classLoader,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+className,Identifier
+",",Punctuation
+ ,Whitespace
+classLoader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+c,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getContextClassLoader,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+className,Identifier
+",",Punctuation
+ ,Whitespace
+Thread,Identifier
+.,Punctuation
+currentThread,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getContextClassLoader,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+c,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ClassNotFoundException,Identifier
+(,Punctuation
+"""Failed to load class""",String
+ ,Whitespace
++,Operator
+ ,Whitespace
+className,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+c,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Loads a {@link Class} from the specified {@link ClassLoader} without
+   * throwing {@link ClassNotFoundException}.
+   *
+   * @param className
+   * @param classLoader
+   * @return
+   */",Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+forName,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+className,Identifier
+",",Punctuation
+ ,Whitespace
+ClassLoader,Identifier
+ ,Whitespace
+classLoader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Class,Identifier
+<,Operator
+?,Operator
+>,Operator
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+classLoader,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+className,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Class,Identifier
+.,Punctuation
+forName,Identifier
+(,Punctuation
+className,Identifier
+",",Punctuation
+ ,Whitespace
+true,Keyword
+",",Punctuation
+ ,Whitespace
+classLoader,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+ClassNotFoundException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+//Ignore and return null,Comment
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+c,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

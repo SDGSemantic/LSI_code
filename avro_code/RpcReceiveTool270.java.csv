@@ -1,0 +1,1620 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+PrintStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+concurrent,Identifier
+.,Punctuation
+CountDownLatch,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+net,Identifier
+.,Punctuation
+URI,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionParser,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSpec,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRemoteException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Protocol,Identifier
+.,Punctuation
+Message,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericDatumWriter,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+EncoderFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+JsonEncoder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+Ipc,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+Server,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericResponder,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonEncoding,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonFactory,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+codehaus,Identifier
+.,Punctuation
+jackson,Identifier
+.,Punctuation
+JsonGenerator,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Receives one RPC call and responds.  (The moral equivalent
+ * of ""netcat"".)
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+RpcReceiveTool,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Tool,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+response,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+/** Used to communicate between server thread (responder) and run() */,Comment
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+CountDownLatch,Identifier
+ ,Whitespace
+latch,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+Message,Identifier
+ ,Whitespace
+expectedMessage,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+Server,Identifier
+ ,Whitespace
+server,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""rpcreceive""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getShortDescription,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Opens an RPC Server and listens for one message.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SinkResponder,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+GenericResponder,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SinkResponder,Identifier
+(,Punctuation
+Protocol,Identifier
+ ,Whitespace
+local,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+local,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+respond,Identifier
+(,Punctuation
+Message,Identifier
+ ,Whitespace
+message,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+request,Identifier
+),Punctuation
+"
+",Newline
+    ,Whitespace
+throws,Keyword
+ ,Whitespace
+AvroRemoteException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+!,Operator
+message,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+expectedMessage,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+String,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+"""Expected message '%s' but received '%s'.""",String
+",",Punctuation
+ ,Whitespace
+"
+",Newline
+            ,Whitespace
+expectedMessage,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+message,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+latch,Identifier
+.,Punctuation
+countDown,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""Unexpected message.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+print,Identifier
+(,Punctuation
+message,Identifier
+.,Punctuation
+getName,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+print,Identifier
+(,Punctuation
+"""\t""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+JsonGenerator,Identifier
+ ,Whitespace
+jsonGenerator,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JsonFactory,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+createJsonGenerator,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+JsonEncoding,Identifier
+.,Punctuation
+UTF8,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+JsonEncoder,Identifier
+ ,Whitespace
+jsonEncoder,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+EncoderFactory,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+jsonEncoder,Identifier
+(,Punctuation
+message,Identifier
+.,Punctuation
+getRequest,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+jsonGenerator,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+        ,Whitespace
+GenericDatumWriter,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+ ,Whitespace
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericDatumWriter,Identifier
+<,Operator
+Object,Identifier
+>,Operator
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+message,Identifier
+.,Punctuation
+getRequest,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+writer,Identifier
+.,Punctuation
+write,Identifier
+(,Punctuation
+request,Identifier
+",",Punctuation
+ ,Whitespace
+jsonEncoder,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+jsonGenerator,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+jsonEncoder,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+flush,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+IOException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+new,Keyword
+ ,Whitespace
+Thread,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+        ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+Thread,Identifier
+.,Punctuation
+sleep,Identifier
+(,Punctuation
+1000,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+InterruptedException,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+"
+",Newline
+          ,Whitespace
+latch,Identifier
+.,Punctuation
+countDown,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+response,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// Split up into two functions for easier testing.,Comment
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+r,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+run1,Identifier
+(,Punctuation
+in,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+err,Identifier
+",",Punctuation
+ ,Whitespace
+args,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+r,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+r,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+run2,Identifier
+(,Punctuation
+err,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+int,Keyword
+ ,Whitespace
+run1,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionParser,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+OptionParser,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+file,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+p,Identifier
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""file""",String
+",",Punctuation
+ ,Whitespace
+"""Data file containing response datum.""",String
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+String,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+data,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+      ,Whitespace
+p,Identifier
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""data""",String
+",",Punctuation
+ ,Whitespace
+"""JSON-encoded response datum.""",String
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+"
+",Newline
+      ,Whitespace
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+String,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSet,Identifier
+ ,Whitespace
+opts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+args,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+opts,Identifier
+.,Punctuation
+nonOptionArguments,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+args,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+3,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Usage: uri protocol_file message_name (-data d | -file f)""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+p,Identifier
+.,Punctuation
+printHelpOn,Identifier
+(,Punctuation
+err,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+URI,Identifier
+ ,Whitespace
+uri,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+URI,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+0,Literal
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Protocol,Identifier
+ ,Whitespace
+protocol,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Protocol,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+File,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+messageName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+args,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+2,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+expectedMessage,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+protocol,Identifier
+.,Punctuation
+getMessages,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+messageName,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+expectedMessage,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+String,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+"""No message named '%s' found in protocol '%s'.""",String
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+messageName,Identifier
+",",Punctuation
+ ,Whitespace
+protocol,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+data,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+response,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+Util,Identifier
+.,Punctuation
+jsonToGenericDatum,Identifier
+(,Punctuation
+expectedMessage,Identifier
+.,Punctuation
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                                ,Whitespace
+data,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+file,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+response,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Util,Identifier
+.,Punctuation
+datumFromFile,Identifier
+(,Punctuation
+expectedMessage,Identifier
+.,Punctuation
+getResponse,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+                                         ,Whitespace
+file,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""One of -data or -file must be specified.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+latch,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+CountDownLatch,Identifier
+(,Punctuation
+1,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+server,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+Ipc,Identifier
+.,Punctuation
+createServer,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+SinkResponder,Identifier
+(,Punctuation
+protocol,Identifier
+),Punctuation
+",",Punctuation
+ ,Whitespace
+uri,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+server,Identifier
+.,Punctuation
+start,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Port: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+server,Identifier
+.,Punctuation
+getPort,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+int,Keyword
+ ,Whitespace
+run2,Identifier
+(,Punctuation
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+InterruptedException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+latch,Identifier
+.,Punctuation
+await,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+err,Identifier
+.,Punctuation
+println,Identifier
+(,Punctuation
+"""Closing server.""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+server,Identifier
+.,Punctuation
+close,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

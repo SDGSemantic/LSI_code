@@ -1,0 +1,2025 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+ipc,Identifier
+.,Punctuation
+trace,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+LongBuffer,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Arrays,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+EnumSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Random,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+generic,Identifier
+.,Punctuation
+GenericData,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Utility methods for common tasks in Avro tracing. Mostly consists of
+ * static methods which we can't put in auto-generated classes.
+ */",Comment
+"
+",Newline
+class,Keyword
+ ,Whitespace
+Util,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+final,Keyword
+ ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Random,Identifier
+ ,Whitespace
+RANDOM,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Random,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+final,Keyword
+ ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+NANOS_PER_MILI,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+1000000,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Get all SpanEvents contained in Span s.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+EnumSet,Identifier
+<,Operator
+SpanEvent,Identifier
+>,Operator
+ ,Whitespace
+getAllEvents,Identifier
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+EnumSet,Identifier
+<,Operator
+SpanEvent,Identifier
+>,Operator
+ ,Whitespace
+foundEvents,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+EnumSet,Identifier
+.,Punctuation
+noneOf,Identifier
+(,Punctuation
+SpanEvent,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+TimestampedEvent,Identifier
+ ,Whitespace
+event,Identifier
+:,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+events,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+event,Identifier
+.,Punctuation
+event,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+foundEvents,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+(,Punctuation
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+event,Identifier
+.,Punctuation
+event,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+foundEvents,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Get the size of an RPC payload.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+getPayloadSize,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+ByteBuffer,Identifier
+>,Operator
+ ,Whitespace
+payload,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+payload,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+bb,Identifier
+:,Operator
+ ,Whitespace
+payload,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+size,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+bb,Identifier
+.,Punctuation
+limit,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+size,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Create a span without any events. If traceID or spanID is null, randomly
+   * generate them. If parentSpanID is null, assume this is a root span.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Span,Identifier
+ ,Whitespace
+createEventlessSpan,Identifier
+(,Punctuation
+ID,Identifier
+ ,Whitespace
+traceID,Identifier
+",",Punctuation
+ ,Whitespace
+ID,Identifier
+ ,Whitespace
+spanID,Identifier
+",",Punctuation
+ ,Whitespace
+ID,Identifier
+ ,Whitespace
+parentSpanID,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+Span,Identifier
+ ,Whitespace
+span,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Span,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+span,Identifier
+.,Punctuation
+complete,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+traceID,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+traceIDBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+8,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+RANDOM,Identifier
+.,Punctuation
+nextBytes,Identifier
+(,Punctuation
+traceIDBytes,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+traceID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+traceID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+traceIDBytes,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+traceID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+traceID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+traceID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+clone,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+spanID,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+spanIDBytes,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+8,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+RANDOM,Identifier
+.,Punctuation
+nextBytes,Identifier
+(,Punctuation
+spanIDBytes,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+spanID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+spanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+spanIDBytes,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+spanID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+spanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+spanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+clone,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+parentSpanID,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+parentSpanID,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+span,Identifier
+.,Punctuation
+parentSpanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+parentSpanID,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+clone,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+span,Identifier
+.,Punctuation
+events,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+GenericData,Identifier
+.,Punctuation
+Array,Identifier
+<,Operator
+TimestampedEvent,Identifier
+>,Operator
+(,Punctuation
+"
+",Newline
+        ,Whitespace
+10,Literal
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+createArray,Identifier
+(,Punctuation
+TimestampedEvent,Identifier
+.,Punctuation
+SCHEMA$,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+span,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Add a TimestampedEvent to a Span using the current time. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+addEvent,Identifier
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+span,Identifier
+",",Punctuation
+ ,Whitespace
+SpanEvent,Identifier
+ ,Whitespace
+eventType,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+TimestampedEvent,Identifier
+ ,Whitespace
+ev,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+TimestampedEvent,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ev,Identifier
+.,Punctuation
+event,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+eventType,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ev,Identifier
+.,Punctuation
+timeStamp,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+System,Identifier
+.,Punctuation
+currentTimeMillis,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+*,Operator
+ ,Whitespace
+NANOS_PER_MILI,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+span,Identifier
+.,Punctuation
+events,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+ev,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Get the long value from a given ID object.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+longValue,Identifier
+(,Punctuation
+ID,Identifier
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+in,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""ID cannot be null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+in,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""ID cannot be empty""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+in,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+length,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+8,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IllegalArgumentException,Identifier
+(,Punctuation
+"""ID must be 8 bytes""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+buff,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+in,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+buff,Identifier
+.,Punctuation
+getLong,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Get an ID associated with a given long value. 
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+ID,Identifier
+ ,Whitespace
+idValue,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+in,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bArray,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+8,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ByteBuffer,Identifier
+ ,Whitespace
+bBuffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+ByteBuffer,Identifier
+.,Punctuation
+wrap,Identifier
+(,Punctuation
+bArray,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+LongBuffer,Identifier
+ ,Whitespace
+lBuffer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bBuffer,Identifier
+.,Punctuation
+asLongBuffer,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+lBuffer,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+0,Literal
+",",Punctuation
+ ,Whitespace
+in,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+ID,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ID,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+out,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+bArray,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Verify the equality of ID objects. Both being null references is
+   * considered equal.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+idsEqual,Identifier
+(,Punctuation
+ID,Identifier
+ ,Whitespace
+a,Identifier
+",",Punctuation
+ ,Whitespace
+ID,Identifier
+ ,Whitespace
+b,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+a,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+a,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+ ,Whitespace
+||,Operator
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+Arrays,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+a,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+b,Identifier
+.,Punctuation
+bytes,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Convert a timeStamp (in nanoseconds) to a pretty string.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+printableTime,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+stamp,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+String,Identifier
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+double,Keyword
+ ,Whitespace
+milliseconds,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+double,Keyword
+),Punctuation
+ ,Whitespace
+stamp,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+(,Punctuation
+double,Keyword
+),Punctuation
+ ,Whitespace
+NANOS_PER_MILI,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+String,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+"""%.2fms""",String
+",",Punctuation
+ ,Whitespace
+milliseconds,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Convert a bytes count to a pretty string.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+printableBytes,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+bytes,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bytes,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+1024,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+Long,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+bytes,Identifier
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+"""b""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bytes,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+(,Punctuation
+1024,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024,Literal
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+double,Keyword
+ ,Whitespace
+kb,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+double,Keyword
+),Punctuation
+ ,Whitespace
+bytes,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+1024.0,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+String,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+"""%.2fkb""",String
+",",Punctuation
+ ,Whitespace
+kb,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+double,Keyword
+ ,Whitespace
+mb,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+double,Keyword
+),Punctuation
+ ,Whitespace
+bytes,Identifier
+ ,Whitespace
+/,Operator
+ ,Whitespace
+(,Punctuation
+1024.0,Literal
+ ,Whitespace
+*,Operator
+ ,Whitespace
+1024.0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+String,Identifier
+.,Punctuation
+format,Identifier
+(,Punctuation
+"""%.2fmb""",String
+",",Punctuation
+ ,Whitespace
+mb,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Tests if a span occurred between start and end.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+spanInRange,Identifier
+(,Punctuation
+Span,Identifier
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+long,Keyword
+ ,Whitespace
+end,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+startTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+endTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+TimestampedEvent,Identifier
+ ,Whitespace
+e,Identifier
+:,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+events,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+e,Identifier
+.,Punctuation
+event,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+SpanEvent,Identifier
+ ,Whitespace
+ev,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+SpanEvent,Identifier
+),Punctuation
+ ,Whitespace
+e,Identifier
+.,Punctuation
+event,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+switch,Keyword
+ ,Whitespace
+(,Punctuation
+ev,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+case,Keyword
+ ,Whitespace
+CLIENT_SEND,Identifier
+:,Operator
+ ,Whitespace
+startTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+timeStamp,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+case,Keyword
+ ,Whitespace
+SERVER_RECV,Identifier
+:,Operator
+ ,Whitespace
+startTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+timeStamp,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+case,Keyword
+ ,Whitespace
+CLIENT_RECV,Identifier
+:,Operator
+ ,Whitespace
+endTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+timeStamp,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+case,Keyword
+ ,Whitespace
+SERVER_SEND,Identifier
+:,Operator
+ ,Whitespace
+endTime,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+e,Identifier
+.,Punctuation
+timeStamp,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+      ,Whitespace
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+startTime,Identifier
+ ,Whitespace
+>,Operator
+ ,Whitespace
+start,Identifier
+ ,Whitespace
+&&,Operator
+ ,Whitespace
+endTime,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+end,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Return a copy of input that contains no more than maxEntries items.
+   * If the input list is more than maxEntries items long, the original list
+   * is uniformly sampled.
+   * 
+   * This uses a very simple sampling technique and may result in lists
+   * smaller than maxEntries.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+List,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+sampledList,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+input,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+maxEntries,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+timesTooLarge,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+int,Keyword
+),Punctuation
+ ,Whitespace
+Math,Identifier
+.,Punctuation
+ceil,Identifier
+(,Punctuation
+(,Punctuation
+double,Keyword
+),Punctuation
+ ,Whitespace
+input,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+/,Operator
+ ,Whitespace
+maxEntries,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+timesTooLarge,Identifier
+ ,Whitespace
+<=,Operator
+ ,Whitespace
+1,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+input,Identifier
+),Punctuation
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+ArrayList,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+T,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+input,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+i,Identifier
+ ,Whitespace
+%,Operator
+ ,Whitespace
+timesTooLarge,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+input,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+i,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+out,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline

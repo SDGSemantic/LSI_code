@@ -1,0 +1,5437 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+parsing,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+ArrayList,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+HashMap,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Iterator,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Map,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+NoSuchElementException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Symbol is the base of all symbols (terminals and non-terminals) of
+ * the grammar.
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+"/*
+   * The type of symbol.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+enum,Identifier
+ ,Whitespace
+Kind,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+/** terminal symbols which have no productions */,Comment
+"
+",Newline
+    ,Whitespace
+TERMINAL,Identifier
+",",Punctuation
+"
+",Newline
+    ,Whitespace
+/** Start symbol for some grammar */,Comment
+"
+",Newline
+    ,Whitespace
+ROOT,Identifier
+",",Punctuation
+"
+",Newline
+    ,Whitespace
+/** non-terminal symbol which is a sequence of one or more other symbols */,Comment
+"
+",Newline
+    ,Whitespace
+SEQUENCE,Identifier
+",",Punctuation
+"
+",Newline
+    ,Whitespace
+/** non-termial to represent the contents of an array or map */,Comment
+"
+",Newline
+    ,Whitespace
+REPEATER,Identifier
+",",Punctuation
+"
+",Newline
+    ,Whitespace
+/** non-terminal to represent the union */,Comment
+"
+",Newline
+    ,Whitespace
+ALTERNATIVE,Identifier
+",",Punctuation
+"
+",Newline
+    ,Whitespace
+/** non-terminal action symbol which are automatically consumed */,Comment
+"
+",Newline
+    ,Whitespace
+IMPLICIT_ACTION,Identifier
+",",Punctuation
+"
+",Newline
+    ,Whitespace
+/** non-terminal action symbol which is explicitly consumed */,Comment
+"
+",Newline
+    ,Whitespace
+EXPLICIT_ACTION,Identifier
+"
+",Newline
+  ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/// The kind of this symbol.,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Kind,Identifier
+ ,Whitespace
+kind,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * The production for this symbol. If this symbol is a terminal
+   * this is <tt>null</tt>. Otherwise this holds the the sequence of
+   * the symbols that forms the production for this symbol. The
+   * sequence is in the reverse order of production. This is useful
+   * for easy copying onto parsing stack.
+   * 
+   * Please note that this is a final. So the production for a symbol
+   * should be known before that symbol is constructed. This requirement
+   * cannot be met for those symbols which are recursive (e.g. a record that
+   * holds union a branch of which is the record itself). To resolve this
+   * problem, we initialize the symbol with an array of nulls. Later we
+   * fill the symbols. Not clean, but works. The other option is to not have
+   * this field a final. But keeping it final and thus keeping symbol immutable
+   * gives some confort. See various generators how we generate records.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+production,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * Constructs a new symbol of the given kind <tt>kind</tt>.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Symbol,Identifier
+(,Punctuation
+Kind,Identifier
+ ,Whitespace
+kind,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+(,Punctuation
+kind,Identifier
+",",Punctuation
+ ,Whitespace
+null,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+Symbol,Identifier
+(,Punctuation
+Kind,Identifier
+ ,Whitespace
+kind,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+production,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+production,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+production,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+this,Keyword
+.,Punctuation
+kind,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+kind,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A convenience method to construct a root symbol.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+root,Identifier
+(,Punctuation
+Symbol,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Root,Identifier
+(,Punctuation
+symbols,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"/**
+   * A convenience method to construct a sequence.
+   * @param production  The constituent symbols of the sequence.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+seq,Identifier
+(,Punctuation
+Symbol,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+production,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Sequence,Identifier
+(,Punctuation
+production,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A convenience method to construct a repeater.
+   * @param symsToRepeat The symbols to repeat in the repeater.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+repeat,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+endSymbol,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+symsToRepeat,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Repeater,Identifier
+(,Punctuation
+endSymbol,Identifier
+",",Punctuation
+ ,Whitespace
+symsToRepeat,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   *  A convenience method to construct a union.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+alt,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+labels,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Alternative,Identifier
+(,Punctuation
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+labels,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A convenience method to construct an ErrorAction.
+   * @param e
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+error,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ErrorAction,Identifier
+(,Punctuation
+e,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * A convenience method to construct a ResolvingAction.
+   * @param w The writer symbol
+   * @param r The reader symbol
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+resolve,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+w,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+r,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ResolvingAction,Identifier
+(,Punctuation
+w,Identifier
+",",Punctuation
+ ,Whitespace
+r,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Fixup,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Fixup,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+symbols,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symbols,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+flattenedSize,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Flattens the given sub-array of symbols into an sub-array of symbols. Every
+   * <tt>Sequence</tt> in the input are replaced by its production recursively.
+   * Non-<tt>Sequence</tt> symbols, they internally have other symbols
+   * those internal symbols also get flattened.
+   * 
+   * The algorithm does a few tricks to handle recursive symbol definitions.
+   * In order to avoid infinite recursion with recursive symbols, we have a map
+   * of Symbol->Symbol. Before fully constructing a flattened symbol for a
+   * <tt>Sequence</tt> we insert an empty output symbol into the map and then
+   * start filling the production for the <tt>Sequence</tt>. If the same
+   * <tt>Sequence</tt> is encountered due to recursion, we simply return the
+   * (empty) output <tt>Sequence<tt> from the map. Then we actually fill out
+   * the production for the <tt>Sequence</tt>.
+   * As part of the flattening process we copy the production of
+   * <tt>Sequence</tt>s into larger arrays. If the original <tt>Sequence</tt>
+   * has not not be fully constructed yet, we copy a bunch of <tt>null</tt>s.
+   * Fix-up remembers all those <tt>null</tt> patches. The fix-ups gets finally
+   * filled when we know the symbols to occupy those patches.
+   *  
+   * @param in  The array of input symbols to flatten
+   * @param start The position where the input sub-array starts.
+   * @param out The output that receives the flattened list of symbols. The
+   * output array should have sufficient space to receive the expanded sub-array
+   * of symbols.
+   * @param skip  The position where the output input sub-array starts.
+   * @param map A map of symbols which have already been expanded. Useful for
+   * handling recursive definitions and for caching.
+   * @param map2  A map to to store the list of fix-ups.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+in,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+skip,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+j,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+skip,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+in,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+in,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+.,Punctuation
+flatten,Identifier
+(,Punctuation
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Sequence,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+production,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>,Operator
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+map2,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+l,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+p,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+out,Identifier
+",",Punctuation
+ ,Whitespace
+j,Identifier
+",",Punctuation
+ ,Whitespace
+p,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+l,Identifier
+.,Punctuation
+add,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Fixup,Identifier
+(,Punctuation
+out,Identifier
+",",Punctuation
+ ,Whitespace
+j,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+j,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+out,Identifier
+[,Punctuation
+j,Identifier
+++,Operator
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+s,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns the amount of space required to flatten the given
+   * sub-array of symbols.
+   * @param symbols The array of input symbols.
+   * @param start The index where the subarray starts.
+   * @return  The number of symbols that will be produced if one expands
+   * the given input.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+flattenedSize,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+start,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+symbols,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+symbols,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Sequence,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+Sequence,Identifier
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Sequence,Identifier
+),Punctuation
+ ,Whitespace
+symbols,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+result,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+s,Identifier
+.,Punctuation
+flattenedSize,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+result,Identifier
+ ,Whitespace
++=,Operator
+ ,Whitespace
+1,Literal
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Terminal,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+printName,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Terminal,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+printName,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+Kind,Identifier
+.,Punctuation
+TERMINAL,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+printName,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+printName,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+toString,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+ ,Whitespace
+return,Keyword
+ ,Whitespace
+printName,Identifier
+;,Punctuation
+ ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+"/**
+     * Set to <tt>true</tt> if and only if this implicit action is 
+     * a trailing action. That is, it is an action that follows
+     * real symbol. E.g {@link Symbol#DEFAULT_END_ACTION}.
+     */",Comment
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+isTrailing,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+isTrailing,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+Kind,Identifier
+.,Punctuation
+IMPLICIT_ACTION,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+isTrailing,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+isTrailing,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Root,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Root,Identifier
+(,Punctuation
+Symbol,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+Kind,Identifier
+.,Punctuation
+ROOT,Identifier
+",",Punctuation
+ ,Whitespace
+makeProduction,Identifier
+(,Punctuation
+symbols,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+production,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+makeProduction,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+flattenedSize,Identifier
+(,Punctuation
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+flatten,Identifier
+(,Punctuation
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+result,Identifier
+",",Punctuation
+ ,Whitespace
+1,Literal
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+new,Keyword
+ ,Whitespace
+HashMap,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+protected,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Sequence,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Iterable,Identifier
+<,Operator
+Symbol,Identifier
+>,Operator
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Sequence,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+productions,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+Kind,Identifier
+.,Punctuation
+SEQUENCE,Identifier
+",",Punctuation
+ ,Whitespace
+productions,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+get,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+index,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+production,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+production,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+Symbol,Identifier
+>,Operator
+ ,Whitespace
+iterator,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Iterator,Identifier
+<,Operator
+Symbol,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+private,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+production,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+"
+",Newline
+        ,Whitespace
+public,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasNext,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+ ,Whitespace
+<,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+"
+",Newline
+        ,Whitespace
+public,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+next,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+0,Literal
+ ,Whitespace
+<,Operator
+ ,Whitespace
+pos,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+return,Keyword
+ ,Whitespace
+production,Identifier
+[,Punctuation
+--,Operator
+pos,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+NoSuchElementException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+"
+",Newline
+        ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+remove,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnsupportedOperationException,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Sequence,Identifier
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Sequence,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+map,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+this,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+result,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Sequence,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+flattenedSize,Identifier
+(,Punctuation
+),Punctuation
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+map,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+result,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>,Operator
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ArrayList,Identifier
+<,Operator
+Fixup,Identifier
+>,Operator
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+map2,Identifier
+.,Punctuation
+put,Identifier
+(,Punctuation
+result,Identifier
+",",Punctuation
+ ,Whitespace
+l,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+"
+",Newline
+        ,Whitespace
+flatten,Identifier
+(,Punctuation
+production,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+"
+",Newline
+            ,Whitespace
+result,Identifier
+.,Punctuation
+production,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+Fixup,Identifier
+ ,Whitespace
+f,Identifier
+ ,Whitespace
+:,Operator
+ ,Whitespace
+l,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+result,Identifier
+.,Punctuation
+production,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+f,Identifier
+.,Punctuation
+pos,Identifier
+",",Punctuation
+"
+",Newline
+              ,Whitespace
+result,Identifier
+.,Punctuation
+production,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+map2,Identifier
+.,Punctuation
+remove,Identifier
+(,Punctuation
+result,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+flattenedSize,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+flattenedSize,Identifier
+(,Punctuation
+production,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Repeater,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+end,Identifier
+;,Punctuation
+"
+",Newline
+   ,Whitespace
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Repeater,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+end,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+.,Punctuation
+.,Punctuation
+ ,Whitespace
+sequenceToRepeat,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+Kind,Identifier
+.,Punctuation
+REPEATER,Identifier
+",",Punctuation
+ ,Whitespace
+makeProduction,Identifier
+(,Punctuation
+sequenceToRepeat,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+end,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+end,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+production,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+this,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+makeProduction,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+p,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+p,Identifier
+.,Punctuation
+length,Identifier
+ ,Whitespace
++,Operator
+ ,Whitespace
+1,Literal
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+System,Identifier
+.,Punctuation
+arraycopy,Identifier
+(,Punctuation
+p,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+result,Identifier
+",",Punctuation
+ ,Whitespace
+1,Literal
+",",Punctuation
+ ,Whitespace
+p,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Repeater,Identifier
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Repeater,Identifier
+ ,Whitespace
+result,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+        ,Whitespace
+new,Keyword
+ ,Whitespace
+Repeater,Identifier
+(,Punctuation
+end,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+flattenedSize,Identifier
+(,Punctuation
+production,Identifier
+",",Punctuation
+ ,Whitespace
+1,Literal
+),Punctuation
+],Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+flatten,Identifier
+(,Punctuation
+production,Identifier
+",",Punctuation
+ ,Whitespace
+1,Literal
+",",Punctuation
+ ,Whitespace
+result,Identifier
+.,Punctuation
+production,Identifier
+",",Punctuation
+ ,Whitespace
+1,Literal
+",",Punctuation
+ ,Whitespace
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+result,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Returns true if the Parser contains any Error symbol, indicating that it may fail 
+   * for some inputs.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasErrors,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+symbol,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+switch,Keyword
+(,Punctuation
+symbol,Identifier
+.,Punctuation
+kind,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ALTERNATIVE,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+hasErrors,Identifier
+(,Punctuation
+symbol,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+(,Punctuation
+Alternative,Identifier
+),Punctuation
+ ,Whitespace
+symbol,Identifier
+),Punctuation
+.,Punctuation
+symbols,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+EXPLICIT_ACTION,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+IMPLICIT_ACTION,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+symbol,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+ErrorAction,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+REPEATER,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+Repeater,Identifier
+ ,Whitespace
+r,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+(,Punctuation
+Repeater,Identifier
+),Punctuation
+ ,Whitespace
+symbol,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+hasErrors,Identifier
+(,Punctuation
+r,Identifier
+.,Punctuation
+end,Identifier
+),Punctuation
+ ,Whitespace
+||,Operator
+ ,Whitespace
+hasErrors,Identifier
+(,Punctuation
+symbol,Identifier
+",",Punctuation
+ ,Whitespace
+r,Identifier
+.,Punctuation
+production,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+ROOT,Identifier
+:,Operator
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+SEQUENCE,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+hasErrors,Identifier
+(,Punctuation
+symbol,Identifier
+",",Punctuation
+ ,Whitespace
+symbol,Identifier
+.,Punctuation
+production,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+case,Keyword
+ ,Whitespace
+TERMINAL,Identifier
+:,Operator
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+default,Keyword
+:,Operator
+"
+",Newline
+      ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+RuntimeException,Identifier
+(,Punctuation
+"""unknown symbol kind: """,String
+ ,Whitespace
++,Operator
+ ,Whitespace
+symbol,Identifier
+.,Punctuation
+kind,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+hasErrors,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+root,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+(,Punctuation
+null,Keyword
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+s,Identifier
+:,Operator
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+s,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+root,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+continue,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+hasErrors,Identifier
+(,Punctuation
+s,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+return,Keyword
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+false,Keyword
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Alternative,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+labels,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+Alternative,Identifier
+(,Punctuation
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+symbols,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+labels,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+Kind,Identifier
+.,Punctuation
+ALTERNATIVE,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+symbols,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symbols,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+labels,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+labels,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+getSymbol,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+index,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+symbols,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getLabel,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+index,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+labels,Identifier
+[,Punctuation
+index,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+symbols,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+findLabel,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+label,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+label,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+labels,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+label,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+labels,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+return,Keyword
+ ,Whitespace
+i,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+Alternative,Identifier
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+Symbol,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+ss,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+[,Punctuation
+symbols,Identifier
+.,Punctuation
+length,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+ss,Identifier
+.,Punctuation
+length,Identifier
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+ss,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symbols,Identifier
+[,Punctuation
+i,Identifier
+],Punctuation
+.,Punctuation
+flatten,Identifier
+(,Punctuation
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Alternative,Identifier
+(,Punctuation
+ss,Identifier
+",",Punctuation
+ ,Whitespace
+labels,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ErrorAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+msg,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+ErrorAction,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+msg,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+msg,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+msg,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+IntCheckAction,Identifier
+ ,Whitespace
+intCheckAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+IntCheckAction,Identifier
+(,Punctuation
+size,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+IntCheckAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+size,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+IntCheckAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+size,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+Kind,Identifier
+.,Punctuation
+EXPLICIT_ACTION,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+size,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+size,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+EnumAdjustAction,Identifier
+ ,Whitespace
+enumAdjustAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+rsymCount,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+adj,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EnumAdjustAction,Identifier
+(,Punctuation
+rsymCount,Identifier
+",",Punctuation
+ ,Whitespace
+adj,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+EnumAdjustAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+IntCheckAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Object,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+adjustments,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+EnumAdjustAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+rsymCount,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+adjustments,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+rsymCount,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+adjustments,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+adjustments,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+WriterUnionAction,Identifier
+ ,Whitespace
+writerUnionAction,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+WriterUnionAction,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+WriterUnionAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+WriterUnionAction,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+ResolvingAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+ResolvingAction,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+writer,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+reader,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+writer,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+writer,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+reader,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reader,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+ResolvingAction,Identifier
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ResolvingAction,Identifier
+(,Punctuation
+writer,Identifier
+.,Punctuation
+flatten,Identifier
+(,Punctuation
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+",",Punctuation
+"
+",Newline
+          ,Whitespace
+reader,Identifier
+.,Punctuation
+flatten,Identifier
+(,Punctuation
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+SkipAction,Identifier
+ ,Whitespace
+skipAction,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+symToSkip,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SkipAction,Identifier
+(,Punctuation
+symToSkip,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+SkipAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+symToSkip,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+SkipAction,Identifier
+(,Punctuation
+Symbol,Identifier
+ ,Whitespace
+symToSkip,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+symToSkip,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symToSkip,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+SkipAction,Identifier
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+SkipAction,Identifier
+(,Punctuation
+symToSkip,Identifier
+.,Punctuation
+flatten,Identifier
+(,Punctuation
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+FieldAdjustAction,Identifier
+ ,Whitespace
+fieldAdjustAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+rindex,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+fname,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FieldAdjustAction,Identifier
+(,Punctuation
+rindex,Identifier
+",",Punctuation
+ ,Whitespace
+fname,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+FieldAdjustAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+rindex,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+fname,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+FieldAdjustAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+rindex,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+fname,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+rindex,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+rindex,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+fname,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fname,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+FieldOrderAction,Identifier
+ ,Whitespace
+fieldOrderAction,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+fields,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+FieldOrderAction,Identifier
+(,Punctuation
+fields,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+FieldOrderAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+fields,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+FieldOrderAction,Identifier
+(,Punctuation
+Schema,Identifier
+.,Punctuation
+Field,Identifier
+[,Punctuation
+],Punctuation
+ ,Whitespace
+fields,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+fields,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+fields,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+DefaultStartAction,Identifier
+ ,Whitespace
+defaultStartAction,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+contents,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+DefaultStartAction,Identifier
+(,Punctuation
+contents,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+DefaultStartAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+contents,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+DefaultStartAction,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+contents,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+contents,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+contents,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+UnionAdjustAction,Identifier
+ ,Whitespace
+unionAdjustAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+rindex,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+sym,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnionAdjustAction,Identifier
+(,Punctuation
+rindex,Identifier
+",",Punctuation
+ ,Whitespace
+sym,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+UnionAdjustAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+rindex,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+symToParse,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+UnionAdjustAction,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+rindex,Identifier
+",",Punctuation
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+symToParse,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+rindex,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+rindex,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+symToParse,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symToParse,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+UnionAdjustAction,Identifier
+ ,Whitespace
+flatten,Identifier
+(,Punctuation
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+Sequence,Identifier
+>,Operator
+ ,Whitespace
+map,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+Map,Identifier
+<,Operator
+Sequence,Identifier
+",",Punctuation
+ ,Whitespace
+List,Identifier
+<,Operator
+Fixup,Identifier
+>>,Operator
+ ,Whitespace
+map2,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+UnionAdjustAction,Identifier
+(,Punctuation
+rindex,Identifier
+",",Punctuation
+ ,Whitespace
+symToParse,Identifier
+.,Punctuation
+flatten,Identifier
+(,Punctuation
+map,Identifier
+",",Punctuation
+ ,Whitespace
+map2,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/** For JSON. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+EnumLabelsAction,Identifier
+ ,Whitespace
+enumLabelsAction,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+EnumLabelsAction,Identifier
+(,Punctuation
+symbols,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+EnumLabelsAction,Identifier
+ ,Whitespace
+extends,Keyword
+ ,Whitespace
+IntCheckAction,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+symbols,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+@,Punctuation
+Deprecated,Identifier
+ ,Whitespace
+public,Keyword
+ ,Whitespace
+EnumLabelsAction,Identifier
+(,Punctuation
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+symbols,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+super,Keyword
+(,Punctuation
+symbols,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+this,Keyword
+.,Punctuation
+symbols,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+symbols,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getLabel,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+n,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+symbols,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+n,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+findLabel,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+l,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+l,Identifier
+ ,Whitespace
+!=,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+for,Keyword
+ ,Whitespace
+(,Punctuation
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0,Literal
+;,Punctuation
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+<,Operator
+ ,Whitespace
+symbols,Identifier
+.,Punctuation
+size,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+ ,Whitespace
+i,Identifier
+++,Operator
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+l,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+symbols,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+i,Identifier
+),Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+            ,Whitespace
+return,Keyword
+ ,Whitespace
+i,Identifier
+;,Punctuation
+"
+",Newline
+          ,Whitespace
+},Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * The terminal symbols for the grammar.
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+NULL,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""null""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+BOOLEAN,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""boolean""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+INT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""int""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+LONG,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""long""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+FLOAT,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""float""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+DOUBLE,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""double""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+STRING,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""string""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+BYTES,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""bytes""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+FIXED,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""fixed""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+ENUM,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""enum""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+UNION,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""union""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+ARRAY_START,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""array-start""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+ARRAY_END,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""array-end""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+MAP_START,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""map-start""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+MAP_END,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""map-end""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+ITEM_END,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""item-end""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+/* a pseudo terminal used by parsers */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+FIELD_ACTION,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""field-action""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+RECORD_START,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+(,Punctuation
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+RECORD_END,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+UNION_END,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+FIELD_END,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+DEFAULT_END_ACTION,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+ImplicitAction,Identifier
+(,Punctuation
+true,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+Symbol,Identifier
+ ,Whitespace
+MAP_KEY_MARKER,Identifier
+ ,Whitespace
+=,Operator
+"
+",Newline
+    ,Whitespace
+new,Keyword
+ ,Whitespace
+Symbol,Identifier
+.,Punctuation
+Terminal,Identifier
+(,Punctuation
+"""map-key-marker""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

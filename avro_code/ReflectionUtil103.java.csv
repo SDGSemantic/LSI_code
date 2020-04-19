@@ -1,0 +1,1090 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+reflect,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+AvroRuntimeException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * A few utility methods for using @link{java.misc.Unsafe}, mostly for private
+ * use.
+ * 
+ * Use of Unsafe on Android is forbidden, as Android provides only a very
+ * limited functionality for this class compared to the JDK version.
+ * 
+ */",Comment
+"
+",Newline
+"
+",Newline
+class,Keyword
+ ,Whitespace
+ReflectionUtil,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+ReflectionUtil,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+FieldAccess,Identifier
+ ,Whitespace
+fieldAccess,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+resetFieldAccess,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+static,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+resetFieldAccess,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+// load only one implementation of FieldAccess,Comment
+"
+",Newline
+    ,Whitespace
+// so it is monomorphic and the JIT can inline,Comment
+"
+",Newline
+    ,Whitespace
+FieldAccess,Identifier
+ ,Whitespace
+access,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+null,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+null,Keyword
+ ,Whitespace
+==,Operator
+ ,Whitespace
+System,Identifier
+.,Punctuation
+getProperty,Identifier
+(,Punctuation
+"""avro.disable.unsafe""",String
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+FieldAccess,Identifier
+ ,Whitespace
+unsafeAccess,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+load,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""org.apache.avro.reflect.FieldAccessUnsafe""",String
+",",Punctuation
+ ,Whitespace
+FieldAccess,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+validate,Identifier
+(,Punctuation
+unsafeAccess,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+access,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+unsafeAccess,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Throwable,Identifier
+ ,Whitespace
+ignored,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+access,Identifier
+ ,Whitespace
+==,Operator
+ ,Whitespace
+null,Keyword
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+FieldAccess,Identifier
+ ,Whitespace
+reflectAccess,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+load,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""org.apache.avro.reflect.FieldAccessReflect""",String
+",",Punctuation
+ ,Whitespace
+FieldAccess,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+validate,Identifier
+(,Punctuation
+reflectAccess,Identifier
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+          ,Whitespace
+access,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+reflectAccess,Identifier
+;,Punctuation
+"
+",Newline
+        ,Whitespace
+},Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Throwable,Identifier
+ ,Whitespace
+oops,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+        ,Whitespace
+throw,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AvroRuntimeException,Identifier
+(,Punctuation
+"
+",Newline
+            ,Whitespace
+"""Unable to load a functional FieldAccess class!""",String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+    ,Whitespace
+fieldAccess,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+access,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+T,Identifier
+ ,Whitespace
+load,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+ ,Whitespace
+Class,Identifier
+<,Operator
+T,Identifier
+>,Operator
+ ,Whitespace
+type,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+ReflectionUtil,Identifier
+.,Punctuation
+class,Keyword
+.,Punctuation
+getClassLoader,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+loadClass,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+asSubclass,Identifier
+(,Punctuation
+type,Identifier
+),Punctuation
+.,Punctuation
+newInstance,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+FieldAccess,Identifier
+ ,Whitespace
+getFieldAccess,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+fieldAccess,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+validate,Identifier
+(,Punctuation
+FieldAccess,Identifier
+ ,Whitespace
+access,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+AccessorTestClass,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+validate,Identifier
+(,Punctuation
+access,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+private,Keyword
+ ,Whitespace
+static,Keyword
+ ,Whitespace
+final,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+AccessorTestClass,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+protected,Keyword
+ ,Whitespace
+byte,Keyword
+ ,Whitespace
+by,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+0xf,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+public,Keyword
+ ,Whitespace
+char,Keyword
+ ,Whitespace
+c,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+'c',String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+short,Keyword
+ ,Whitespace
+s,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+123,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+i,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+999,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+long,Keyword
+ ,Whitespace
+l,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+12345L,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+float,Keyword
+ ,Whitespace
+f,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+2.2f,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+double,Keyword
+ ,Whitespace
+d,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+4.4d,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Object,Identifier
+ ,Whitespace
+o,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+"""foo""",String
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+Integer,Identifier
+ ,Whitespace
+i2,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+555,Literal
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+validate,Identifier
+(,Punctuation
+FieldAccess,Identifier
+ ,Whitespace
+access,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+boolean,Keyword
+ ,Whitespace
+valid,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""b""",String
+",",Punctuation
+ ,Whitespace
+b,Identifier
+",",Punctuation
+ ,Whitespace
+false,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""by""",String
+",",Punctuation
+ ,Whitespace
+by,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+byte,Keyword
+),Punctuation
+ ,Whitespace
+0xaf,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""c""",String
+",",Punctuation
+ ,Whitespace
+c,Identifier
+",",Punctuation
+ ,Whitespace
+'C',String
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""s""",String
+",",Punctuation
+ ,Whitespace
+s,Identifier
+",",Punctuation
+ ,Whitespace
+(,Punctuation
+short,Keyword
+),Punctuation
+ ,Whitespace
+321,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""i""",String
+",",Punctuation
+ ,Whitespace
+i,Identifier
+",",Punctuation
+ ,Whitespace
+111,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""l""",String
+",",Punctuation
+ ,Whitespace
+l,Identifier
+",",Punctuation
+ ,Whitespace
+54321L,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""f""",String
+",",Punctuation
+ ,Whitespace
+f,Identifier
+",",Punctuation
+ ,Whitespace
+0.2f,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""d""",String
+",",Punctuation
+ ,Whitespace
+d,Identifier
+",",Punctuation
+ ,Whitespace
+0.4d,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""o""",String
+",",Punctuation
+ ,Whitespace
+o,Identifier
+",",Punctuation
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+Object,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+"""i2""",String
+",",Punctuation
+ ,Whitespace
+i2,Identifier
+",",Punctuation
+ ,Whitespace
+-,Operator
+555,Literal
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+valid,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+boolean,Keyword
+ ,Whitespace
+validField,Identifier
+(,Punctuation
+FieldAccess,Identifier
+ ,Whitespace
+access,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+",",Punctuation
+"
+",Newline
+        ,Whitespace
+Object,Identifier
+ ,Whitespace
+original,Identifier
+",",Punctuation
+ ,Whitespace
+Object,Identifier
+ ,Whitespace
+toSet,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+FieldAccessor,Identifier
+ ,Whitespace
+a,Identifier
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+boolean,Keyword
+ ,Whitespace
+valid,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+true,Keyword
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+a,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+accessor,Identifier
+(,Punctuation
+access,Identifier
+",",Punctuation
+ ,Whitespace
+name,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+original,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+a,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+this,Keyword
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+a,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+this,Keyword
+",",Punctuation
+ ,Whitespace
+toSet,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+valid,Identifier
+ ,Whitespace
+&=,Operator
+ ,Whitespace
+!,Operator
+original,Identifier
+.,Punctuation
+equals,Identifier
+(,Punctuation
+a,Identifier
+.,Punctuation
+get,Identifier
+(,Punctuation
+this,Keyword
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+valid,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+private,Keyword
+ ,Whitespace
+FieldAccessor,Identifier
+ ,Whitespace
+accessor,Identifier
+(,Punctuation
+FieldAccess,Identifier
+ ,Whitespace
+access,Identifier
+",",Punctuation
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+name,Identifier
+),Punctuation
+"
+",Newline
+        ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+access,Identifier
+.,Punctuation
+getAccessor,Identifier
+(,Punctuation
+this,Keyword
+.,Punctuation
+getClass,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+getDeclaredField,Identifier
+(,Punctuation
+name,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline

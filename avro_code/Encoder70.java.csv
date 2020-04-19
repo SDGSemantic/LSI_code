@@ -1,0 +1,1137 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+io,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+Flushable,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+nio,Identifier
+.,Punctuation
+ByteBuffer,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+Utf8,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+"/**
+ * Low-level support for serializing Avro values.
+ * <p/>
+ * This class has two types of methods.  One type of methods support
+ * the writing of leaf values (for example, {@link #writeLong} and
+ * {@link #writeString}).  These methods have analogs in {@link
+ * Decoder}.
+ * <p/>
+ * The other type of methods support the writing of maps and arrays.
+ * These methods are {@link #writeArrayStart}, {@link
+ * #startItem}, and {@link #writeArrayEnd} (and similar methods for
+ * maps).  Some implementations of {@link Encoder} handle the
+ * buffering required to break large maps and arrays into blocks,
+ * which is necessary for applications that want to do streaming.
+ * (See {@link #writeArrayStart} for details on these methods.)
+ * <p/>
+ * {@link EncoderFactory} contains Encoder construction and configuration
+ * facilities.  
+ *  @see EncoderFactory
+ *  @see Decoder
+ */",Comment
+"
+",Newline
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+Encoder,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Flushable,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * ""Writes"" a null value.  (Doesn't actually write anything, but
+   * advances the state of the parser if this class is stateful.)
+   * @throws AvroTypeException If this is a stateful writer and a
+   *         null is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeNull,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a boolean value.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * boolean is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBoolean,Identifier
+(,Punctuation
+boolean,Keyword
+ ,Whitespace
+b,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Writes a 32-bit integer.
+   * @throws AvroTypeException If this is a stateful writer and an
+   * integer is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeInt,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+n,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a 64-bit integer.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * long is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeLong,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+n,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/** Write a float.
+   * @throws IOException 
+   * @throws AvroTypeException If this is a stateful writer and a
+   * float is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFloat,Identifier
+(,Punctuation
+float,Keyword
+ ,Whitespace
+f,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a double.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * double is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeDouble,Identifier
+(,Punctuation
+double,Keyword
+ ,Whitespace
+d,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a Unicode character string.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * char-string is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeString,Identifier
+(,Punctuation
+Utf8,Identifier
+ ,Whitespace
+utf8,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a Unicode character string.  The default implementation converts
+   * the String to a {@link org.apache.avro.util.Utf8}.  Some Encoder 
+   * implementations may want to do something different as a performance optimization.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * char-string is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeString,Identifier
+(,Punctuation
+String,Identifier
+ ,Whitespace
+str,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writeString,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+Utf8,Identifier
+(,Punctuation
+str,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a Unicode character string.  If the CharSequence is an
+   * {@link org.apache.avro.util.Utf8} it writes this directly, otherwise
+   * the CharSequence is converted to a String via toString() and written.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * char-string is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeString,Identifier
+(,Punctuation
+CharSequence,Identifier
+ ,Whitespace
+charSequence,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+charSequence,Identifier
+ ,Whitespace
+instanceof,Keyword
+ ,Whitespace
+Utf8,Identifier
+),Punctuation
+"
+",Newline
+      ,Whitespace
+writeString,Identifier
+(,Punctuation
+(,Punctuation
+Utf8,Identifier
+),Punctuation
+charSequence,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+else,Keyword
+"
+",Newline
+      ,Whitespace
+writeString,Identifier
+(,Punctuation
+charSequence,Identifier
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a byte string.
+   * @throws AvroTypeException If this is a stateful writer and a
+   *         byte-string is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBytes,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+bytes,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Write a byte string.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * byte-string is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBytes,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Writes a byte string.
+   * Equivalent to <tt>writeBytes(bytes, 0, bytes.length)</tt>
+   * @throws IOException 
+   * @throws AvroTypeException If this is a stateful writer and a
+   * byte-string is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeBytes,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bytes,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writeBytes,Identifier
+(,Punctuation
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+bytes,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Writes a fixed size binary object.
+   * @param bytes The contents to write
+   * @param start The position within <tt>bytes</tt> where the contents
+   * start.
+   * @param len The number of bytes to write.
+   * @throws AvroTypeException If this is a stateful writer and a
+   * byte-string is not expected
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+start,Identifier
+",",Punctuation
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * A shorthand for <tt>writeFixed(bytes, 0, bytes.length)</tt>
+   * @param bytes
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+bytes,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+bytes,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+bytes,Identifier
+.,Punctuation
+length,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+/** Writes a fixed from a ByteBuffer. */,Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+ByteBuffer,Identifier
+ ,Whitespace
+bytes,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+pos,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bytes,Identifier
+.,Punctuation
+position,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+int,Keyword
+ ,Whitespace
+len,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+bytes,Identifier
+.,Punctuation
+limit,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+-,Operator
+ ,Whitespace
+pos,Identifier
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+bytes,Identifier
+.,Punctuation
+hasArray,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+bytes,Identifier
+.,Punctuation
+array,Identifier
+(,Punctuation
+),Punctuation
+",",Punctuation
+ ,Whitespace
+bytes,Identifier
+.,Punctuation
+arrayOffset,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
++,Operator
+ ,Whitespace
+pos,Identifier
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+else,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+byte,Keyword
+[,Punctuation
+],Punctuation
+ ,Whitespace
+b,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+byte,Keyword
+[,Punctuation
+len,Identifier
+],Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+bytes,Identifier
+.,Punctuation
+duplicate,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+get,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+writeFixed,Identifier
+(,Punctuation
+b,Identifier
+",",Punctuation
+ ,Whitespace
+0,Literal
+",",Punctuation
+ ,Whitespace
+len,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Writes an enumeration.
+   * @param e
+   * @throws AvroTypeException If this is a stateful writer and an enumeration
+   * is not expected or the <tt>e</tt> is out of range.
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeEnum,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Call this method to start writing an array.
+   *
+   *  When starting to serialize an array, call {@link
+   *  #writeArrayStart}. Then, before writing any data for any item
+   *  call {@link #setItemCount} followed by a sequence of
+   *  {@link #startItem()} and the item itself. The number of
+   *  {@link #startItem()} should match the number specified in
+   *  {@link #setItemCount}.
+   *  When actually writing the data of the item, you can call any {@link
+   *  Encoder} method (e.g., {@link #writeLong}).  When all items
+   *  of the array have been written, call {@link #writeArrayEnd}.
+   *
+   *  As an example, let's say you want to write an array of records,
+   *  the record consisting of an Long field and a Boolean field.
+   *  Your code would look something like this:
+   *  <pre>
+   *  out.writeArrayStart();
+   *  out.setItemCount(list.size());
+   *  for (Record r : list) {
+   *    out.startItem();
+   *    out.writeLong(r.longField);
+   *    out.writeBoolean(r.boolField);
+   *  }
+   *  out.writeArrayEnd();
+   *  </pre>
+   *  @throws AvroTypeException If this is a stateful writer and an
+   *          array is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArrayStart,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Call this method before writing a batch of items in an array or a map.
+   * Then for each item, call {@link #startItem()} followed by any of the
+   * other write methods of {@link Encoder}. The number of calls
+   * to {@link #startItem()} must be equal to the count specified
+   * in {@link #setItemCount}. Once a batch is completed you
+   * can start another batch with {@link #setItemCount}.
+   * 
+   * @param itemCount The number of {@link #startItem()} calls to follow.
+   * @throws IOException
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+setItemCount,Identifier
+(,Punctuation
+long,Keyword
+ ,Whitespace
+itemCount,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+"
+",Newline
+  ,Whitespace
+"/**
+   * Start a new item of an array or map.
+   * See {@link #writeArrayStart} for usage information.
+   * @throws AvroTypeException If called outside of an array or map context
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+startItem,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Call this method to finish writing an array.
+   * See {@link #writeArrayStart} for usage information.
+   *
+   * @throws AvroTypeException If items written does not match count
+   *          provided to {@link #writeArrayStart}
+   * @throws AvroTypeException If not currently inside an array
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeArrayEnd,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Call this to start a new map.  See
+   * {@link #writeArrayStart} for details on usage.
+   *
+   * As an example of usage, let's say you want to write a map of
+   * records, the record consisting of an Long field and a Boolean
+   * field.  Your code would look something like this:
+   * <pre>
+   * out.writeMapStart();
+   * out.setItemCount(list.size());
+   * for (Map.Entry<String,Record> entry : map.entrySet()) {
+   *   out.startItem();
+   *   out.writeString(entry.getKey());
+   *   out.writeLong(entry.getValue().longField);
+   *   out.writeBoolean(entry.getValue().boolField);
+   * }
+   * out.writeMapEnd();
+   * </pre>
+   * @throws AvroTypeException If this is a stateful writer and a
+   * map is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeMapStart,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/**
+   * Call this method to terminate the inner-most, currently-opened
+   * map.  See {@link #writeArrayStart} for more details.
+   *
+   * @throws AvroTypeException If items written does not match count
+   *          provided to {@link #writeMapStart}
+   * @throws AvroTypeException If not currently inside a map
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeMapEnd,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+"/** Call this method to write the tag of a union.
+   *
+   * As an example of usage, let's say you want to write a union,
+   * whose second branch is a record consisting of an Long field and
+   * a Boolean field.  Your code would look something like this:
+   * <pre>
+   * out.writeIndex(1);
+   * out.writeLong(record.longField);
+   * out.writeBoolean(record.boolField);
+   * </pre>
+   * @throws AvroTypeException If this is a stateful writer and a
+   * map is not expected
+   */",Comment
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+abstract,Keyword
+ ,Whitespace
+void,Keyword
+ ,Whitespace
+writeIndex,Identifier
+(,Punctuation
+int,Keyword
+ ,Whitespace
+unionIndex,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+IOException,Identifier
+;,Punctuation
+"
+",Newline
+},Punctuation
+"
+",Newline
+"
+",Newline

@@ -1,0 +1,849 @@
+Text,Token
+"/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * ""License""); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */",Comment
+"
+",Newline
+package,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+tool,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+File,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+InputStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+io,Identifier
+.,Punctuation
+PrintStream,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+java,Identifier
+.,Punctuation
+util,Identifier
+.,Punctuation
+List,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionParser,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSet,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+joptsimple,Identifier
+.,Punctuation
+OptionSpec,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+Schema,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+AvroJob,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+avro,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+tether,Identifier
+.,Punctuation
+TetherJob,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+fs,Identifier
+.,Punctuation
+Path,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FileInputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+FileOutputFormat,Identifier
+;,Punctuation
+"
+",Newline
+import,Keyword
+ ,Whitespace
+org,Identifier
+.,Punctuation
+apache,Identifier
+.,Punctuation
+hadoop,Identifier
+.,Punctuation
+mapred,Identifier
+.,Punctuation
+JobConf,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+@,Punctuation
+SuppressWarnings,Identifier
+(,Punctuation
+"""deprecation""",String
+),Punctuation
+"
+",Newline
+public,Keyword
+ ,Whitespace
+class,Keyword
+ ,Whitespace
+TetherTool,Identifier
+ ,Whitespace
+implements,Keyword
+ ,Whitespace
+Tool,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+TetherJob,Identifier
+ ,Whitespace
+job,Identifier
+;,Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getName,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""tether""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+String,Identifier
+ ,Whitespace
+getShortDescription,Identifier
+(,Punctuation
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+"""Run a tethered mapreduce job.""",String
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+  ,Whitespace
+@,Punctuation
+Override,Identifier
+"
+",Newline
+  ,Whitespace
+public,Keyword
+ ,Whitespace
+int,Keyword
+ ,Whitespace
+run,Identifier
+(,Punctuation
+InputStream,Identifier
+ ,Whitespace
+ins,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+outs,Identifier
+",",Punctuation
+ ,Whitespace
+PrintStream,Identifier
+ ,Whitespace
+err,Identifier
+",",Punctuation
+"
+",Newline
+      ,Whitespace
+List,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+args,Identifier
+),Punctuation
+ ,Whitespace
+throws,Keyword
+ ,Whitespace
+Exception,Identifier
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+OptionParser,Identifier
+ ,Whitespace
+p,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+OptionParser,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+File,Identifier
+>,Operator
+ ,Whitespace
+exec,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""program""",String
+",",Punctuation
+ ,Whitespace
+"""executable program, usually in HDFS""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+File,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+String,Identifier
+>,Operator
+ ,Whitespace
+in,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""in""",String
+",",Punctuation
+ ,Whitespace
+"""comma-separated input paths""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+String,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+Path,Identifier
+>,Operator
+ ,Whitespace
+out,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""out""",String
+",",Punctuation
+ ,Whitespace
+"""output directory""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+Path,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+File,Identifier
+>,Operator
+ ,Whitespace
+outSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""outschema""",String
+",",Punctuation
+ ,Whitespace
+"""output schema file""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withRequiredArg,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+File,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+File,Identifier
+>,Operator
+ ,Whitespace
+mapOutSchema,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""outschemamap""",String
+",",Punctuation
+ ,Whitespace
+"""map output schema file, if different""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withOptionalArg,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+File,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+OptionSpec,Identifier
+<,Operator
+Integer,Identifier
+>,Operator
+ ,Whitespace
+reduces,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+accepts,Identifier
+(,Punctuation
+"""reduces""",String
+",",Punctuation
+ ,Whitespace
+"""number of reduces""",String
+),Punctuation
+"
+",Newline
+        ,Whitespace
+.,Punctuation
+withOptionalArg,Identifier
+(,Punctuation
+),Punctuation
+.,Punctuation
+ofType,Identifier
+(,Punctuation
+Integer,Identifier
+.,Punctuation
+class,Keyword
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+JobConf,Identifier
+ ,Whitespace
+job,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+new,Keyword
+ ,Whitespace
+JobConf,Identifier
+(,Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+try,Keyword
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+OptionSet,Identifier
+ ,Whitespace
+opts,Identifier
+ ,Whitespace
+=,Operator
+ ,Whitespace
+p,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+args,Identifier
+.,Punctuation
+toArray,Identifier
+(,Punctuation
+new,Keyword
+ ,Whitespace
+String,Identifier
+[,Punctuation
+0,Literal
+],Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+FileInputFormat,Identifier
+.,Punctuation
+addInputPaths,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+in,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+FileOutputFormat,Identifier
+.,Punctuation
+setOutputPath,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+out,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+TetherJob,Identifier
+.,Punctuation
+setExecutable,Identifier
+(,Punctuation
+job,Identifier
+",",Punctuation
+ ,Whitespace
+exec,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+OUTPUT_SCHEMA,Identifier
+",",Punctuation
+ ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+outSchema,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+          ,Whitespace
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+opts,Identifier
+.,Punctuation
+hasArgument,Identifier
+(,Punctuation
+mapOutSchema,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+job,Identifier
+.,Punctuation
+set,Identifier
+(,Punctuation
+AvroJob,Identifier
+.,Punctuation
+MAP_OUTPUT_SCHEMA,Identifier
+",",Punctuation
+"
+",Newline
+            ,Whitespace
+Schema,Identifier
+.,Punctuation
+parse,Identifier
+(,Punctuation
+mapOutSchema,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+.,Punctuation
+toString,Identifier
+(,Punctuation
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+if,Keyword
+ ,Whitespace
+(,Punctuation
+opts,Identifier
+.,Punctuation
+hasArgument,Identifier
+(,Punctuation
+reduces,Identifier
+),Punctuation
+),Punctuation
+"
+",Newline
+        ,Whitespace
+job,Identifier
+.,Punctuation
+setNumReduceTasks,Identifier
+(,Punctuation
+reduces,Identifier
+.,Punctuation
+value,Identifier
+(,Punctuation
+opts,Identifier
+),Punctuation
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+ ,Whitespace
+catch,Keyword
+ ,Whitespace
+(,Punctuation
+Exception,Identifier
+ ,Whitespace
+e,Identifier
+),Punctuation
+ ,Whitespace
+{,Punctuation
+"
+",Newline
+      ,Whitespace
+p,Identifier
+.,Punctuation
+printHelpOn,Identifier
+(,Punctuation
+err,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+      ,Whitespace
+return,Keyword
+ ,Whitespace
+-,Operator
+1,Literal
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+    ,Whitespace
+TetherJob,Identifier
+.,Punctuation
+runJob,Identifier
+(,Punctuation
+job,Identifier
+),Punctuation
+;,Punctuation
+"
+",Newline
+    ,Whitespace
+return,Keyword
+ ,Whitespace
+0,Literal
+;,Punctuation
+"
+",Newline
+  ,Whitespace
+},Punctuation
+"
+",Newline
+"
+",Newline
+},Punctuation
+"
+",Newline
